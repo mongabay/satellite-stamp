@@ -1,0 +1,48 @@
+{
+  "name": "satellite-stamp",
+  "version": "1.0.0",
+  "description": "Tool to generate map images for Mongabay.",
+  "main": "index.js",
+  "repository": "git@github.com:mongabay/satellite-stamp.git",
+  "author": "Vizzuality <hello@vizzuality.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 12.16.1"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build && next export",
+    "start": "next start",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-import-resolver-babel-module": "^5.1.2",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.4.0",
+    "jest": "^25.1.0",
+    "prettier": "1.19.1"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.3.5",
+    "@zeit/next-sass": "^1.0.1",
+    "bootstrap": "^4.4.1",
+    "classnames": "^2.2.6",
+    "next": "9.3.2",
+    "next-redux-wrapper": "^5.0.0",
+    "next-routes": "^1.4.2",
+    "node-sass": "^4.13.1",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "react-modal": "^3.11.2",
+    "react-redux": "^7.2.0"
+  }
+}

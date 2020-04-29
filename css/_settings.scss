@@ -1,0 +1,68 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import 'functions';
+
+// Colors
+
+$primary: #222222;
+// $secondary: #d79b5c;
+
+$text-color-1: $primary;
+// $text-color-2: #fdddba;
+
+// $theme-colors: (
+//   'primary': $primary,
+//   'secondary': $secondary,
+// );
+
+// Body
+
+$body-bg: $white;
+$body-color: $text-color-1;
+
+// // Typography
+
+// $font-family-1: 'Crimson Text', serif;
+// $font-family-2: 'Roboto Mono', sans-serif;
+
+// $font-family-base: $font-family-1;
+
+// $font-size-xxl: rem(98);
+// $font-size-xl: rem(52);
+// $font-size-l: rem(44);
+// $font-size-base: rem(18);
+// $font-size-s: rem(16);
+// $font-size-xs: rem(13);
+// $font-size-xxs: rem(12);
+// $font-size-xxxs: rem(10);
+
+// $font-weight-medium: 500; // Only for Roboto Mono
+
+// $mark-padding: 0 0.2rem;
+// $mark-bg: #fac080;
+
+// // Grid containers
+
+// $container-max-widths: (
+//   sm: 540px,
+//   md: 720px,
+//   lg: 960px,
+//   xl: 1040px,
+// );
+
+// // Buttons
+
+// $btn-font-family: $font-family-2;
+// $btn-font-size: $font-size-xs;
+// $btn-font-weight: $font-weight-medium;
+
+// $btn-padding-y: rem(17);
+// $btn-padding-x: rem(17);
+
+// $btn-border-radius: 0;
+// $btn-border-width: rem(2);
+
+// Options
+
+$enable-responsive-font-sizes: true;
