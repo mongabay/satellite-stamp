@@ -26,4 +26,8 @@
       }
     }
   }
+
+  & + .c-checkbox {
+    margin-top: map-get($spacers, 2);
+  }
 }

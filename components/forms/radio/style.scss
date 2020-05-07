@@ -26,4 +26,8 @@
       }
     }
   }
+
+  & + .c-radio {
+    margin-top: map-get($spacers, 2);
+  }
 }
