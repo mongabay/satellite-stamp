@@ -5,16 +5,15 @@
 
 // Colors
 
-$primary: #222222;
-// $secondary: #d79b5c;
+$primary: #03755e;
+$light: $white;
 
-$text-color-1: $primary;
-// $text-color-2: #fdddba;
+$text-color-1: #222222;
+$text-color-2: $primary;
 
-// $theme-colors: (
-//   'primary': $primary,
-//   'secondary': $secondary,
-// );
+$theme-colors: (
+  'primary': $primary,
+);
 
 // Body
 
@@ -23,21 +22,15 @@ $body-color: $text-color-1;
 
 // // Typography
 
-// $font-family-1: 'Crimson Text', serif;
-// $font-family-2: 'Roboto Mono', sans-serif;
+$font-family-1: 'Open Sans', serif;
+$font-family-2: 'Cardo', sans-serif;
 
-// $font-family-base: $font-family-1;
+$font-family-base: $font-family-1;
 
-// $font-size-xxl: rem(98);
-// $font-size-xl: rem(52);
-// $font-size-l: rem(44);
-// $font-size-base: rem(18);
-// $font-size-s: rem(16);
-// $font-size-xs: rem(13);
-// $font-size-xxs: rem(12);
-// $font-size-xxxs: rem(10);
-
-// $font-weight-medium: 500; // Only for Roboto Mono
+$font-size-l: rem(30);
+$font-size-base: rem(16);
+$font-size-s: rem(13);
+$font-size-xs: rem(12);
 
 // $mark-padding: 0 0.2rem;
 // $mark-bg: #fac080;
@@ -51,18 +44,15 @@ $body-color: $text-color-1;
 //   xl: 1040px,
 // );
 
-// // Buttons
+// Buttons
 
-// $btn-font-family: $font-family-2;
-// $btn-font-size: $font-size-xs;
-// $btn-font-weight: $font-weight-medium;
+$btn-padding-x: rem(20);
 
-// $btn-padding-y: rem(17);
-// $btn-padding-x: rem(17);
-
-// $btn-border-radius: 0;
-// $btn-border-width: rem(2);
+$btn-border-radius: rem(22);
+$btn-box-shadow: 0 rem(2) rem(3) 0 rgba($black, 0.15);
+$btn-font-weight: $font-weight-bold;
 
 // Options
 
+$enable-shadows: true;
 $enable-responsive-font-sizes: true;
