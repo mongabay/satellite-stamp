@@ -1,0 +1,29 @@
+@import 'css/settings';
+
+.c-checkbox {
+  & .custom-control-input:checked {
+    &:not(:disabled):active ~ .custom-control-label {
+      &:before {
+        background-color: transparent;
+      }
+    }
+
+    & ~ .custom-control-label {
+      color: $primary;
+      font-weight: $font-weight-bold;
+
+      &:before {
+        border-width: #{$custom-control-indicator-border-width * 2};
+      }
+
+      &:after {
+        top: ($font-size-base * $line-height-base - $custom-control-indicator-size + rem(8)) / 2;
+        left: -($custom-control-gutter + $custom-control-indicator-size - rem(8) / 2);
+        width: #{$custom-control-indicator-size - rem(8)};
+        height: #{$custom-control-indicator-size - rem(8)};
+        border-radius: #{$custom-checkbox-indicator-border-radius / 2};
+        background-color: $custom-control-indicator-checked-border-color;
+      }
+    }
+  }
+}
