@@ -52,6 +52,21 @@ $btn-border-radius: rem(22);
 $btn-box-shadow: 0 rem(2) rem(3) 0 rgba($black, 0.15);
 $btn-font-weight: $font-weight-bold;
 
+// Forms
+
+$input-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
+
+$custom-control-indicator-size: rem(20);
+$custom-control-indicator-border-color: rgba($text-color-1, 0.3);
+$custom-control-indicator-box-shadow: none;
+$custom-control-indicator-focus-border-color: $primary;
+$custom-control-indicator-active-bg: rgba($primary, 0.3);
+$custom-control-indicator-active-border-color: $primary;
+$custom-control-indicator-checked-bg: $white;
+$custom-control-indicator-checked-border-color: $primary;
+
+$custom-radio-indicator-icon-checked: none;
+
 // Options
 
 $enable-shadows: true;
