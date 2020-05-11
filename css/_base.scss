@@ -4,7 +4,7 @@ body {
   font-display: swap;
 }
 
-label {
+label:not(.custom-control-label) {
   margin-bottom: map-get($spacers, 1);
   @include font-size($font-size-s);
   font-weight: $font-weight-bold;
