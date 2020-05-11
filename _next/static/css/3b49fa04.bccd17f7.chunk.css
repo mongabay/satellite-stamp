@@ -300,14 +300,15 @@ template {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: 0.5rem;
+  font-family: "Cardo", sans-serif;
   font-weight: 500;
   line-height: 1.2; }
 
 h1, .h1 {
-  font-size: 2.5rem; }
+  font-size: 1.875rem; }
   @media (max-width: 1200px) {
     h1, .h1 {
-      font-size: calc(1.375rem + 1.5vw) ; } }
+      font-size: calc(1.3125rem + 0.75vw) ; } }
 
 h2, .h2 {
   font-size: 2rem; }
@@ -1434,12 +1435,12 @@ pre {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
+  color: #222222;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid rgba(34, 34, 34, 0.3);
   border-radius: 0.25rem;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: none;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
   @media (prefers-reduced-motion: reduce) {
     .form-control {
@@ -1449,13 +1450,13 @@ pre {
     border: 0; }
   .form-control:-moz-focusring {
     color: transparent;
-    text-shadow: 0 0 0 #495057; }
+    text-shadow: 0 0 0 #222222; }
   .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #80bdff;
+    border-color: #03755e;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(3, 117, 94, 0.25); }
+    box-shadow: none, 0 0 0 0.2rem rgba(3, 117, 94, 0.25); }
   .form-control::placeholder {
     color: #6c757d;
     opacity: 1; }
@@ -1464,7 +1465,7 @@ pre {
     opacity: 1; }
 
 select.form-control:focus::-ms-value {
-  color: #495057;
+  color: #222222;
   background-color: #fff; }
 
 .form-control-file,
@@ -2718,7 +2719,7 @@ input[type="button"].btn-block {
     background-color: #fff;
     box-shadow: none; }
   .custom-control-input:focus ~ .custom-control-label::before {
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(3, 117, 94, 0.25); }
+    box-shadow: none, 0 0 0 0.2rem rgba(3, 117, 94, 0.25); }
   .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
     border-color: #03755e; }
   .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
@@ -2818,7 +2819,7 @@ input[type="button"].btn-block {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
+  color: #222222;
   vertical-align: middle;
   background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px;
   border: 1px solid #ced4da;
@@ -2826,11 +2827,11 @@ input[type="button"].btn-block {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
   appearance: none; }
   .custom-select:focus {
-    border-color: #80bdff;
+    border-color: #03755e;
     outline: 0;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(3, 117, 94, 0.25); }
     .custom-select:focus::-ms-value {
-      color: #495057;
+      color: #222222;
       background-color: #fff; }
   .custom-select[multiple], .custom-select[size]:not([size="1"]) {
     height: auto;
@@ -2843,7 +2844,7 @@ input[type="button"].btn-block {
     display: none; }
   .custom-select:-moz-focusring {
     color: transparent;
-    text-shadow: 0 0 0 #495057; }
+    text-shadow: 0 0 0 #222222; }
 
 .custom-select-sm {
   height: calc(1.5em + 0.5rem + 2px);
@@ -7224,4 +7225,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-display: swap; }
+
+label:not(.custom-control-label) {
+  margin-bottom: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 700; }
+
+.custom-select {
+  -moz-appearance: none;
+  -webkit-appearance: none; }
 
