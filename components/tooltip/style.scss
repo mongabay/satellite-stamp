@@ -1,0 +1,40 @@
+@import 'css/settings';
+
+.tippy-popper {
+  max-width: none !important;
+  z-index: 10 !important;
+
+  div.tippy-tooltip {
+    max-width: none !important;
+  }
+
+  div.tippy-tooltip.light-theme {
+    padding: map-get($spacers, 3);
+    @include font-size($font-size-base);
+    line-height: inherit;
+    color: $body-color;
+    border-radius: rem(10);
+    background-color: $body-bg;
+    box-shadow: rem(1) rem(1) rem(10) 0 rgba($black, 0.2);
+
+    &[data-placement^='top'] > .tippy-arrow {
+      border-top-color: $body-bg;
+    }
+
+    &[data-placement^='bottom'] > .tippy-arrow {
+      border-bottom-color: $body-bg;
+    }
+
+    &[data-placement^='left'] > .tippy-arrow {
+      border-left-color: $body-bg;
+    }
+
+    &[data-placement^='right'] > .tippy-arrow {
+      border-right-color: $body-bg;
+    }
+
+    .tippy-content {
+      padding: 0;
+    }
+  }
+}
