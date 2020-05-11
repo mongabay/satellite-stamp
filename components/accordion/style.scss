@@ -6,21 +6,17 @@
       cursor: default;
 
       .button {
-        position: relative;
-
         &[aria-expanded='false'] {
           .c-icon {
-            transform: translate(-50%, -50%) rotate(-90deg);
+            transform: rotate(-90deg);
+            transform-origin: center;
           }
         }
 
         .c-icon {
           width: rem(10);
-          position: absolute;
-          top: 50%;
-          left: -#{map-get($spacers, 3)};
-          transform: translate(-50%, -50%);
-          transform-origin: center;
+          margin-right: map-get($spacers, 3);
+          vertical-align: initial;
 
           use {
             stroke: currentColor;
