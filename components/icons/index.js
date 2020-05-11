@@ -14,6 +14,10 @@ const Icons = () => (
         <path d="M7.41.839l1.087 1.087-7.07 7.071L.338 7.91z" />
         <path d="M8.498 7.91L7.41 8.998.339 1.927 1.427.839z" />
       </symbol>
+      <symbol id="icon-bottom-arrow" viewBox="0 0 18 11">
+        <title>Bottom arrow</title>
+        <path d="M1 1l8 8 8-8" strokeWidth="2" fill="none" />
+      </symbol>
     </defs>
   </svg>
 );

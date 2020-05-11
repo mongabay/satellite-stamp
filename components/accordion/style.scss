@@ -1,0 +1,36 @@
+@import 'css/settings';
+
+.c-accordion {
+  > .item {
+    > .title {
+      cursor: default;
+
+      .button {
+        position: relative;
+
+        &[aria-expanded='false'] {
+          .c-icon {
+            transform: translate(-50%, -50%) rotate(-90deg);
+          }
+        }
+
+        .c-icon {
+          width: rem(10);
+          position: absolute;
+          top: 50%;
+          left: -#{map-get($spacers, 3)};
+          transform: translate(-50%, -50%);
+          transform-origin: center;
+
+          use {
+            stroke: currentColor;
+          }
+        }
+      }
+    }
+
+    > .panel {
+      margin: map-get($spacers, 2) 0;
+    }
+  }
+}
