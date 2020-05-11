@@ -54,7 +54,15 @@ $btn-font-weight: $font-weight-bold;
 
 // Forms
 
+$input-color: $text-color-1;
+$input-border-color: rgba($text-color-1, 0.3);
+$input-box-shadow: none;
 $input-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
+$input-focus-border-color: $primary;
+
+$custom-select-color: $text-color-1;
+$custom-select-focus-border-color: $primary;
+$custom-select-focus-box-shadow: $input-focus-box-shadow;
 
 $custom-control-indicator-size: rem(20);
 $custom-control-indicator-border-color: rgba($text-color-1, 0.3);
