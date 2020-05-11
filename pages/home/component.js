@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import StaticPage from 'layout/static-page';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
 import { Checkbox, Radio } from 'components/forms';
-import { BASEMAPS, CONTEXTUAL_LAYERS, DATA_LAYERS } from './constants';
+import { BASEMAPS, CONTEXTUAL_LAYERS, DATA_LAYERS } from 'components/map/constants';
 
 import './style.scss';
 
