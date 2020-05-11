@@ -39,15 +39,20 @@ Accordion.defaultProps = {
   onChange: undefined,
 };
 
-const AccordionItem = ({ id, children }) => (
-  <ReactAccordionItem uuid={id} className="item">
+const AccordionItem = ({ id, className, children }) => (
+  <ReactAccordionItem uuid={id} className={['item', ...(className ? [className] : [])].join(' ')}>
     {children}
   </ReactAccordionItem>
 );
 
 AccordionItem.propTypes = {
   id: PropTypes.string.isRequired,
+  className: PropTypes.string,
   children: PropTypes.node.isRequired,
+};
+
+AccordionItem.defaultProps = {
+  className: null,
 };
 
 const AccordionTitle = ({ 'aria-level': ariaLevel, children }) => (
