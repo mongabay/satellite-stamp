@@ -37,6 +37,9 @@
     "@zeit/next-sass": "^1.0.1",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
+    "deck.gl": "7.3.6",
+    "layer-manager": "3.0.4",
+    "luma.gl": "7.3.2",
     "next": "9.3.2",
     "next-redux-wrapper": "^5.0.0",
     "next-routes": "^1.4.2",
@@ -44,7 +47,10 @@
     "react": "16.12.0",
     "react-accessible-accordion": "^3.0.1",
     "react-dom": "16.12.0",
+    "react-map-gl": "5.2.3",
     "react-modal": "^3.11.2",
-    "react-redux": "^7.2.0"
+    "react-redux": "^7.2.0",
+    "viewport-mercator-project": "6.1.1",
+    "vizzuality-components": "3.0.1"
   }
 }
