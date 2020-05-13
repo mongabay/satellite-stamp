@@ -6,7 +6,12 @@ const isProduction = (process.env.NODE_ENV || 'production') === 'production';
 module.exports = withSass({
   webpack(config) {
     const newConfig = Object.assign({}, config);
-    const envs = [{ name: 'NODE_ENV', default: 'development' }, 'API_URL', 'MAPBOX_API_KEY'];
+    const envs = [
+      { name: 'NODE_ENV', default: 'development' },
+      'API_URL',
+      'BASE_PATH',
+      'MAPBOX_API_KEY',
+    ];
     const definePluginOptions = {};
 
     envs.forEach(e => {
@@ -20,5 +25,5 @@ module.exports = withSass({
 
     return newConfig;
   },
-  assetPrefix: isProduction ? '/satellite-stamp' : '',
+  assetPrefix: isProduction ? process.env.BASE_PATH : '',
 });
