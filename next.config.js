@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const withSass = require('@zeit/next-sass');
 
+const isProduction = (process.env.NODE_ENV || 'production') === 'production';
+
 module.exports = withSass({
   webpack(config) {
     const newConfig = Object.assign({}, config);
@@ -18,4 +20,5 @@ module.exports = withSass({
 
     return newConfig;
   },
+  assetPrefix: isProduction ? '/satellite-stamp' : '',
 });
