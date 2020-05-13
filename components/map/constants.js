@@ -14,15 +14,6 @@ export const BASEMAPS = {
   planet: {
     label: 'Planet',
   },
-  topography: {
-    label: 'Topography',
-  },
-  'landsat-8': {
-    label: 'Landsat 8',
-  },
-  'sentinel-2': {
-    label: 'Sentinel 2',
-  },
 };
 
 export const CONTEXTUAL_LAYERS = {
