@@ -1,4 +1,10 @@
 
+.c-map {
+  width: 100%;
+  height: 100%; }
+  .c-map .mapboxgl-control-container {
+    display: none; }
+
 .c-icon {
   width: 1.375rem;
   height: 1.375rem;
@@ -6,6 +12,7 @@
   .c-icon.-big {
     width: 2.5rem;
     height: 2.5rem; }
+
 
 .c-accordion > .item > .title {
   cursor: default; }
@@ -60,49 +67,64 @@
 .c-checkbox + .c-checkbox {
   margin-top: 1rem; }
 
-.p-home {
-  width: 100vw;
-  height: 100vh;
-  padding: 3rem; }
-  .p-home .l-static-page {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    height: 100%; }
-  .p-home aside {
+.c-tool {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+  .c-tool aside {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     flex-basis: 18.75rem;
     max-height: 100%;
     margin-right: 3rem; }
-    .p-home aside .c-accordion {
+    .c-tool aside .c-accordion {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
       overflow: hidden; }
-      .p-home aside .c-accordion .item {
+      .c-tool aside .c-accordion .item {
         margin: 0.5rem 0;
         overflow: hidden;
         flex-shrink: 0; }
-        .p-home aside .c-accordion .item:first-child {
+        .c-tool aside .c-accordion .item:first-child {
           margin-top: 0; }
-        .p-home aside .c-accordion .item:last-child {
+        .c-tool aside .c-accordion .item:last-child {
           margin-bottom: 0; }
-        .p-home aside .c-accordion .item.-expanded {
+        .c-tool aside .c-accordion .item.-expanded {
           display: flex;
           flex-direction: column;
           flex-grow: 1;
           flex-shrink: 1; }
-          .p-home aside .c-accordion .item.-expanded > .panel {
+          .c-tool aside .c-accordion .item.-expanded > .panel {
+            padding: 0.5rem 0;
             overflow: auto; }
-        .p-home aside .c-accordion .item h2 {
+        .c-tool aside .c-accordion .item h2 {
           margin: 1.5rem 0 1rem;
           font-family: "Open Sans", serif;
           text-transform: uppercase;
           font-size: 1rem;
           font-weight: 700; }
-  .p-home .visualization {
-    flex-grow: 1;
-    background-color: rgba(3, 117, 94, 0.3); }
+  .c-tool .visualization {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; }
+    .c-tool .visualization .map-container {
+      position: relative;
+      width: 100%;
+      padding-top: 66.66%; }
+      .c-tool .visualization .map-container .c-map {
+        position: absolute;
+        top: 0;
+        left: 0; }
+
+.p-home {
+  width: 100vw;
+  height: 100vh;
+  padding: 3rem; }
+  .p-home .l-static-page {
+    height: 100%; }
 
