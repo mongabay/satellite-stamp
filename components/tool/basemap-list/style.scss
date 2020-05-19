@@ -1,0 +1,18 @@
+@import 'css/settings';
+
+.c-tool-basemap-list {
+  .basemap-params {
+    margin: map-get($spacers, 3) 0;
+    padding: 0 0 map-get($spacers, 3) $custom-control-gutter + $custom-control-indicator-size;
+    border-bottom: rem(1) solid $border-color-1;
+
+    .param {
+      label {
+        display: block;
+        @include font-size($font-size-xs);
+        color: $text-color-3;
+        text-transform: uppercase;
+      }
+    }
+  }
+}

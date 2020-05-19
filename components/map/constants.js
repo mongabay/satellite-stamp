@@ -10,6 +10,19 @@ export const BASEMAPS = {
   },
   landsat: {
     label: 'Landsat',
+    image: '/images/basemap-landsat.png',
+    backgroundColor: '#020043',
+    minZoom: 0,
+    maxZoom: 12,
+    url: 'https://api.resourcewatch.org/v2/landsat-tiles/{year}/{z}/{x}/{y}',
+    params: {
+      year: {
+        label: 'Year',
+        values: [2013, 2014, 2015, 2016, 2017],
+        default: 2017,
+      },
+    },
+    attributions: ['rw'],
   },
   planet: {
     label: 'Planet',

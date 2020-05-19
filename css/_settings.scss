@@ -10,10 +10,13 @@ $light: $white;
 
 $text-color-1: #222222;
 $text-color-2: $primary;
+$text-color-3: rgba($text-color-1, 0.5);
 
 $theme-colors: (
   'primary': $primary,
 );
+
+$border-color-1: rgba($text-color-1, 0.3);
 
 // Body
 
@@ -58,7 +61,7 @@ $btn-font-weight: $font-weight-bold;
 // Forms
 
 $input-color: $text-color-1;
-$input-border-color: rgba($text-color-1, 0.3);
+$input-border-color: $border-color-1;
 $input-box-shadow: none;
 $input-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
 $input-focus-border-color: $primary;
@@ -68,7 +71,7 @@ $custom-select-focus-border-color: $primary;
 $custom-select-focus-box-shadow: $input-focus-box-shadow;
 
 $custom-control-indicator-size: rem(20);
-$custom-control-indicator-border-color: rgba($text-color-1, 0.3);
+$custom-control-indicator-border-color: $border-color-1;
 $custom-control-indicator-box-shadow: none;
 $custom-control-indicator-focus-border-color: $primary;
 $custom-control-indicator-active-bg: rgba($primary, 0.3);
@@ -80,6 +83,15 @@ $custom-radio-indicator-icon-checked: none;
 
 $custom-checkbox-indicator-border-radius: rem(4);
 $custom-checkbox-indicator-icon-checked: none;
+
+$custom-select-height: rem(30);
+$custom-select-padding-y: map-get($spacers, 1);
+$custom-select-font-size: $font-size-xs;
+$custom-select-font-weight: $font-weight-bold;
+$custom-select-color: $text-color-2;
+$custom-select-border-radius: rem(22);
+$custom-select-box-shadow: none;
+$custom-select-border-color: $border-color-1;
 
 // Options
 

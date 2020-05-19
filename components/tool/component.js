@@ -23,6 +23,7 @@ const Tool = ({
   viewport,
   basemap,
   contextualLayers,
+  activeLayersDef,
   serializedState,
   restoreState,
   updateViewport,
@@ -147,7 +148,7 @@ const Tool = ({
             onViewportChange={onChangeViewport}
             onLoad={onLoadMap}
           >
-            {map => <LayerManager map={map} providers={{}} layers={[]} />}
+            {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
           </Map>
         </div>
       </div>
