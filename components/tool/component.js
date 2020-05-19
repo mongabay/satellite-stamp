@@ -14,6 +14,7 @@ import {
   Map,
   LayerManager,
 } from 'components/map';
+import Attributions from './attributions';
 import BasemapList from './basemap-list';
 import ContextualLayerList from './contextual-layer-list';
 
@@ -150,6 +151,7 @@ const Tool = ({
           >
             {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
           </Map>
+          <Attributions />
         </div>
       </div>
     </div>

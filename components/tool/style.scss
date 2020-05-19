@@ -72,6 +72,16 @@
         position: absolute;
         top: 0;
         left: 0;
+        width: 100%;
+        height: calc(100% - #{rem(26)}); // The attributions are 26px high
+      }
+
+      .c-tool-attributions {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: rem(26);
       }
     }
   }

@@ -1,5 +1,10 @@
 export const mapStyle = 'mapbox://styles/mongabay/ck8rmdfel02iw1ipc3i6ugtpb';
 
+export const ATTRIBUTIONS = {
+  rw:
+    'Powered by <a href="https://resourcewatch.org/" target="_blank" rel="noopener noreferrer">Resource Watch</a>',
+};
+
 export const BASEMAPS = {
   'mongabay-paper': {
     label: 'Mongabay Paper',
