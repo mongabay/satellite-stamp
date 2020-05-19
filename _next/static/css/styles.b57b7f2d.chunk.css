@@ -2,7 +2,7 @@
 .c-map {
   width: 100%;
   height: 100%; }
-  .c-map .mapboxgl-control-container {
+  .c-map .mapboxgl-ctrl-attrib {
     display: none; }
 
 .c-icon {
@@ -73,15 +73,88 @@ select.c-select {
   -moz-appearance: none;
   -webkit-appearance: none; }
 
+.c-tool-attributions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #717171; }
+  .c-tool-attributions > span {
+    display: inline-block;
+    padding: 0.25rem 0 0.25rem 0.25rem; }
+    .c-tool-attributions > span a {
+      color: currentColor; }
+
 .c-tool-basemap-list .basemap-params {
   margin: 1rem 0;
   padding: 0 0 1rem 1.75rem;
   border-bottom: 0.0625rem solid rgba(34, 34, 34, 0.3); }
+  .c-tool-basemap-list .basemap-params .param + .param {
+    margin-top: 0.5rem; }
   .c-tool-basemap-list .basemap-params .param label {
     display: block;
     font-size: 0.75rem;
-    color: rgba(34, 34, 34, 0.5);
+    color: #717171;
     text-transform: uppercase; }
+  .c-tool-basemap-list .basemap-params .param select,
+  .c-tool-basemap-list .basemap-params .param input {
+    color: #03755e;
+    font-weight: 700; }
+
+.ReactModal__Overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  z-index: 9;
+  background-color: rgba(3, 117, 94, 0.7) !important;
+  opacity: 0;
+  transform: scale(1.15);
+  transition: transform 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946);
+  will-change: transform, opacity; }
+  .ReactModal__Overlay.ReactModal__Overlay--after-open {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946); }
+
+.c-modal {
+  position: relative;
+  display: flex;
+  width: calc(100% - 3rem);
+  max-height: calc(100% - 3rem);
+  margin: 0 auto;
+  padding: 3rem;
+  background-color: #fff; }
+  .c-modal .close-button {
+    position: absolute;
+    top: -0.5rem;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    padding: 0;
+    border-radius: 100%;
+    transform: translateY(-100%);
+    background: #fff; }
+    .c-modal .close-button .c-icon {
+      width: 0.625rem;
+      height: 0.625rem; }
+      .c-modal .close-button .c-icon use {
+        fill: currentColor; }
+    .c-modal .close-button:hover {
+      background: #03755e; }
+  .c-modal .content {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch; }
+
+.c-tool-planet-modal {
+  max-width: 32.5rem; }
 
 .c-tool {
   display: flex;
@@ -135,7 +208,15 @@ select.c-select {
       .c-tool .visualization .map-container .c-map {
         position: absolute;
         top: 0;
-        left: 0; }
+        left: 0;
+        width: 100%;
+        height: calc(100% - 1.625rem); }
+      .c-tool .visualization .map-container .c-tool-attributions {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1.625rem; }
 
 .p-home {
   width: 100vw;
