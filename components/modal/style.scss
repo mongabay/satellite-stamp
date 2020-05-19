@@ -27,7 +27,7 @@
   width: calc(100% - #{2 * map-get($spacers, 4)});
   max-height: calc(100% - #{2 * map-get($spacers, 4)});
   margin: 0 auto;
-  padding: map-get($spacers, 4);
+  padding: map-get($spacers, 5);
   background-color: $body-bg;
 
   .close-button {

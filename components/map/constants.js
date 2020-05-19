@@ -1,8 +1,13 @@
-export const mapStyle = 'mapbox://styles/mongabay/ck8rmdfel02iw1ipc3i6ugtpb';
+import parse from 'date-fns/parse';
+import format from 'date-fns/format';
+
+export const mapStyle = 'mapbox://styles/mongabay/ck8rmdfel02iw1ipc3i6ugtpb/draft';
 
 export const ATTRIBUTIONS = {
   rw:
     'Powered by <a href="https://resourcewatch.org/" target="_blank" rel="noopener noreferrer">Resource Watch</a>',
+  planet:
+    'Basemap by <a href="https://www.planet.com/" target="_blank" rel="noopener noreferrer">Planet</a>',
 };
 
 export const BASEMAPS = {
@@ -31,6 +36,47 @@ export const BASEMAPS = {
   },
   planet: {
     label: 'Planet',
+    minZoom: 0,
+    maxZoom: 18,
+    url: ({ key, interval, year, period }) => {
+      if (!interval || !year || !period) {
+        return null;
+      }
+
+      const mosaic =
+        interval === 'Monthly'
+          ? `global_monthly_${year}_${format(parse(period, 'MMMM', new Date()), 'MM')}_mosaic`
+          : `global_quarterly_${year}${period.toLowerCase()}_mosaic`;
+
+      return [
+        `https://tiles0.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+        `https://tiles1.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+        `https://tiles2.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+        `https://tiles3.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+      ];
+    },
+    params: {
+      key: {
+        label: 'API key',
+        default: '',
+      },
+      interval: {
+        label: 'Interval',
+        values: ['Monthly', 'Quarterly'],
+        default: '',
+      },
+      year: {
+        label: 'Year',
+        values: [],
+        default: '',
+      },
+      period: {
+        label: 'Period',
+        values: [],
+        default: '',
+      },
+    },
+    attributions: ['planet'],
   },
 };
 

@@ -17,6 +17,7 @@ import {
 import Attributions from './attributions';
 import BasemapList from './basemap-list';
 import ContextualLayerList from './contextual-layer-list';
+import PlanetModal from './planet-modal';
 
 import './style.scss';
 
@@ -76,6 +77,7 @@ const Tool = ({
 
   return (
     <div className="c-tool">
+      <PlanetModal />
       <aside>
         <Accordion
           multi={false}

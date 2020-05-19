@@ -19,16 +19,29 @@ export const selectContextualLayers = state => state[SLICE_NAME].contextualLayer
 export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
   (basemap, basemapParams) => {
-    let basemapUrl = BASEMAPS[basemap].url;
-
-    if (!basemapUrl) {
+    if (!BASEMAPS[basemap].url) {
       return null;
     }
 
-    if (basemapParams) {
-      basemapUrl = Object.keys(basemapParams).reduce(
-        (res, key) => basemapUrl.replace(`{${key}}`, basemapParams[key]),
-        basemapUrl
+    let basemapUrls;
+    if (typeof BASEMAPS[basemap].url === 'function') {
+      basemapUrls = BASEMAPS[basemap].url(basemapParams);
+
+      if (basemapUrls === null) {
+        return null;
+      }
+    } else if (Array.isArray(BASEMAPS[basemap].url)) {
+      basemapUrls = BASEMAPS[basemap].url;
+    } else {
+      basemapUrls = [BASEMAPS[basemap].url];
+    }
+
+    if (typeof BASEMAPS[basemap].url !== 'function' && basemapParams) {
+      basemapUrls = basemapUrls.map(url =>
+        Object.keys(basemapParams).reduce(
+          (res, key) => url.replace(`{${key}}`, basemapParams[key]),
+          url
+        )
       );
     }
 
@@ -37,7 +50,7 @@ export const selectBasemapLayerDef = createSelector(
       type: 'raster',
       source: {
         type: 'raster',
-        tiles: [basemapUrl],
+        tiles: basemapUrls,
         minzoom: BASEMAPS[basemap].minZoom,
         maxzoom: BASEMAPS[basemap].maxZoom,
       },
@@ -65,7 +78,7 @@ export const selectSerializedState = createSelector(
     return {
       viewport: omit(viewport, 'transitionDuration', 'bounds'),
       basemap,
-      basemapParams,
+      basemapParams: omit(basemapParams, 'key'),
       contextualLayers,
     };
   }
