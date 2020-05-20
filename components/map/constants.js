@@ -203,6 +203,77 @@ export const DATA_LAYERS = {
   },
   glad: {
     label: 'Deforestation alerts (GLAD)',
+    attributions: ['rw'],
+    config: {
+      type: 'raster',
+      source: {
+        tiles: ['https://tiles.globalforestwatch.org/glad_prod/tiles/{z}/{x}/{y}.png'],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#dc6699',
+          name: 'GLAD alerts',
+        },
+        {
+          color: '#e4c600',
+          name: 'Recent alerts',
+        },
+      ],
+      timeline: {
+        step: 7,
+        speed: 100,
+        interval: 'days',
+        dateFormat: 'YYYY-MM-DD',
+        minDate: '2015-01-01',
+        maxDate: '2020-05-15',
+        canPlay: true,
+      },
+    },
+    decodeParams: {
+      numberOfDays: 1961,
+      startDayIndex: 0,
+      endDayIndex: 1961,
+    },
+    decodeFunction: `
+      // values for creating power scale, domain (input), and range (output)
+      float confidenceValue = 0.;
+      float confirmedOnly = 1.;
+      if (confirmedOnly > 0.) {
+        confidenceValue = 200.;
+      }
+      float day = color.r * 255. * 255. + (color.g * 255.);
+      float confidence = color.b * 255.;
+      if (
+        day > 0. &&
+        day >= startDayIndex &&
+        day <= endDayIndex &&
+        confidence >= confidenceValue
+      ) {
+        // get intensity
+        float intensity = mod(confidence, 100.) * 50.;
+        if (intensity > 255.) {
+          intensity = 255.;
+        }
+        if (day >= numberOfDays - 7. && day <= numberOfDays) {
+          color.r = 219. / 255.;
+          color.g = 168. / 255.;
+          color.b = 0.;
+          alpha = intensity / 255.;
+        } else {
+          color.r = 220. / 255.;
+          color.g = 102. / 255.;
+          color.b = 153. / 255.;
+          alpha = intensity / 255.;
+        }
+      } else {
+        alpha = 0.;
+      }
+    `,
   },
   'tree-cover': {
     label: 'Tree cover',

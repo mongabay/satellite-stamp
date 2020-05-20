@@ -11,6 +11,10 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
   const startDate = start;
   const endDate = current.isBefore(end) ? current : end;
 
+  const numberOfDays = maxDate.diff(minDate, 'days');
+  const startDayIndex = numberOfDays - maxDate.diff(startDate, 'days');
+  const endDayIndex = numberOfDays - maxDate.diff(endDate, 'days');
+
   return {
     startYear: startDate.year(),
     startMonth: startDate.month(),
@@ -18,6 +22,9 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
     endYear: endDate.year(),
     endMonth: endDate.month(),
     endDay: endDate.dayOfYear(),
+    numberOfDays,
+    startDayIndex,
+    endDayIndex,
   };
 };
 
