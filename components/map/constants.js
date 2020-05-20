@@ -731,9 +731,9 @@ export const DATA_LAYERS = {
   // peatlands: {
   //   label: 'Peatlands',
   // },
-  'intact-forest-landscapes': {
-    label: 'Intact Forest Landscapes',
-  },
+  // 'intact-forest-landscapes': {
+  //   label: 'Intact Forest Landscapes',
+  // },
 };
 
 export const PRESETS = {
