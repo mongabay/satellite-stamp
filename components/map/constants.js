@@ -722,9 +722,9 @@ export const DATA_LAYERS = {
   // 'wood-fiber-concessions': {
   //   label: 'Wood fiber concessions by type',
   // },
-  'palm-oil-mills': {
-    label: 'Palm oil mills',
-  },
+  // 'palm-oil-mills': {
+  //   label: 'Palm oil mills',
+  // },
   'indigenous-territories': {
     label: 'Indigenous territories',
   },
