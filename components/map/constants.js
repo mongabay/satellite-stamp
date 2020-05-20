@@ -707,9 +707,9 @@ export const DATA_LAYERS = {
       },
     },
   },
-  roads: {
-    label: 'Roads',
-  },
+  // roads: {
+  //   label: 'Roads',
+  // },
   'logging-concessions': {
     label: 'Logging concessions',
   },
