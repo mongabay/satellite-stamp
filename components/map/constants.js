@@ -783,24 +783,24 @@ export const PRESETS = {
       {
         id: 'land-cover',
       },
-      {
-        id: 'tree-plantations',
-      },
-      {
-        id: 'protected-areas',
-      },
+      // {
+      //   id: 'tree-plantations',
+      // },
+      // {
+      //   id: 'protected-areas',
+      // },
       {
         id: 'urban-built-up-area',
       },
-      {
-        id: 'mangroves',
-      },
-      {
-        id: 'peatlands',
-      },
-      {
-        id: 'intact-forest-landscapes',
-      },
+      // {
+      //   id: 'mangroves',
+      // },
+      // {
+      //   id: 'peatlands',
+      // },
+      // {
+      //   id: 'intact-forest-landscapes',
+      // },
     ],
   },
   biodiversity: {
@@ -809,50 +809,50 @@ export const PRESETS = {
       {
         id: 'land-cover',
       },
-      {
-        id: 'tree-plantations',
-      },
-      {
-        id: 'protected-areas',
-      },
+      // {
+      //   id: 'tree-plantations',
+      // },
+      // {
+      //   id: 'protected-areas',
+      // },
       {
         id: 'urban-built-up-area',
       },
-      {
-        id: 'roads',
-      },
-      {
-        id: 'mangroves',
-      },
-      {
-        id: 'peatlands',
-      },
-      {
-        id: 'intact-forest-landscapes',
-      },
+      // {
+      //   id: 'roads',
+      // },
+      // {
+      //   id: 'mangroves',
+      // },
+      // {
+      //   id: 'peatlands',
+      // },
+      // {
+      //   id: 'intact-forest-landscapes',
+      // },
     ],
   },
   industry: {
     label: 'Industry',
     layers: [
-      {
-        id: 'tree-plantations',
-      },
-      {
-        id: 'logging-concessions',
-      },
-      {
-        id: 'mining-concessions',
-      },
-      {
-        id: 'oil-palm-concessions',
-      },
-      {
-        id: 'wood-fiber-concessions',
-      },
-      {
-        id: 'palm-oil-mills',
-      },
+      // {
+      //   id: 'tree-plantations',
+      // },
+      // {
+      //   id: 'logging-concessions',
+      // },
+      // {
+      //   id: 'mining-concessions',
+      // },
+      // {
+      //   id: 'oil-palm-concessions',
+      // },
+      // {
+      //   id: 'wood-fiber-concessions',
+      // },
+      // {
+      //   id: 'palm-oil-mills',
+      // },
     ],
   },
   infrastructure: {
@@ -867,9 +867,9 @@ export const PRESETS = {
       {
         id: 'population-density',
       },
-      {
-        id: 'roads',
-      },
+      // {
+      //   id: 'roads',
+      // },
     ],
   },
 };
