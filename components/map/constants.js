@@ -1,7 +1,7 @@
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 
-export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus';
+export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus/draft';
 
 export const ATTRIBUTIONS = {
   rw:
@@ -142,9 +142,6 @@ export const DATA_LAYERS = {
   'south-america-tree-cover-height': {
     label: 'South America tree cover height',
   },
-  'forest-canopy-height': {
-    label: 'Global forest canopy height',
-  },
   'land-cover': {
     label: 'Global land cover',
   },
@@ -183,5 +180,152 @@ export const DATA_LAYERS = {
   },
   'indigenous-territories': {
     label: 'Indigenous territories',
+  },
+  mangroves: {
+    label: 'Mangroves',
+  },
+  peatlands: {
+    label: 'Peatlands',
+  },
+  'intact-forest-landscapes': {
+    label: 'Intact Forest Landscapes',
+  },
+};
+
+export const PRESETS = {
+  'tree-cover-loss': {
+    label: 'Tree cover loss',
+    layers: [
+      {
+        id: 'tree-cover-loss',
+      },
+      {
+        id: 'tree-cover',
+      },
+      {
+        id: 'primary-forests',
+      },
+      {
+        id: 'south-america-tree-cover-height',
+      },
+    ],
+  },
+  'forest-alerts': {
+    label: 'Forest alerts',
+    layers: [
+      {
+        id: 'glad',
+      },
+      {
+        id: 'tree-cover',
+      },
+      {
+        id: 'primary-forests',
+      },
+    ],
+  },
+  'land-cover-verification': {
+    label: 'Land cover verification',
+    layers: [
+      {
+        id: 'tree-cover',
+      },
+      {
+        id: 'primary-forests',
+      },
+      {
+        id: 'south-america-tree-cover-height',
+      },
+      {
+        id: 'land-cover',
+      },
+      {
+        id: 'tree-plantations',
+      },
+      {
+        id: 'protected-areas',
+      },
+      {
+        id: 'urban-built-up-area',
+      },
+      {
+        id: 'mangroves',
+      },
+      {
+        id: 'peatlands',
+      },
+      {
+        id: 'intact-forest-landscapes',
+      },
+    ],
+  },
+  biodiversity: {
+    label: 'Biodiversity',
+    layers: [
+      {
+        id: 'land-cover',
+      },
+      {
+        id: 'tree-plantations',
+      },
+      {
+        id: 'protected-areas',
+      },
+      {
+        id: 'urban-built-up-area',
+      },
+      {
+        id: 'roads',
+      },
+      {
+        id: 'mangroves',
+      },
+      {
+        id: 'peatlands',
+      },
+      {
+        id: 'intact-forest-landscapes',
+      },
+    ],
+  },
+  industry: {
+    label: 'Industry',
+    layers: [
+      {
+        id: 'tree-plantations',
+      },
+      {
+        id: 'logging-concessions',
+      },
+      {
+        id: 'mining-concessions',
+      },
+      {
+        id: 'oil-palm-concessions',
+      },
+      {
+        id: 'wood-fiber-concessions',
+      },
+      {
+        id: 'palm-oil-mills',
+      },
+    ],
+  },
+  infrastructure: {
+    label: 'Infrastructure',
+    layers: [
+      {
+        id: 'urban-built-up-area',
+      },
+      {
+        id: 'population',
+      },
+      {
+        id: 'population-density',
+      },
+      {
+        id: 'roads',
+      },
+    ],
   },
 };
