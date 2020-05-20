@@ -1,7 +1,8 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { BASEMAPS, ATTRIBUTIONS } from 'components/map';
+import { getLayerDef } from 'utils/map';
+import { BASEMAPS, ATTRIBUTIONS, DATA_LAYERS } from 'components/map';
 
 export const SLICE_NAME = 'map';
 
@@ -15,6 +16,8 @@ export const selectBounds = createSelector([selectViewport], viewport => viewpor
 export const selectBasemap = state => state[SLICE_NAME].basemap;
 export const selectBasemapParams = state => state[SLICE_NAME].basemapParams;
 export const selectContextualLayers = state => state[SLICE_NAME].contextualLayers;
+export const selectLayers = state => state[SLICE_NAME].layers;
+export const selectDataLayers = () => DATA_LAYERS;
 
 export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
@@ -58,28 +61,84 @@ export const selectBasemapLayerDef = createSelector(
   }
 );
 
-export const selectAttributions = createSelector([selectBasemap], basemap => {
-  const basemapAttributions = BASEMAPS[basemap].attributions ? BASEMAPS[basemap].attributions : [];
-  const uniqueAttributions = [...new Set([...basemapAttributions])];
-  return `${
-    uniqueAttributions.length
-      ? `${uniqueAttributions.map(attr => ATTRIBUTIONS[attr]).join(', ')}, `
-      : ''
-  }© <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">Improve this map</a></strong>`;
-});
+export const selectActiveDataLayers = createSelector([selectLayers], layers => Object.keys(layers));
 
-export const selectActiveLayersDef = createSelector([selectBasemapLayerDef], basemapLayerDef => [
-  ...(basemapLayerDef ? [basemapLayerDef] : []),
-]);
+export const selectLegendDataLayers = createSelector(
+  [selectDataLayers, selectActiveDataLayers, selectLayers],
+  (dataLayers, activeDataLayers, layers) => {
+    const activeLayers = Object.keys(dataLayers)
+      .map(layerId => ({
+        ...dataLayers[layerId],
+        id: layerId,
+      }))
+      .filter(layer => activeDataLayers.indexOf(layer.id) !== -1);
+
+    const layerGroups = activeLayers.map(layer => ({
+      id: layer.id,
+      dataset: layer.id,
+      visibility: layers[layer.id].visible,
+      readonly: false,
+      layers: [
+        {
+          name: layer.label,
+          opacity: layers[layer.id].opacity,
+          order: layers[layer.id].order,
+          legendConfig: layer.legend,
+          timelineParams: layer.legend?.timeline
+            ? {
+                ...layer.legend?.timeline,
+                startDate: layers[layer.id].dateRange?.[0] || layer.legend?.timeline.minDate,
+                endDate: layers[layer.id].currentDate || layer.legend?.timeline.maxDate,
+                trimEndDate: layers[layer.id].dateRange?.[1] || layer.legend?.timeline.maxDate,
+              }
+            : undefined,
+        },
+      ],
+    }));
+
+    const sortedLayerGroups = layerGroups.sort((groupA, groupB) =>
+      groupA.layers[0].order < groupB.layers[0].order ? 1 : -1
+    );
+
+    return sortedLayerGroups;
+  }
+);
+
+export const selectActiveLayersDef = createSelector(
+  [selectBasemapLayerDef, selectDataLayers, selectActiveDataLayers, selectLayers],
+  (basemapLayerDef, dataLayers, activeDataLayers, layers) => [
+    ...activeDataLayers.map(layerId => getLayerDef(layerId, dataLayers[layerId], layers[layerId])),
+    ...(basemapLayerDef ? [basemapLayerDef] : []),
+  ]
+);
+
+export const selectAttributions = createSelector(
+  [selectBasemap, selectDataLayers, selectActiveDataLayers],
+  (basemap, dataLayers, activeDataLayers) => {
+    const basemapAttributions = BASEMAPS[basemap].attributions
+      ? BASEMAPS[basemap].attributions
+      : [];
+    const layerAttributions = activeDataLayers
+      .map(layerId => dataLayers[layerId].attributions || [])
+      .reduce((res, attr) => [...res, ...attr], []);
+    const uniqueAttributions = [...new Set([...basemapAttributions, ...layerAttributions])];
+    return `${
+      uniqueAttributions.length
+        ? `${uniqueAttributions.map(attr => ATTRIBUTIONS[attr]).join(', ')}, `
+        : ''
+    }© <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">Improve this map</a></strong>`;
+  }
+);
 
 export const selectSerializedState = createSelector(
-  [selectViewport, selectBasemap, selectBasemapParams, selectContextualLayers],
-  (viewport, basemap, basemapParams, contextualLayers) => {
+  [selectViewport, selectBasemap, selectBasemapParams, selectContextualLayers, selectLayers],
+  (viewport, basemap, basemapParams, contextualLayers, layers) => {
     return {
       viewport: omit(viewport, 'transitionDuration', 'bounds'),
       basemap,
       basemapParams: omit(basemapParams, 'key'),
       contextualLayers,
+      layers,
     };
   }
 );
@@ -172,16 +231,16 @@ export default toolActions =>
           ...omit(action.payload, 'id'),
         };
       },
-      // updateLayerOrder(state, action) {
-      //   const mapLayerToOrder = action.payload
-      //     // We remove the IDs that correspond to the boundaries
-      //     .filter(layerId => !!LAYERS[layerId])
-      //     .reduce((res, layerId, index) => ({ ...res, [layerId]: index }), {});
+      updateLayerOrder(state, action) {
+        const mapLayerToOrder = action.payload
+          // We remove the IDs that correspond to the boundaries
+          .filter(layerId => !!DATA_LAYERS[layerId])
+          .reduce((res, layerId, index) => ({ ...res, [layerId]: index }), {});
 
-      //   Object.keys(state.layers).forEach(layerId => {
-      //     state.layers[layerId].order = mapLayerToOrder[layerId];
-      //   });
-      // },
+        Object.keys(state.layers).forEach(layerId => {
+          state.layers[layerId].order = mapLayerToOrder[layerId];
+        });
+      },
     },
     extraReducers: {
       [toolActions.restoreState.fulfilled]: (state, action) => {

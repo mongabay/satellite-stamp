@@ -10,7 +10,9 @@ export default connect(
     basemap: mapSelectors.selectBasemap(state),
     basemapParams: mapSelectors.selectBasemapParams(state),
     contextualLayers: mapSelectors.selectContextualLayers(state),
+    activeLayers: mapSelectors.selectActiveDataLayers(state),
     activeLayersDef: mapSelectors.selectActiveLayersDef(state),
+    legendDataLayers: mapSelectors.selectLegendDataLayers(state),
     serializedState: toolSelectors.selectSerializedState(state),
   }),
   {
@@ -19,5 +21,9 @@ export default connect(
     updateViewport: mapActions.updateViewport,
     updateBasemap: mapActions.updateBasemap,
     updateBasemapParams: mapActions.updateBasemapParams,
+    addLayer: mapActions.addLayer,
+    removeLayer: mapActions.removeLayer,
+    updateLayer: mapActions.updateLayer,
+    updateLayerOrder: mapActions.updateLayerOrder,
   }
 )(Component);

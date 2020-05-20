@@ -1,7 +1,7 @@
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 
-export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus/draft';
+export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus';
 
 export const ATTRIBUTIONS = {
   rw:
@@ -129,6 +129,77 @@ export const CONTEXTUAL_LAYERS = {
 export const DATA_LAYERS = {
   'tree-cover-loss': {
     label: 'Tree cover loss',
+    attributions: ['rw'],
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          'https://storage.googleapis.com/wri-public/Hansen18/tiles/hansen_world/v1/tc30/{z}/{x}/{y}.png',
+        ],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Tree Cover Loss',
+          color: '#dc6c9a',
+        },
+      ],
+      timeline: {
+        step: 1,
+        speed: 250,
+        interval: 'years',
+        dateFormat: 'YYYY',
+        minDate: '2001-01-01',
+        maxDate: '2018-12-31',
+        canPlay: true,
+      },
+    },
+    decodeParams: {
+      startYear: 2001,
+      endYear: 2018,
+    },
+    decodeConfig: [
+      {
+        default: '2001-01-01',
+        key: 'startDate',
+        required: true,
+      },
+      {
+        default: '2018-12-31',
+        key: 'endDate',
+        required: true,
+      },
+    ],
+    decodeFunction: `
+      // values for creating power scale, domain (input), and range (output)
+      float domainMin = 0.;
+      float domainMax = 255.;
+      float rangeMin = 0.;
+      float rangeMax = 255.;
+      float exponent = zoom < 13. ? 0.3 + (zoom - 3.) / 20. : 1.;
+      float intensity = color.r * 255.;
+      // get the min, max, and current values on the power scale
+      float minPow = pow(domainMin, exponent - domainMin);
+      float maxPow = pow(domainMax, exponent);
+      float currentPow = pow(intensity, exponent);
+      // get intensity value mapped to range
+      float scaleIntensity = ((currentPow - minPow) / (maxPow - minPow) * (rangeMax - rangeMin)) + rangeMin;
+      // a value between 0 and 255
+      alpha = zoom < 13. ? scaleIntensity / 255. : color.g;
+      float year = 2000.0 + (color.b * 255.);
+      // map to years
+      if (year >= startYear && year <= endYear && year >= 2001.) {
+        color.r = 220. / 255.;
+        color.g = (72. - zoom + 102. - 3. * scaleIntensity / zoom) / 255.;
+        color.b = (33. - zoom + 153. - intensity / zoom) / 255.;
+      } else {
+        alpha = 0.;
+      }
+    `,
   },
   glad: {
     label: 'Deforestation alerts (GLAD)',
@@ -153,9 +224,112 @@ export const DATA_LAYERS = {
   },
   'urban-built-up-area': {
     label: 'Urban built-up Area',
+    attributions: ['rw'],
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          'https://api.resourcewatch.org/v1/layer/a4055dea-8762-4c2d-b7ba-a3e616a97b41/tile/gee/{z}/{x}/{y}',
+        ],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'choropleth',
+      items: [
+        {
+          name: '<1975',
+          color: '#ff0000',
+          id: 0,
+        },
+        {
+          name: '1975-1990',
+          color: '#ff7f00',
+          id: 1,
+        },
+        {
+          name: '1990-2000',
+          color: '#ffff00',
+          id: 2,
+        },
+        {
+          name: '2000-2014',
+          color: '#f7f7f7',
+          id: 3,
+        },
+      ],
+    },
   },
   population: {
     label: 'Population (grid, 250 m)',
+    attributions: ['rw'],
+    config: {
+      type: 'raster',
+      source: (year = 2015) => {
+        const yearToTiles = {
+          1975: 'https://api.resourcewatch.org/v1/layer/94946f97-a7b6-4ded-be7b-7bae63e3b892/tile/gee/{z}/{x}/{y}',
+          1990: 'https://api.resourcewatch.org/v1/layer/24a8a270-bd69-4c99-bfdc-84c59ccbfaf9/tile/gee/{z}/{x}/{y}',
+          2000: 'https://api.resourcewatch.org/v1/layer/3e3534ae-6052-4dd8-9fe9-19066aa18826/tile/gee/{z}/{x}/{y}',
+          2015: 'https://api.resourcewatch.org/v1/layer/2b44782c-1f20-4868-9400-c3819f49ccc8/tile/gee/{z}/{x}/{y}',
+        };
+
+        return {
+          tiles: [yearToTiles[year]],
+          minzoom: 2,
+          maxzoom: 12,
+        };
+      },
+    },
+    legend: {
+      type: 'choropleth',
+      items: [
+        {
+          color: '#32095D',
+          name: '≤25',
+          id: 0,
+        },
+        {
+          color: '#781C6D',
+          name: '≤100',
+          id: 1,
+        },
+        {
+          color: '#BA3655',
+          name: '≤1k',
+          id: 2,
+        },
+        {
+          color: '#ED6825',
+          name: '≤5k',
+          id: 3,
+        },
+        {
+          color: '#FBB318',
+          name: '≤10k',
+          id: 4,
+        },
+        {
+          color: '#FCFEA4',
+          name: '>10k',
+          id: 5,
+        },
+      ],
+      timeline: {
+        step: null,
+        range: false,
+        interval: 'years',
+        dateFormat: 'YYYY',
+        minDate: '1975-01-01',
+        maxDate: '2015-01-01',
+        marks: {
+          0: '1975',
+          15: '',
+          25: '',
+          40: '2015',
+        },
+      },
+    },
   },
   'population-density': {
     label: 'Population density (grid, 1 km)',

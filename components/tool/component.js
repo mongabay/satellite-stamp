@@ -13,6 +13,7 @@ import {
   mapStyle,
   Map,
   LayerManager,
+  Legend,
 } from 'components/map';
 import Attributions from './attributions';
 import BasemapList from './basemap-list';
@@ -25,10 +26,16 @@ const Tool = ({
   viewport,
   basemap,
   contextualLayers,
+  activeLayers,
   activeLayersDef,
+  legendDataLayers,
   serializedState,
   restoreState,
   updateViewport,
+  addLayer,
+  removeLayer,
+  updateLayer,
+  updateLayerOrder,
 }) => {
   const mapRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,9 +107,14 @@ const Tool = ({
                       key={key}
                       id={`data-layers-${key}`}
                       name="data-layers"
-                      checked={false}
-                      onChange={console.log}
-                      disabled
+                      checked={activeLayers.indexOf(key) !== -1}
+                      onChange={() => {
+                        if (activeLayers.indexOf(key) !== -1) {
+                          removeLayer(key);
+                        } else {
+                          addLayer(key);
+                        }
+                      }}
                     >
                       {DATA_LAYERS[key].label}
                     </Checkbox>
@@ -144,6 +156,16 @@ const Tool = ({
       </aside>
       <div className="visualization">
         <div className="map-container">
+          <Legend
+            layers={legendDataLayers}
+            onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
+            onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
+            onClickRemove={removeLayer}
+            onChangeDate={(id, dates) =>
+              updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
+            }
+            onChangeLayersOrder={updateLayerOrder}
+          />
           <Map
             ref={mapRef}
             mapStyle={mapStyle}
@@ -166,13 +188,19 @@ Tool.propTypes = {
   basemap: PropTypes.string.isRequired,
   basemapParams: PropTypes.object,
   contextualLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
+  legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,
   updateZoom: PropTypes.func.isRequired,
   updateViewport: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,
   updateBasemapParams: PropTypes.func.isRequired,
+  addLayer: PropTypes.func.isRequired,
+  removeLayer: PropTypes.func.isRequired,
+  updateLayer: PropTypes.func.isRequired,
+  updateLayerOrder: PropTypes.func.isRequired,
 };
 
 Tool.defaultProps = {
