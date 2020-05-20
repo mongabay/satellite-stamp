@@ -144,7 +144,7 @@ export const DATA_LAYERS = {
       type: 'basic',
       items: [
         {
-          name: 'Tree Cover Loss',
+          name: 'Tree cover loss',
           color: '#dc6c9a',
         },
       ],
