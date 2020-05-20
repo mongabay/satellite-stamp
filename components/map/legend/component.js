@@ -45,7 +45,7 @@ const Legend = ({
                   <Icon name={layer.visibility ? 'eye' : 'slashed-eye'} />
                 </button>
               )}
-              {!layer.readonly && layer.closeable && (
+              {!layer.readonly && (
                 <button type="button" className="btn" onClick={() => onClickRemove(layer.id)}>
                   <Icon name="close" />
                 </button>
