@@ -725,9 +725,9 @@ export const DATA_LAYERS = {
   // 'palm-oil-mills': {
   //   label: 'Palm oil mills',
   // },
-  mangroves: {
-    label: 'Mangroves',
-  },
+  // mangroves: {
+  //   label: 'Mangroves',
+  // },
   peatlands: {
     label: 'Peatlands',
   },
