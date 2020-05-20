@@ -277,6 +277,64 @@ export const DATA_LAYERS = {
   },
   'tree-cover': {
     label: 'Tree cover',
+    attributions: ['rw'],
+    config: {
+      type: 'raster',
+      source: (year = 2010) => {
+        const yearToTiles = {
+          2000: 'https://earthengine.google.org/static/hansen_2014/gfw_loss_tree_year_30_2014/{z}/{x}/{y}.png',
+          2010: 'https://storage.googleapis.com/wri-public/treecover/2010/30/{z}/{x}/{y}.png',
+        };
+
+        return {
+          tiles: [yearToTiles[year]],
+          minzoom: 2,
+          maxzoom: 12,
+        };
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Tree cover',
+          color: '#97BD3D',
+        },
+      ],
+      timeline: {
+        step: null,
+        range: false,
+        interval: 'years',
+        dateFormat: 'YYYY',
+        minDate: '2000-01-01',
+        maxDate: '2010-01-01',
+        marks: {
+          0: '2000',
+          10: '2010',
+        },
+      },
+    },
+    decodeParams: {},
+    decodeFunction: `
+      // values for creating power scale, domain (input), and range (output)
+      float domainMin = 0.;
+      float domainMax = 255.;
+      float rangeMin = 0.;
+      float rangeMax = 255.;
+      float exponent = zoom < 13. ? 0.3 + (zoom - 3.) / 20. : 1.;
+      float intensity = color.g * 255.;
+      // get the min, max, and current values on the power scale
+      float minPow = pow(domainMin, exponent - domainMin);
+      float maxPow = pow(domainMax, exponent);
+      float currentPow = pow(intensity, exponent);
+      // get intensity value mapped to range
+      float scaleIntensity = ((currentPow - minPow) / (maxPow - minPow) * (rangeMax - rangeMin)) + rangeMin;
+      // a value between 0 and 255
+      alpha = zoom < 13. ? scaleIntensity * 0.8 / 255. : color.g * 0.8;
+      color.r = 151. / 255.;
+      color.g = 189. / 255.;
+      color.b = 61. / 255.;
+  `,
   },
   'primary-forests': {
     label: 'Primary forests',
