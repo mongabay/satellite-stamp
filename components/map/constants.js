@@ -710,9 +710,9 @@ export const DATA_LAYERS = {
   // roads: {
   //   label: 'Roads',
   // },
-  'logging-concessions': {
-    label: 'Logging concessions',
-  },
+  // 'logging-concessions': {
+  //   label: 'Logging concessions',
+  // },
   'mining-concessions': {
     label: 'Mining concessions',
   },
