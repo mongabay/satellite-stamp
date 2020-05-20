@@ -526,9 +526,9 @@ export const DATA_LAYERS = {
       },
     },
   },
-  'tree-plantations': {
-    label: 'Tree plantations',
-  },
+  // 'tree-plantations': {
+  //   label: 'Tree plantations',
+  // },
   'protected-areas': {
     label: 'Protected areas',
   },
