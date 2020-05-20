@@ -728,9 +728,9 @@ export const DATA_LAYERS = {
   // mangroves: {
   //   label: 'Mangroves',
   // },
-  peatlands: {
-    label: 'Peatlands',
-  },
+  // peatlands: {
+  //   label: 'Peatlands',
+  // },
   'intact-forest-landscapes': {
     label: 'Intact Forest Landscapes',
   },
