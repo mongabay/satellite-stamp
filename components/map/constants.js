@@ -338,6 +338,26 @@ export const DATA_LAYERS = {
   },
   'primary-forests': {
     label: 'Primary forests',
+    attributions: ['rw'],
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          'https://api.resourcewatch.org/v1/layer/41086554-5ca5-456c-80dd-f6bee61bc45f/tile/gee/{z}/{x}/{y}',
+        ],
+        minzoom: 3,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#658434',
+          name: 'Primary forest',
+        },
+      ],
+    },
   },
   'south-america-tree-cover-height': {
     label: 'South America tree cover height',
