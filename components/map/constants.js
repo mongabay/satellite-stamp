@@ -716,9 +716,9 @@ export const DATA_LAYERS = {
   // 'mining-concessions': {
   //   label: 'Mining concessions',
   // },
-  'oil-palm-concessions': {
-    label: 'Oil palm concessions',
-  },
+  // 'oil-palm-concessions': {
+  //   label: 'Oil palm concessions',
+  // },
   'wood-fiber-concessions': {
     label: 'Wood fiber concessions by type',
   },
