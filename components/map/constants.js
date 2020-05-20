@@ -1,7 +1,7 @@
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 
-export const mapStyle = 'mapbox://styles/mongabay/ck8rmdfel02iw1ipc3i6ugtpb/draft';
+export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus';
 
 export const ATTRIBUTIONS = {
   rw:
@@ -17,6 +17,13 @@ export const BASEMAPS = {
     minZoom: 0,
     maxZoom: 22,
     styleGroup: 'basemap-paper',
+  },
+  'mongabay-carbon': {
+    label: 'Mongabay Carbon',
+    backgroundColor: '#262626',
+    minZoom: 0,
+    maxZoom: 22,
+    styleGroup: 'basemap-carbon',
   },
   landsat: {
     label: 'Landsat',
@@ -81,11 +88,17 @@ export const BASEMAPS = {
 };
 
 export const CONTEXTUAL_LAYERS = {
-  labels: {
-    label: 'Labels',
+  'labels-light': {
+    label: 'Labels light',
     minZoom: 1,
     maxZoom: 22,
-    styleGroup: 'contextual-labels',
+    styleGroup: 'contextual-labels-light',
+  },
+  'labels-dark': {
+    label: 'Labels dark',
+    minZoom: 1,
+    maxZoom: 22,
+    styleGroup: 'contextual-labels-dark',
   },
   'admin-boundaries': {
     label: 'Admin boundaries',
@@ -98,12 +111,6 @@ export const CONTEXTUAL_LAYERS = {
     minZoom: 5,
     maxZoom: 22,
     styleGroup: 'contextual-roads',
-  },
-  'elevation-lines': {
-    label: 'Elevation lines',
-    minZoom: 11,
-    maxZoom: 22,
-    styleGroup: 'contextual-elevation',
   },
   hillshade: {
     label: 'Hillshade',
