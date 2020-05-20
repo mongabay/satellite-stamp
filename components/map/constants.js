@@ -529,9 +529,9 @@ export const DATA_LAYERS = {
   // 'tree-plantations': {
   //   label: 'Tree plantations',
   // },
-  'protected-areas': {
-    label: 'Protected areas',
-  },
+  // 'protected-areas': {
+  //   label: 'Protected areas',
+  // },
   'urban-built-up-area': {
     label: 'Urban built-up Area',
     attributions: ['rw'],
