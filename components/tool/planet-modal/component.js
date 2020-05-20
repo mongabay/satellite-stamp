@@ -32,11 +32,7 @@ const ToolPlanetModal = ({ basemap, basemapParams, updateBasemap, updateBasemapP
       <h1 className="mb-3">Planet API key</h1>
       <p>
         The Planet basemap requires an API key. Consult {"Planet's "}
-        <a
-          href="https://www.planet.com/products/basemap/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://www.planet.com/login/" target="_blank" rel="noopener noreferrer">
           website
         </a>{' '}
         for more information.
