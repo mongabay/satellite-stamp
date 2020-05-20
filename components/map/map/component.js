@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import ReactMapGL, { TRANSITION_EVENTS } from 'react-map-gl';
+import ReactMapGL, { StaticMap, TRANSITION_EVENTS } from 'react-map-gl';
 import { fitBounds } from 'viewport-mercator-project';
 
 import './style.scss';
@@ -19,6 +19,9 @@ class Map extends Component {
   CLICK = {};
 
   static propTypes = {
+    /** Whether the map should be static or dynamic */
+    isStatic: PropTypes.bool,
+
     /** A function that returns the map instance */
     children: PropTypes.func,
 
@@ -75,6 +78,7 @@ class Map extends Component {
   };
 
   static defaultProps = {
+    isStatic: false,
     children: null,
     customClass: null,
     viewport: DEFAULT_VIEWPORT,
@@ -333,6 +337,7 @@ class Map extends Component {
 
   render() {
     const {
+      isStatic,
       customClass,
       children,
       getCursor,
@@ -345,6 +350,8 @@ class Map extends Component {
     } = this.props;
     const { viewport, loaded, flying } = this.state;
 
+    const ReactMap = isStatic ? StaticMap : ReactMapGL;
+
     return (
       <div
         ref={r => {
@@ -355,7 +362,7 @@ class Map extends Component {
           [customClass]: !!customClass,
         })}
       >
-        <ReactMapGL
+        <ReactMap
           ref={map => {
             this.map = map && map.getMap();
           }}
@@ -383,7 +390,7 @@ class Map extends Component {
           getCursor={getCursor}
         >
           {loaded && !!this.map && typeof children === 'function' && children(this.map)}
-        </ReactMapGL>
+        </ReactMap>
       </div>
     );
   }

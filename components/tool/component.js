@@ -19,6 +19,7 @@ import Attributions from './attributions';
 import BasemapList from './basemap-list';
 import ContextualLayerList from './contextual-layer-list';
 import PlanetModal from './planet-modal';
+import PresetsModal from './presets-modal';
 
 import './style.scss';
 
@@ -42,6 +43,7 @@ const Tool = ({
   const map = useMemo(() => mapRef.current?.map, [mapRef.current]);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [expandedAccordion, setExpandedAccordion] = useState('data-layers');
+  const [presetsOpen, setPresetsOpen] = useState(false);
 
   const onChangeViewport = useCallback(
     // @ts-ignore
@@ -85,6 +87,7 @@ const Tool = ({
   return (
     <div className="c-tool">
       <PlanetModal />
+      <PresetsModal open={presetsOpen} onClose={() => setPresetsOpen(false)} />
       <aside>
         <Accordion
           multi={false}
@@ -149,7 +152,11 @@ const Tool = ({
           <button type="button" className="btn btn-primary mr-2" disabled>
             Export
           </button>
-          <button type="button" className="btn btn-outline-primary" disabled>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => setPresetsOpen(true)}
+          >
             Map presets
           </button>
         </div>

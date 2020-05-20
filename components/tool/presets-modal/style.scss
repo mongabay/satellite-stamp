@@ -1,0 +1,51 @@
+@import 'css/settings';
+
+.c-tool-presets-modal {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  max-height: none;
+
+  > .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  > .close-button {
+    display: none;
+    flex-shrink: 0;
+  }
+
+  .presets-list {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+
+    .preset {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      list-style: none;
+
+      > button {
+        flex-basis: calc(100% - #{rem(100)});
+        display: block;
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+      }
+
+      .c-map {
+        .mapboxgl-control-container {
+          display: none;
+        }
+      }
+    }
+  }
+}
