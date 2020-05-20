@@ -17,7 +17,6 @@ const Legend = ({
   layers,
   onClickToggleVisibility,
   onChangeOpacity,
-  onClickInfo,
   onClickRemove,
   onChangeDate,
   onChangeLayersOrder,
@@ -46,11 +45,6 @@ const Legend = ({
                   <Icon name={layer.visibility ? 'eye' : 'slashed-eye'} />
                 </button>
               )}
-              {!layer.readonly && (
-                <button type="button" className="btn" onClick={() => onClickInfo(layer.id)}>
-                  <Icon name="info" />
-                </button>
-              )}
               {!layer.readonly && layer.closeable && (
                 <button type="button" className="btn" onClick={() => onClickRemove(layer.id)}>
                   <Icon name="close" />
@@ -71,7 +65,6 @@ Legend.propTypes = {
   layers: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChangeOpacity: PropTypes.func.isRequired,
   onClickToggleVisibility: PropTypes.func.isRequired,
-  onClickInfo: PropTypes.func.isRequired,
   onClickRemove: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
   onChangeLayersOrder: PropTypes.func.isRequired,

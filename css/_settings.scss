@@ -26,7 +26,7 @@ $body-color: $text-color-1;
 $link-color: $text-color-2;
 $link-hover-color: darken($link-color, 15%);
 
-// // Typography
+// Typography
 
 $font-family-1: 'Open Sans', serif;
 $font-family-2: 'Cardo', sans-serif;
@@ -52,6 +52,11 @@ $h1-font-size: $font-size-l;
 //   lg: 960px,
 //   xl: 1040px,
 // );
+
+// Box shadows
+
+$box-shadow-1: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
+$box-shadow-2: rem(1) rem(1) rem(10) 0 rgba($black, 0.2);
 
 // Buttons
 

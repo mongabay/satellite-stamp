@@ -76,6 +76,10 @@
         height: calc(100% - #{rem(26)}); // The attributions are 26px high
       }
 
+      .c-map-legend {
+        bottom: rem(26);
+      }
+
       .c-tool-attributions {
         position: absolute;
         bottom: 0;
