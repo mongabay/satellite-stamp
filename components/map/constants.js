@@ -361,6 +361,85 @@ export const DATA_LAYERS = {
   },
   'south-america-tree-cover-height': {
     label: 'South America tree cover height',
+    attributions: ['rw'],
+    config: {
+      type: 'raster',
+      source: (year = 2016) => {
+        const yearToTiles = {
+          1985: 'https://api.resourcewatch.org/v1/layer/d6e82875-6d96-45ef-855c-86ed26fba84b/tile/gee/{z}/{x}/{y}',
+          1986: 'https://api.resourcewatch.org/v1/layer/e96ed299-9bf1-40c5-8ce1-07cb72d9cb32/tile/gee/{z}/{x}/{y}',
+          1987: 'https://api.resourcewatch.org/v1/layer/5cc99490-fb5a-4d7c-949f-a78a798a98c6/tile/gee/{z}/{x}/{y}',
+          1988: 'https://api.resourcewatch.org/v1/layer/165ecb67-efef-4e0f-9232-a0ce7b52b086/tile/gee/{z}/{x}/{y}',
+          1989: 'https://api.resourcewatch.org/v1/layer/b125c1ef-4e2b-4fe9-984e-a71158d57efd/tile/gee/{z}/{x}/{y}',
+          1990: 'https://api.resourcewatch.org/v1/layer/3c930dc1-3e23-41a0-af4e-ebdbfdd938bc/tile/gee/{z}/{x}/{y}',
+          1991: 'https://api.resourcewatch.org/v1/layer/0edc0ba1-7069-4953-ba5f-f4883f63dee9/tile/gee/{z}/{x}/{y}',
+          1992: 'https://api.resourcewatch.org/v1/layer/6612ac38-fa4c-4fdc-8cfc-a6bd1cdcc67f/tile/gee/{z}/{x}/{y}',
+          1993: 'https://api.resourcewatch.org/v1/layer/21480a77-38b6-4f9b-95a8-c91ffc70171d/tile/gee/{z}/{x}/{y}',
+          1994: 'https://api.resourcewatch.org/v1/layer/ec250df8-5c99-4eb6-af5c-c0e4129ba2dd/tile/gee/{z}/{x}/{y}',
+          1995: 'https://api.resourcewatch.org/v1/layer/47106136-954d-491b-abea-e6b4135b7c61/tile/gee/{z}/{x}/{y}',
+          1996: 'https://api.resourcewatch.org/v1/layer/5cec19be-7706-4724-9879-1e88611729c6/tile/gee/{z}/{x}/{y}',
+          1997: 'https://api.resourcewatch.org/v1/layer/a7a83b7d-488a-4e3f-833a-4f9aad1e25f7/tile/gee/{z}/{x}/{y}',
+          1998: 'https://api.resourcewatch.org/v1/layer/cee53792-c2d4-4c0d-9f80-e17b0dfede7d/tile/gee/{z}/{x}/{y}',
+          1999: 'https://api.resourcewatch.org/v1/layer/3a7e8216-477f-4d57-8219-ff1051347b46/tile/gee/{z}/{x}/{y}',
+          2000: 'https://api.resourcewatch.org/v1/layer/5652e2b6-98d6-450d-a94d-7a07e64f79e1/tile/gee/{z}/{x}/{y}',
+          2001: 'https://api.resourcewatch.org/v1/layer/c47dd032-d931-47ca-b1b7-76311859582e/tile/gee/{z}/{x}/{y}',
+          2002: 'https://api.resourcewatch.org/v1/layer/7924e778-94a6-447a-bdc4-0611424c5f6c/tile/gee/{z}/{x}/{y}',
+          2003: 'https://api.resourcewatch.org/v1/layer/c480cd87-15fc-4b86-b423-62fff569201f/tile/gee/{z}/{x}/{y}',
+          2004: 'https://api.resourcewatch.org/v1/layer/bd5b3876-5cb1-4511-ab51-4ae183be2de4/tile/gee/{z}/{x}/{y}',
+          2005: 'https://api.resourcewatch.org/v1/layer/19c3d1c9-a55e-4c3f-996d-63eaacd5381e/tile/gee/{z}/{x}/{y}',
+          2006: 'https://api.resourcewatch.org/v1/layer/57c121a4-67e0-44e3-a68e-ca36bee33652/tile/gee/{z}/{x}/{y}',
+          2007: 'https://api.resourcewatch.org/v1/layer/a257bce9-ccdb-4c31-aeff-cb400147d661/tile/gee/{z}/{x}/{y}',
+          2008: 'https://api.resourcewatch.org/v1/layer/88090586-6722-4015-aeff-9f5671fe9736/tile/gee/{z}/{x}/{y}',
+          2009: 'https://api.resourcewatch.org/v1/layer/0c85320c-5e40-473b-b406-7d14ca0056f6/tile/gee/{z}/{x}/{y}',
+          2010: 'https://api.resourcewatch.org/v1/layer/61f51abe-4ada-44e5-bb34-c23b400fbcb9/tile/gee/{z}/{x}/{y}',
+          2011: 'https://api.resourcewatch.org/v1/layer/997080b8-df9b-48b0-8549-2185dee669a0/tile/gee/{z}/{x}/{y}',
+          2012: 'https://api.resourcewatch.org/v1/layer/a0468978-50c3-4161-bc2a-b5de6897e16e/tile/gee/{z}/{x}/{y}',
+          2013: 'https://api.resourcewatch.org/v1/layer/fe86437b-fbaa-4692-b2e4-601b87edcef6/tile/gee/{z}/{x}/{y}',
+          2014: 'https://api.resourcewatch.org/v1/layer/82fb6725-c937-411c-9703-67cdf3f08439/tile/gee/{z}/{x}/{y}',
+          2015: 'https://api.resourcewatch.org/v1/layer/137f4d65-60f9-41b3-bac4-f0a911dd7d3b/tile/gee/{z}/{x}/{y}',
+          2016: 'https://api.resourcewatch.org/v1/layer/f718e2ab-ee37-4af2-b6b4-e052ed4d15dd/tile/gee/{z}/{x}/{y}',
+        };
+
+        return {
+          tiles: [yearToTiles[year]],
+          minzoom: 2,
+          maxzoom: 12,
+        };
+      },
+    },
+    legend: {
+      type: 'choropleth',
+      items: [
+        {
+          name: '≤5',
+          color: '#f0f9e8',
+        },
+        {
+          name: '≤10',
+          color: '#bae4bc',
+        },
+        {
+          name: '≤15',
+          color: '#7bccc4',
+        },
+        {
+          name: '≤20',
+          color: '#43a2ca',
+        },
+        {
+          name: '>20',
+          color: '#0868ac',
+        },
+      ],
+      timeline: {
+        step: 1,
+        range: false,
+        interval: 'years',
+        dateFormat: 'YYYY',
+        minDate: '1985-01-01',
+        maxDate: '2016-01-01',
+      },
+    },
   },
   'land-cover': {
     label: 'Global land cover',
