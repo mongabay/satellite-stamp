@@ -16,7 +16,7 @@ import {
 import './style.scss';
 
 const ToolPresetsModal = ({ open, onClose, updateActiveLayers }) => {
-  const onLoadMap = useCallback(({ map }) => {
+  const onLoadMap = useCallback(map => {
     toggleBasemap(map, BASEMAPS['mongabay-paper']);
     toggleContextualLayers(map, [CONTEXTUAL_LAYERS.water]);
   }, []);
