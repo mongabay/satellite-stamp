@@ -40,6 +40,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.14.0",
     "deck.gl": "7.3.6",
+    "html2canvas": "^1.0.0-rc.5",
     "layer-manager": "3.0.4",
     "luma.gl": "7.3.2",
     "next": "9.3.2",

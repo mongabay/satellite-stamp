@@ -1,0 +1,51 @@
+@import 'css/settings';
+
+.c-tool-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-basis: rem(300);
+  max-height: 100%;
+  margin-right: map-get($spacers, 5);
+
+  .c-accordion {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .item {
+      margin: map-get($spacers, 2) 0;
+      overflow: hidden;
+      flex-shrink: 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &.-expanded {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 1;
+
+        & > .panel {
+          padding: map-get($spacers, 2) 0;
+          overflow: auto;
+        }
+      }
+
+      h2 {
+        margin: map-get($spacers, 4) 0 map-get($spacers, 3);
+        font-family: $font-family-1;
+        text-transform: uppercase;
+        @include font-size($font-size-base);
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+}

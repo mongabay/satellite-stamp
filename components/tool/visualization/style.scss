@@ -1,0 +1,42 @@
+@import 'css/settings';
+
+.c-tool-visualization {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-color: rgba($primary, 0.1);
+
+  .container-width {
+    // FIXME: next line assumes how the visualisation's layout outside of its parent
+    width: unquote('min(100%, calc((100vh - #{2* map-get($spacers, 5)}) * 1 / 0.6666))');
+  }
+
+  .container-ratio {
+    position: relative;
+    width: 100%;
+    padding-top: 66.66%;
+    overflow: hidden;
+  }
+
+  .c-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - #{rem(26)}); // The attributions are 26px high
+  }
+
+  .c-map-legend {
+    bottom: rem(26);
+  }
+
+  .c-tool-attributions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: rem(26);
+    background-color: $white;
+  }
+}

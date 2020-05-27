@@ -1,0 +1,11 @@
+@import 'css/settings';
+
+.c-export-tooltip {
+  max-width: rem(340);
+
+  legend {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+  }
+}
