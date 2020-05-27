@@ -34,7 +34,8 @@ li.vizzuality__c-legend-item {
   font-family: "Open Sans", serif;
   font-size: 1rem;
   background-color: #fff;
-  border: none; }
+  border: none;
+  border-bottom: 0.0625rem solid rgba(34, 34, 34, 0.3); }
   li.vizzuality__c-legend-item:last-of-type {
     margin-bottom: 0; }
   li.vizzuality__c-legend-item .vizzuality__legend-item-container {
@@ -184,7 +185,7 @@ select.c-select {
     transform: rotate(-90deg);
     transform-origin: center; }
   .c-accordion > .item > .title .button .c-icon {
-    width: 0.625rem;
+    width: 0.9375rem;
     margin-right: 1rem;
     vertical-align: initial; }
     .c-accordion > .item > .title .button .c-icon use {
