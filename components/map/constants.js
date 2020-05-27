@@ -641,72 +641,6 @@ export const DATA_LAYERS = {
       },
     },
   },
-  'population-density': {
-    label: 'Population density (grid, 1 km)',
-    attributions: ['rw'],
-    config: {
-      type: 'raster',
-      source: (year = 2020) => {
-        const yearToTiles = {
-          2000: 'https://api.resourcewatch.org/v1/layer/2a9e91e0-22ee-470d-a309-69f4838af435/tile/gee/{z}/{x}/{y}',
-          2005: 'https://api.resourcewatch.org/v1/layer/a04b528a-99e0-4e67-93e7-fb57cb8dcebf/tile/gee/{z}/{x}/{y}',
-          2010: 'https://api.resourcewatch.org/v1/layer/6c81cdc8-1634-41c5-9ba5-fe18f59fac30/tile/gee/{z}/{x}/{y}',
-          2015: 'https://api.resourcewatch.org/v1/layer/396b74f7-643d-4299-8ff6-4780b27138cc/tile/gee/{z}/{x}/{y}',
-          2020: 'https://api.resourcewatch.org/v1/layer/393fe0ef-7ff3-4a60-bd28-2b80325c8538/tile/gee/{z}/{x}/{y}',
-        };
-
-        return {
-          tiles: [yearToTiles[year]],
-          minzoom: 2,
-          maxzoom: 12,
-        };
-      },
-    },
-    legend: {
-      type: 'choropleth',
-      items: [
-        {
-          color: '#32095D',
-          name: '≤25',
-          id: 0,
-        },
-        {
-          color: '#781C6D',
-          name: '≤100',
-          id: 1,
-        },
-        {
-          color: '#BA3655',
-          name: '≤1k',
-          id: 2,
-        },
-        {
-          color: '#ED6825',
-          name: '≤5k',
-          id: 3,
-        },
-        {
-          color: '#FBB318',
-          name: '≤10k',
-          id: 4,
-        },
-        {
-          color: '#FCFEA4',
-          name: '>10k',
-          id: 5,
-        },
-      ],
-
-      timeline: {
-        step: 5,
-        range: false,
-        interval: 'years',
-        dateFormat: 'YYYY',
-        minDate: '2000-01-01',
-        maxDate: '2020-01-01',
-      },
-    },
-  },
   // roads: {
   //   label: 'Roads',
   // },
@@ -863,9 +797,6 @@ export const PRESETS = {
       },
       {
         id: 'population',
-      },
-      {
-        id: 'population-density',
       },
       // {
       //   id: 'roads',
