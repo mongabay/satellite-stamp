@@ -25,6 +25,7 @@ li.vizzuality__c-legend-item {
   @include font-size($font-size-base);
   background-color: $body-bg;
   border: none;
+  border-bottom: rem(1) solid $border-color-1;
 
   &:last-of-type {
     margin-bottom: 0;
