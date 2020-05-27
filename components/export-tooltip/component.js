@@ -4,13 +4,23 @@ import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 
 import Icon from 'components/icon';
+import { Select } from 'components/forms';
 import { downloadImage } from './helper';
 
 import './style.scss';
 
 export const IMAGE_RATIO = 2 / 3;
 
-const ExportTooltip = ({ width, height, mode, updateSettings, updateExporting, updateMode }) => {
+const ExportTooltip = ({
+  width,
+  height,
+  mode,
+  modeParams,
+  updateSettings,
+  updateExporting,
+  updateMode,
+  updateModeParams,
+}) => {
   const [form, setForm] = useState({
     width: {
       value: width,
@@ -112,7 +122,7 @@ const ExportTooltip = ({ width, height, mode, updateSettings, updateExporting, u
                 name="export-tooltip-grid"
                 value="1"
                 checked={mode === '1'}
-                onChange={() => updateMode('1')}
+                onChange={() => updateMode({ mode: '1', params: {} })}
               />
               <label htmlFor="export-tooltip-grid-1">
                 <Icon name="one-map" />
@@ -123,7 +133,12 @@ const ExportTooltip = ({ width, height, mode, updateSettings, updateExporting, u
                 name="export-tooltip-grid"
                 value="2-horizontal"
                 checked={mode === '2-horizontal'}
-                onChange={() => updateMode('2-horizontal')}
+                onChange={() =>
+                  updateMode({
+                    mode: '2-horizontal',
+                    params: { difference: 'spatial', viewport: modeParams.viewport || undefined },
+                  })
+                }
               />
               <label htmlFor="export-tooltip-grid-2-horizontal">
                 <Icon name="two-maps-horizontal" />
@@ -134,13 +149,40 @@ const ExportTooltip = ({ width, height, mode, updateSettings, updateExporting, u
                 name="export-tooltip-grid"
                 value="2-vertical"
                 checked={mode === '2-vertical'}
-                onChange={() => updateMode('2-vertical')}
+                onChange={() =>
+                  updateMode({
+                    mode: '2-vertical',
+                    params: { difference: 'spatial', viewport: modeParams.viewport || undefined },
+                  })
+                }
               />
               <label htmlFor="export-tooltip-grid-2-vertical">
                 <Icon name="two-maps-vertical" />
               </label>
             </div>
           </div>
+          {(mode === '2-vertical' || mode === '2-horizontal') && (
+            <>
+              <div className="form-row">
+                <div className="form-group col">
+                  <label htmlFor="export-difference">Difference</label>
+                  <div className="input-group">
+                    <Select
+                      id="export-difference"
+                      value={modeParams.difference}
+                      options={[{ label: 'Spatial', value: 'spatial' }]}
+                      onChange={({ value }) =>
+                        updateModeParams({
+                          ...modeParams,
+                          difference: value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </fieldset>
         <button
           type="submit"
@@ -158,9 +200,11 @@ ExportTooltip.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
+  modeParams: PropTypes.object.isRequired,
   updateSettings: PropTypes.func.isRequired,
   updateExporting: PropTypes.func.isRequired,
   updateMode: PropTypes.func.isRequired,
+  updateModeParams: PropTypes.func.isRequired,
 };
 
 export default ExportTooltip;

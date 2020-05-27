@@ -16,10 +16,12 @@ const Visualization = ({
   legendDataLayers,
   viewport,
   mode,
+  modeParams,
   updateLayer,
   removeLayer,
   updateLayerOrder,
   updateViewport,
+  updateModeParams,
 }) => {
   const onChangeViewport = useCallback(
     // @ts-ignore
@@ -32,6 +34,22 @@ const Visualization = ({
       });
     }, 500),
     [updateViewport]
+  );
+
+  const onChangeModeParamsViewport = useCallback(
+    // @ts-ignore
+    debounce(v => {
+      updateModeParams({
+        ...modeParams,
+        viewport: {
+          zoom: v.zoom,
+          latitude: v.latitude,
+          longitude: v.longitude,
+          bounds: v.bounds,
+        },
+      });
+    }, 500),
+    [modeParams, updateModeParams]
   );
 
   return (
@@ -64,6 +82,7 @@ const Visualization = ({
             }
           >
             <Map
+              viewport={viewport}
               onChangeViewport={onChangeViewport}
               onResize={({ width, height }) => {
                 if (viewport.bounds) {
@@ -72,7 +91,30 @@ const Visualization = ({
               }}
             />
             {(mode === '2-vertical' || mode === '2-horizontal') && (
-              <Map isStatic onViewportChange={() => null} />
+              <Map
+                isStatic={modeParams.difference !== 'spatial'}
+                viewport={modeParams.difference === 'spatial' ? modeParams.viewport : viewport}
+                onChangeViewport={
+                  modeParams.difference === 'spatial' ? onChangeModeParamsViewport : () => null
+                }
+                onResize={
+                  modeParams.difference === 'spatial'
+                    ? ({ width, height }) => {
+                        if (modeParams.viewport?.bounds) {
+                          updateModeParams({
+                            ...modeParams,
+                            viewport: getViewportFromBounds(
+                              width,
+                              height,
+                              modeParams.viewport,
+                              modeParams.viewport.bounds
+                            ),
+                          });
+                        }
+                      }
+                    : undefined
+                }
+              />
             )}
           </div>
           <Attributions />
@@ -89,11 +131,13 @@ Visualization.propTypes = {
   height: PropTypes.number.isRequired,
   exporting: PropTypes.bool.isRequired,
   mode: PropTypes.string.isRequired,
+  modeParams: PropTypes.object.isRequired,
   updateViewport: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
   updateLayerOrder: PropTypes.func.isRequired,
+  updateModeParams: PropTypes.func.isRequired,
 };
 
 export default Visualization;

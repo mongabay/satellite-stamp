@@ -8,7 +8,6 @@ const VisualizationMap = ({
   activeLayersDef,
   basemap,
   contextualLayers,
-  viewport,
   onChangeViewport,
   ...rest
 }) => {
@@ -41,7 +40,6 @@ const VisualizationMap = ({
       ref={mapRef}
       preserveDrawingBuffer // Needed for the export
       mapStyle={mapStyle}
-      viewport={viewport}
       onViewportChange={onChangeViewport}
       onLoad={onLoadMap}
       {...rest}
@@ -52,7 +50,6 @@ const VisualizationMap = ({
 };
 
 VisualizationMap.propTypes = {
-  viewport: PropTypes.object.isRequired,
   basemap: PropTypes.string.isRequired,
   contextualLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,

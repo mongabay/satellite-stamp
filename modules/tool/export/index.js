@@ -8,6 +8,7 @@ export const selectWidth = createSelector([selectSettings], settings => settings
 export const selectHeight = createSelector([selectSettings], settings => settings.height);
 export const selectExporting = createSelector([selectSettings], settings => settings.exporting);
 export const selectMode = createSelector([selectSettings], settings => settings.mode);
+export const selectModeParams = createSelector([selectSettings], settings => settings.modeParams);
 
 export const selectSerializedState = createSelector([selectSettings], settings => {
   return omit(settings, 'exporting');
@@ -19,6 +20,7 @@ export default toolActions =>
     initialState: {
       exporting: false,
       mode: '1',
+      modeParams: {},
       width: 900,
       height: 600,
     },
@@ -32,7 +34,13 @@ export default toolActions =>
         state.exporting = action.payload;
       },
       updateMode(state, action) {
-        state.mode = action.payload;
+        state.mode = action.payload.mode;
+        if (action.payload.params) {
+          state.modeParams = action.payload.params;
+        }
+      },
+      updateModeParams(state, action) {
+        state.modeParams = action.payload;
       },
     },
     extraReducers: {

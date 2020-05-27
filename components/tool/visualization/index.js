@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { mapSelectors, mapActions, exportSelectors } from 'modules/tool';
+import { mapSelectors, mapActions, exportSelectors, exportActions } from 'modules/tool';
 import Component from './component';
 
 export default connect(
@@ -11,6 +11,7 @@ export default connect(
     height: exportSelectors.selectHeight(state),
     exporting: exportSelectors.selectExporting(state),
     mode: exportSelectors.selectMode(state),
+    modeParams: exportSelectors.selectModeParams(state),
   }),
   {
     updateViewport: mapActions.updateViewport,
@@ -18,5 +19,6 @@ export default connect(
     removeLayer: mapActions.removeLayer,
     updateLayer: mapActions.updateLayer,
     updateLayerOrder: mapActions.updateLayerOrder,
+    updateModeParams: exportActions.updateModeParams,
   }
 )(Component);

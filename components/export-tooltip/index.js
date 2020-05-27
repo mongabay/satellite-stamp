@@ -8,10 +8,12 @@ export default connect(
     width: exportSelectors.selectWidth(state),
     height: exportSelectors.selectHeight(state),
     mode: exportSelectors.selectMode(state),
+    modeParams: exportSelectors.selectModeParams(state),
   }),
   {
     updateSettings: exportActions.updateSettings,
     updateExporting: exportActions.updateExporting,
     updateMode: exportActions.updateMode,
+    updateModeParams: exportActions.updateModeParams,
   }
 )(Component);
