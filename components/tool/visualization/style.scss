@@ -1,11 +1,27 @@
 @import 'css/settings';
 
 .c-tool-visualization {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
   background-color: rgba($primary, 0.1);
+
+  .exporting-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    z-index: 3;
+  }
 
   .container-width {
     // FIXME: next line assumes how the visualisation's layout outside of its parent

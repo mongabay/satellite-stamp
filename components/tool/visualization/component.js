@@ -69,6 +69,7 @@ const Visualization = ({
 
   return (
     <div className="c-tool-visualization">
+      {exporting && <div className="exporting-message">Exporting...</div>}
       <div
         className="container-width js-visualization"
         style={exporting ? { width: `${width}px` } : undefined}
