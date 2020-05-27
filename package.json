@@ -44,7 +44,6 @@
     "layer-manager": "3.0.4",
     "luma.gl": "7.3.2",
     "next": "9.3.2",
-    "next-redux-wrapper": "^5.0.0",
     "next-routes": "^1.4.2",
     "node-sass": "^4.13.1",
     "react": "16.12.0",
