@@ -233,6 +233,29 @@ select.c-select {
     font-size: 1rem;
     font-weight: 700;
     text-transform: uppercase; }
+  .c-export-tooltip .grid-buttons {
+    display: flex;
+    justify-content: space-between; }
+    .c-export-tooltip .grid-buttons input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0; }
+      .c-export-tooltip .grid-buttons input:checked + label .c-icon use {
+        stroke: #03755e;
+        fill: #03755e; }
+    .c-export-tooltip .grid-buttons label .c-icon {
+      width: 2.8125rem;
+      height: 2.1875rem;
+      cursor: pointer; }
+      .c-export-tooltip .grid-buttons label .c-icon use {
+        stroke: rgba(34, 34, 34, 0.3);
+        fill: transparent; }
 
 .c-tool-basemap-list .basemap-params {
   margin: 1rem 0;
@@ -328,12 +351,27 @@ select.c-select {
     width: 100%;
     padding-top: 66.66%;
     overflow: hidden; }
-  .c-tool-visualization .c-map {
+  .c-tool-visualization .map-container {
+    display: flex;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - 1.625rem); }
+    height: calc(100% - 1.625rem);
+    background-color: #fff; }
+    .c-tool-visualization .map-container.mode-2-vertical {
+      justify-content: space-between; }
+      .c-tool-visualization .map-container.mode-2-vertical .c-map {
+        flex-basis: calc(50% - 0.3125rem); }
+        .c-tool-visualization .map-container.mode-2-vertical .c-map + .c-map {
+          margin-left: 0.625rem; }
+    .c-tool-visualization .map-container.mode-2-horizontal {
+      flex-direction: column;
+      justify-content: space-between; }
+      .c-tool-visualization .map-container.mode-2-horizontal .c-map {
+        flex-basis: calc(50% - 0.3125rem); }
+        .c-tool-visualization .map-container.mode-2-horizontal .c-map + .c-map {
+          margin-top: 0.625rem; }
   .c-tool-visualization .c-map-legend {
     bottom: 1.625rem; }
   .c-tool-visualization .c-tool-attributions {
