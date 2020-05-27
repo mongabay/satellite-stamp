@@ -6,13 +6,11 @@ import Component from './component';
 export default connect(
   state => ({
     viewport: mapSelectors.selectViewport(state),
-    basemap: mapSelectors.selectBasemap(state),
-    contextualLayers: mapSelectors.selectContextualLayers(state),
-    activeLayersDef: mapSelectors.selectActiveLayersDef(state),
     legendDataLayers: mapSelectors.selectLegendDataLayers(state),
     width: exportSelectors.selectWidth(state),
     height: exportSelectors.selectHeight(state),
     exporting: exportSelectors.selectExporting(state),
+    mode: exportSelectors.selectMode(state),
   }),
   {
     updateViewport: mapActions.updateViewport,

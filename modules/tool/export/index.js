@@ -7,6 +7,7 @@ export const selectSettings = state => state[SLICE_NAME];
 export const selectWidth = createSelector([selectSettings], settings => settings.width);
 export const selectHeight = createSelector([selectSettings], settings => settings.height);
 export const selectExporting = createSelector([selectSettings], settings => settings.exporting);
+export const selectMode = createSelector([selectSettings], settings => settings.mode);
 
 export const selectSerializedState = createSelector([selectSettings], settings => {
   return omit(settings, 'exporting');
@@ -17,6 +18,7 @@ export default toolActions =>
     name: SLICE_NAME,
     initialState: {
       exporting: false,
+      mode: '1',
       width: 900,
       height: 600,
     },
@@ -28,6 +30,9 @@ export default toolActions =>
       },
       updateExporting(state, action) {
         state.exporting = action.payload;
+      },
+      updateMode(state, action) {
+        state.mode = action.payload;
       },
     },
     extraReducers: {

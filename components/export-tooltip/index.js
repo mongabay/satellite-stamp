@@ -7,9 +7,11 @@ export default connect(
   state => ({
     width: exportSelectors.selectWidth(state),
     height: exportSelectors.selectHeight(state),
+    mode: exportSelectors.selectMode(state),
   }),
   {
     updateSettings: exportActions.updateSettings,
     updateExporting: exportActions.updateExporting,
+    updateMode: exportActions.updateMode,
   }
 )(Component);

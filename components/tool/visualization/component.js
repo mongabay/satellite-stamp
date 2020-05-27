@@ -1,17 +1,10 @@
-import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import classnames from 'classnames';
 
-import { toggleBasemap, toggleContextualLayers } from 'utils/map';
-import {
-  BASEMAPS,
-  CONTEXTUAL_LAYERS,
-  mapStyle,
-  Map,
-  LayerManager,
-  Legend,
-  getViewportFromBounds,
-} from 'components/map';
+import { getViewportFromBounds, Legend } from 'components/map';
+import Map from './map';
 import Attributions from '../attributions';
 
 import './style.scss';
@@ -21,20 +14,13 @@ const Visualization = ({
   width,
   height,
   legendDataLayers,
-  activeLayersDef,
-  basemap,
-  contextualLayers,
   viewport,
+  mode,
   updateLayer,
   removeLayer,
   updateLayerOrder,
   updateViewport,
 }) => {
-  const mapRef = useRef(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const map = useMemo(() => mapRef.current?.getMap(), [mapRef.current]);
-  const [mapLoaded, setMapLoaded] = useState(false);
-
   const onChangeViewport = useCallback(
     // @ts-ignore
     debounce(v => {
@@ -47,25 +33,6 @@ const Visualization = ({
     }, 500),
     [updateViewport]
   );
-
-  const onLoadMap = useCallback(
-    m => {
-      setMapLoaded(true);
-      toggleBasemap(m, BASEMAPS[basemap]);
-    },
-    [basemap]
-  );
-
-  // When the basemap or contextual layers change, we update the map style
-  useEffect(() => {
-    if (map && mapLoaded) {
-      toggleBasemap(map, BASEMAPS[basemap]);
-      toggleContextualLayers(
-        map,
-        contextualLayers.map(l => CONTEXTUAL_LAYERS[l])
-      );
-    }
-  }, [map, mapLoaded, basemap, contextualLayers]);
 
   return (
     <div className="c-tool-visualization">
@@ -85,27 +52,29 @@ const Visualization = ({
             }
             onChangeLayersOrder={updateLayerOrder}
           />
-          <Map
-            ref={mapRef}
-            preserveDrawingBuffer // Needed for the export
-            mapStyle={mapStyle}
-            viewport={viewport}
-            onViewportChange={onChangeViewport}
-            onLoad={onLoadMap}
-            onResize={({ width, height }) => {
-              if (mapLoaded && viewport.bounds) {
-                updateViewport(getViewportFromBounds(width, height, viewport, viewport.bounds));
-              }
-            }}
-            {...(exporting
-              ? {
-                  width,
-                  height: height - 26, // 26px is the height of the attributions
-                }
-              : {})}
+          <div
+            className={classnames(['map-container', `mode-${mode}`])}
+            style={
+              exporting
+                ? {
+                    width,
+                    height: height - 26, // 26px is the height of the attributions
+                  }
+                : undefined
+            }
           >
-            {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
-          </Map>
+            <Map
+              onChangeViewport={onChangeViewport}
+              onResize={({ width, height }) => {
+                if (viewport.bounds) {
+                  updateViewport(getViewportFromBounds(width, height, viewport, viewport.bounds));
+                }
+              }}
+            />
+            {(mode === '2-vertical' || mode === '2-horizontal') && (
+              <Map isStatic onViewportChange={() => null} />
+            )}
+          </div>
           <Attributions />
         </div>
       </div>
@@ -115,13 +84,11 @@ const Visualization = ({
 
 Visualization.propTypes = {
   viewport: PropTypes.object.isRequired,
-  basemap: PropTypes.string.isRequired,
-  contextualLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   exporting: PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
   updateViewport: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,

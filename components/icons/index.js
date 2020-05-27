@@ -30,6 +30,20 @@ const Icons = () => (
         <title>Opacity</title>
         <path d="M7 0v15.876A8.001 8.001 0 0 1 7 0zm5.001 1.009v13.858a7.95 7.95 0 0 1-2 .819V.19a7.95 7.95 0 0 1 2 .819zm2 1.639A7.97 7.97 0 0 1 16 7.938a7.97 7.97 0 0 1-1.999 5.29V2.648z" />
       </symbol>
+      <symbol id="icon-one-map" viewBox="0 0 45 35">
+        <title>One map</title>
+        <rect x=".5" y=".5" width="44" height="34" rx="4" />
+      </symbol>
+      <symbol id="icon-two-maps-horizontal" viewBox="0 0 45 35">
+        <title>Two horizontal maps</title>
+        <rect x=".5" y=".5" width="44" height="15" rx="4" />
+        <rect x=".5" y="19.5" width="44" height="15" rx="4" />
+      </symbol>
+      <symbol id="icon-two-maps-vertical" viewBox="0 0 45 35">
+        <title>Two vertical maps</title>
+        <rect x=".5" y=".5" width="20" height="34" rx="3" />
+        <rect x="24.5" y=".5" width="20" height="34" rx="3" />
+      </symbol>
     </defs>
   </svg>
 );

@@ -109,7 +109,7 @@ Map.defaultProps = {
   viewport: DEFAULT_VIEWPORT,
   mapboxStyle: undefined,
   children: undefined,
-  onLoad: undefined,
+  onLoad: () => null,
   onViewportChange: undefined,
 };
 

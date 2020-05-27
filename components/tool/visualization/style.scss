@@ -35,12 +35,39 @@
     overflow: hidden;
   }
 
-  .c-map {
+  .map-container {
+    display: flex;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: calc(100% - #{rem(26)}); // The attributions are 26px high
+    background-color: $white;
+
+    &.mode-2-vertical {
+      justify-content: space-between;
+
+      .c-map {
+        flex-basis: calc(50% - #{rem(5)});
+
+        & + .c-map {
+          margin-left: rem(10);
+        }
+      }
+    }
+
+    &.mode-2-horizontal {
+      flex-direction: column;
+      justify-content: space-between;
+
+      .c-map {
+        flex-basis: calc(50% - #{rem(5)});
+
+        & + .c-map {
+          margin-top: rem(10);
+        }
+      }
+    }
   }
 
   .c-map-legend {

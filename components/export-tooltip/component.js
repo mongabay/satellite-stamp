@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 
+import Icon from 'components/icon';
 import { downloadImage } from './helper';
 
 import './style.scss';
 
 export const IMAGE_RATIO = 2 / 3;
 
-const ExportTooltip = ({ width, height, updateSettings, updateExporting }) => {
+const ExportTooltip = ({ width, height, mode, updateSettings, updateExporting, updateMode }) => {
   const [form, setForm] = useState({
     width: {
       value: width,
@@ -101,6 +102,46 @@ const ExportTooltip = ({ width, height, updateSettings, updateExporting }) => {
             </div>
           </div>
         </fieldset>
+        <fieldset className="mt-3">
+          <legend>Grid</legend>
+          <div className="form-row">
+            <div className="form-group col grid-buttons">
+              <input
+                type="radio"
+                id="export-tooltip-grid-1"
+                name="export-tooltip-grid"
+                value="1"
+                checked={mode === '1'}
+                onChange={() => updateMode('1')}
+              />
+              <label htmlFor="export-tooltip-grid-1">
+                <Icon name="one-map" />
+              </label>
+              <input
+                type="radio"
+                id="export-tooltip-grid-2-horizontal"
+                name="export-tooltip-grid"
+                value="2-horizontal"
+                checked={mode === '2-horizontal'}
+                onChange={() => updateMode('2-horizontal')}
+              />
+              <label htmlFor="export-tooltip-grid-2-horizontal">
+                <Icon name="two-maps-horizontal" />
+              </label>
+              <input
+                type="radio"
+                id="export-tooltip-grid-2-vertical"
+                name="export-tooltip-grid"
+                value="2-vertical"
+                checked={mode === '2-vertical'}
+                onChange={() => updateMode('2-vertical')}
+              />
+              <label htmlFor="export-tooltip-grid-2-vertical">
+                <Icon name="two-maps-vertical" />
+              </label>
+            </div>
+          </div>
+        </fieldset>
         <button
           type="submit"
           className="btn btn-primary btn-block mt-3"
@@ -116,8 +157,10 @@ const ExportTooltip = ({ width, height, updateSettings, updateExporting }) => {
 ExportTooltip.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  mode: PropTypes.string.isRequired,
   updateSettings: PropTypes.func.isRequired,
   updateExporting: PropTypes.func.isRequired,
+  updateMode: PropTypes.func.isRequired,
 };
 
 export default ExportTooltip;
