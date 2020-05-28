@@ -333,7 +333,8 @@ select.c-select {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  background-color: rgba(3, 117, 94, 0.1); }
+  background-color: rgba(3, 117, 94, 0.1);
+  overflow: hidden; }
   .c-tool-visualization .exporting-message {
     position: absolute;
     top: 0;
