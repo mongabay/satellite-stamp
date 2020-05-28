@@ -16,6 +16,11 @@
     input {
       @include sr-only();
 
+      &:disabled + label .c-icon {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
       &:checked + label {
         .c-icon use {
           stroke: $primary;

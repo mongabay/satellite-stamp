@@ -44,6 +44,18 @@ const Icons = () => (
         <rect x=".5" y=".5" width="20" height="34" rx="3" />
         <rect x="24.5" y=".5" width="20" height="34" rx="3" />
       </symbol>
+      <symbol id="icon-four-maps" viewBox="0 0 45 35">
+        <title>Four maps</title>
+        <rect x=".5" y=".5" width="20" height="15" rx="4" />
+        <rect x=".5" y="19.5" width="20" height="15" rx="4" />
+        <rect x="24.5" y=".5" width="20" height="15" rx="4" />
+        <rect x="24.5" y="19.5" width="20" height="15" rx="4" />
+      </symbol>
+      <symbol id="icon-animated-map" viewBox="0 0 45 35">
+        <title>Animated map</title>
+        <rect x=".5" y=".5" width="44" height="34" rx="4" />
+        <path d="M17.5 9.852v15.064l13.475-7.532L17.5 9.852z" fill="white" />
+      </symbol>
     </defs>
   </svg>
 );

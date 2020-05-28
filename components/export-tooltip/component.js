@@ -168,6 +168,40 @@ const ExportTooltip = ({
               <label htmlFor="export-tooltip-grid-2-vertical">
                 <Icon name="two-maps-vertical" />
               </label>
+              <input
+                type="radio"
+                id="export-tooltip-grid-4"
+                name="export-tooltip-grid"
+                value="4"
+                checked={mode === '4'}
+                onChange={() =>
+                  updateMode({
+                    mode: '4',
+                    params: {},
+                  })
+                }
+                disabled
+              />
+              <label htmlFor="export-tooltip-grid-4">
+                <Icon name="four-maps" />
+              </label>
+              <input
+                type="radio"
+                id="export-tooltip-grid-animated"
+                name="export-tooltip-grid"
+                value="animated"
+                checked={mode === 'animated'}
+                onChange={() =>
+                  updateMode({
+                    mode: 'animated',
+                    params: {},
+                  })
+                }
+                disabled
+              />
+              <label htmlFor="export-tooltip-grid-animated">
+                <Icon name="animated-map" />
+              </label>
             </div>
           </div>
           {(mode === '2-vertical' || mode === '2-horizontal') && (
