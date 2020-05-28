@@ -15,6 +15,8 @@ export default connect(
     activeLayersDef: mapSelectors.selectActiveLayersDef(state),
     map1ActiveLayersDef: toolSelectors.selectMap1ActiveLayersDef(state),
     map2ActiveLayersDef: toolSelectors.selectMap2ActiveLayersDef(state),
+    map1Title: toolSelectors.selectMap1Title(state),
+    map2Title: toolSelectors.selectMap2Title(state),
     legendDataLayers: mapSelectors.selectLegendDataLayers(state),
     width: exportSelectors.selectWidth(state),
     height: exportSelectors.selectHeight(state),

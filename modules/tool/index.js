@@ -1,4 +1,5 @@
 import { createSelector, createAsyncThunk } from '@reduxjs/toolkit';
+import moment from 'moment';
 
 import { deserialize, serialize } from 'utils/functions';
 import { getLayerDef } from 'utils/map';
@@ -85,6 +86,40 @@ const selectors = {
       }
 
       return activeLayersDef;
+    }
+  ),
+  selectMap1Title: createSelector(
+    [mapModule.selectDataLayers, exportModule.selectMode, exportModule.selectModeParams],
+    (dataLayers, mode, modeParams) => {
+      if (
+        (mode === '2-vertical' || mode === '2-horizontal') &&
+        modeParams.difference === 'temporal' &&
+        modeParams.layer &&
+        modeParams.map1Date
+      ) {
+        const layer = dataLayers[modeParams.layer];
+        const format = layer.legend.timeline.dateFormat;
+        return moment(modeParams.map1Date).format(format);
+      }
+
+      return null;
+    }
+  ),
+  selectMap2Title: createSelector(
+    [mapModule.selectDataLayers, exportModule.selectMode, exportModule.selectModeParams],
+    (dataLayers, mode, modeParams) => {
+      if (
+        (mode === '2-vertical' || mode === '2-horizontal') &&
+        modeParams.difference === 'temporal' &&
+        modeParams.layer &&
+        modeParams.map2Date
+      ) {
+        const layer = dataLayers[modeParams.layer];
+        const format = layer.legend.timeline.dateFormat;
+        return moment(modeParams.map2Date).format(format);
+      }
+
+      return null;
     }
   ),
 };

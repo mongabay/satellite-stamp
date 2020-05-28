@@ -20,7 +20,7 @@
     align-items: center;
     font-weight: $font-weight-bold;
     text-transform: uppercase;
-    z-index: 3;
+    z-index: 4;
   }
 
   .container-width {
@@ -47,10 +47,10 @@
     &.mode-2-vertical {
       justify-content: space-between;
 
-      .c-map {
+      .map {
         flex-basis: calc(50% - #{rem(5)});
 
-        & + .c-map {
+        & + .map {
           margin-left: rem(10);
         }
       }
@@ -60,12 +60,27 @@
       flex-direction: column;
       justify-content: space-between;
 
-      .c-map {
+      .map {
         flex-basis: calc(50% - #{rem(5)});
 
-        & + .c-map {
+        & + .map {
           margin-top: rem(10);
         }
+      }
+    }
+
+    .map {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      .title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: map-get($spacers, 1) map-get($spacers, 2);
+        background: $white;
+        z-index: 3;
       }
     }
   }

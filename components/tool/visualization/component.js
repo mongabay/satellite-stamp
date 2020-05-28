@@ -16,6 +16,8 @@ const Visualization = ({
   activeLayersDef,
   map1ActiveLayersDef,
   map2ActiveLayersDef,
+  map1Title,
+  map2Title,
   legendDataLayers,
   viewport,
   mode,
@@ -84,48 +86,54 @@ const Visualization = ({
                 : undefined
             }
           >
-            <Map
-              layers={
-                mode === '2-vertical' || mode === '2-horizontal'
-                  ? map1ActiveLayersDef
-                  : activeLayersDef
-              }
-              viewport={viewport}
-              onChangeViewport={onChangeViewport}
-              onResize={({ width, height }) => {
-                if (viewport.bounds) {
-                  updateViewport(getViewportFromBounds(width, height, viewport, viewport.bounds));
-                }
-              }}
-            />
-            {(mode === '2-vertical' || mode === '2-horizontal') && (
+            <div className="map">
+              {map1Title && <div className="title">{map1Title}</div>}
               <Map
-                // Needed so we correctly determine if the map has loaded
-                key={modeParams.difference}
-                isStatic={modeParams.difference !== 'spatial'}
-                layers={map2ActiveLayersDef}
-                viewport={modeParams.difference === 'spatial' ? modeParams.viewport : viewport}
-                onChangeViewport={
-                  modeParams.difference === 'spatial' ? onChangeModeParamsViewport : () => null
+                layers={
+                  mode === '2-vertical' || mode === '2-horizontal'
+                    ? map1ActiveLayersDef
+                    : activeLayersDef
                 }
-                onResize={
-                  modeParams.difference === 'spatial'
-                    ? ({ width, height }) => {
-                        if (modeParams.viewport?.bounds) {
-                          updateModeParams({
-                            ...modeParams,
-                            viewport: getViewportFromBounds(
-                              width,
-                              height,
-                              modeParams.viewport,
-                              modeParams.viewport.bounds
-                            ),
-                          });
-                        }
-                      }
-                    : undefined
-                }
+                viewport={viewport}
+                onChangeViewport={onChangeViewport}
+                onResize={({ width, height }) => {
+                  if (viewport.bounds) {
+                    updateViewport(getViewportFromBounds(width, height, viewport, viewport.bounds));
+                  }
+                }}
               />
+            </div>
+            {(mode === '2-vertical' || mode === '2-horizontal') && (
+              <div className="map">
+                {map2Title && <div className="title">{map2Title}</div>}
+                <Map
+                  // Needed so we correctly determine if the map has loaded
+                  key={modeParams.difference}
+                  isStatic={modeParams.difference !== 'spatial'}
+                  layers={map2ActiveLayersDef}
+                  viewport={modeParams.difference === 'spatial' ? modeParams.viewport : viewport}
+                  onChangeViewport={
+                    modeParams.difference === 'spatial' ? onChangeModeParamsViewport : () => null
+                  }
+                  onResize={
+                    modeParams.difference === 'spatial'
+                      ? ({ width, height }) => {
+                          if (modeParams.viewport?.bounds) {
+                            updateModeParams({
+                              ...modeParams,
+                              viewport: getViewportFromBounds(
+                                width,
+                                height,
+                                modeParams.viewport,
+                                modeParams.viewport.bounds
+                              ),
+                            });
+                          }
+                        }
+                      : undefined
+                  }
+                />
+              </div>
             )}
           </div>
           <Attributions />
@@ -140,6 +148,8 @@ Visualization.propTypes = {
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   map1ActiveLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   map2ActiveLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
+  map1Title: PropTypes.string,
+  map2Title: PropTypes.string,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
@@ -152,6 +162,11 @@ Visualization.propTypes = {
   updateLayer: PropTypes.func.isRequired,
   updateLayerOrder: PropTypes.func.isRequired,
   updateModeParams: PropTypes.func.isRequired,
+};
+
+Visualization.defaultProps = {
+  map1Title: null,
+  map2Title: null,
 };
 
 export default Visualization;
