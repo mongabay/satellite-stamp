@@ -11,7 +11,7 @@ export const selectMode = createSelector([selectSettings], settings => settings.
 export const selectModeParams = createSelector([selectSettings], settings => settings.modeParams);
 
 export const selectSerializedState = createSelector([selectSettings], settings => {
-  return omit(settings, 'exporting');
+  return omit(settings, 'exporting', 'width', 'height');
 });
 
 export default toolActions =>
