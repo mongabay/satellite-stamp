@@ -1,5 +1,6 @@
 import { createSelector, createAsyncThunk } from '@reduxjs/toolkit';
 import moment from 'moment';
+import omit from 'lodash/omit';
 
 import { deserialize, serialize } from 'utils/functions';
 import { getLayerDef } from 'utils/map';
@@ -120,6 +121,34 @@ const selectors = {
       }
 
       return null;
+    }
+  ),
+  selectLegendDataLayers: createSelector(
+    [mapModule.selectLegendDataLayers, exportModule.selectMode, exportModule.selectModeParams],
+    (legendDataLayers, mode, modeParams) => {
+      if (
+        (mode === '2-vertical' || mode === '2-horizontal') &&
+        modeParams.difference === 'temporal' &&
+        modeParams.layer
+      ) {
+        const diffLayer = modeParams.layer;
+        return legendDataLayers.map(layerGroup => {
+          if (layerGroup.id !== diffLayer) {
+            return layerGroup;
+          }
+
+          return {
+            ...layerGroup,
+            layers: [
+              {
+                ...omit(layerGroup.layers[0], 'timelineParams'),
+              },
+            ],
+          };
+        });
+      }
+
+      return legendDataLayers;
     }
   ),
 };
