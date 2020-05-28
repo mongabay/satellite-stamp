@@ -4,13 +4,7 @@ import PropTypes from 'prop-types';
 import { toggleBasemap, toggleContextualLayers } from 'utils/map';
 import { BASEMAPS, CONTEXTUAL_LAYERS, mapStyle, Map, LayerManager } from 'components/map';
 
-const VisualizationMap = ({
-  activeLayersDef,
-  basemap,
-  contextualLayers,
-  onChangeViewport,
-  ...rest
-}) => {
+const VisualizationMap = ({ layers, basemap, contextualLayers, onChangeViewport, ...rest }) => {
   const mapRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const map = useMemo(() => mapRef.current?.getMap(), [mapRef.current]);
@@ -44,7 +38,7 @@ const VisualizationMap = ({
       onLoad={onLoadMap}
       {...rest}
     >
-      {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
+      {map => <LayerManager map={map} providers={{}} layers={layers} />}
     </Map>
   );
 };
@@ -52,7 +46,7 @@ const VisualizationMap = ({
 VisualizationMap.propTypes = {
   basemap: PropTypes.string.isRequired,
   contextualLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
+  layers: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChangeViewport: PropTypes.func.isRequired,
 };
 

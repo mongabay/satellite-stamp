@@ -28,6 +28,38 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
   };
 };
 
+/**
+ * Return a list of dates (string) between to dates
+ * @param {string[]} dates Date interval
+ * @param {moment.unitOfTime.Diff} interval Basic unit to compute the dates (day, month, year, etc.)
+ * @param {string} format Moment format
+ * @param {Object<number, string>} [marks] List of dates
+ */
+export const getDatesFromInterval = (dates, interval, format, marks) => {
+  const startDate = moment(dates[0]);
+  const endDate = moment(dates[1]);
+
+  if (marks) {
+    return new Array(Object.keys(marks).length).fill(null).map((_, index) => {
+      const date = moment(startDate).add(+Object.keys(marks)[index], interval);
+
+      return {
+        label: date.format(format),
+        value: date.format('YYYY-MM-DD'),
+      };
+    });
+  }
+
+  return new Array(endDate.diff(startDate, interval) + 1).fill(null).map((_, index) => {
+    const date = moment(startDate).add(index, interval);
+
+    return {
+      label: date.format(format),
+      value: date.format('YYYY-MM-DD'),
+    };
+  });
+};
+
 export const getLayerDef = (layerId, layer, layerSettings) => ({
   id: layerId,
   ...layer.config,

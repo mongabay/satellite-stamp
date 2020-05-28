@@ -13,6 +13,9 @@ const Visualization = ({
   exporting,
   width,
   height,
+  activeLayersDef,
+  map1ActiveLayersDef,
+  map2ActiveLayersDef,
   legendDataLayers,
   viewport,
   mode,
@@ -82,6 +85,11 @@ const Visualization = ({
             }
           >
             <Map
+              layers={
+                mode === '2-vertical' || mode === '2-horizontal'
+                  ? map1ActiveLayersDef
+                  : activeLayersDef
+              }
               viewport={viewport}
               onChangeViewport={onChangeViewport}
               onResize={({ width, height }) => {
@@ -92,7 +100,10 @@ const Visualization = ({
             />
             {(mode === '2-vertical' || mode === '2-horizontal') && (
               <Map
+                // Needed so we correctly determine if the map has loaded
+                key={modeParams.difference}
                 isStatic={modeParams.difference !== 'spatial'}
+                layers={map2ActiveLayersDef}
                 viewport={modeParams.difference === 'spatial' ? modeParams.viewport : viewport}
                 onChangeViewport={
                   modeParams.difference === 'spatial' ? onChangeModeParamsViewport : () => null
@@ -126,6 +137,9 @@ const Visualization = ({
 
 Visualization.propTypes = {
   viewport: PropTypes.object.isRequired,
+  activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
+  map1ActiveLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
+  map2ActiveLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,

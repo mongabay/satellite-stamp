@@ -1,6 +1,7 @@
 import { createSelector, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { deserialize, serialize } from 'utils/functions';
+import { getLayerDef } from 'utils/map';
 import { selectQuery } from '../routing';
 import createMapSlice, * as mapModule from './map';
 import createExportSlice, * as exportModule from './export';
@@ -27,6 +28,64 @@ const selectors = {
         [mapModule.SLICE_NAME]: mapState,
         [exportModule.SLICE_NAME]: exportState,
       })
+  ),
+  selectMap1ActiveLayersDef: createSelector(
+    [
+      mapModule.selectLayers,
+      mapModule.selectDataLayers,
+      mapModule.selectActiveLayersDef,
+      exportModule.selectMode,
+      exportModule.selectModeParams,
+    ],
+    (layers, dataLayers, activeLayersDef, mode, modeParams) => {
+      if (
+        (mode === '2-vertical' || mode === '2-horizontal') &&
+        modeParams.difference === 'temporal' &&
+        modeParams.map1Date
+      ) {
+        const diffLayer = modeParams.layer;
+        return activeLayersDef.map(layer =>
+          layer.id !== diffLayer
+            ? layer
+            : getLayerDef(layer.id, dataLayers[layer.id], {
+                ...layers[layer.id],
+                dateRange: [modeParams.map1Date, modeParams.map1Date],
+                currentDate: modeParams.map1Date,
+              })
+        );
+      }
+
+      return activeLayersDef;
+    }
+  ),
+  selectMap2ActiveLayersDef: createSelector(
+    [
+      mapModule.selectLayers,
+      mapModule.selectDataLayers,
+      mapModule.selectActiveLayersDef,
+      exportModule.selectMode,
+      exportModule.selectModeParams,
+    ],
+    (layers, dataLayers, activeLayersDef, mode, modeParams) => {
+      if (
+        (mode === '2-vertical' || mode === '2-horizontal') &&
+        modeParams.difference === 'temporal' &&
+        modeParams.map2Date
+      ) {
+        const diffLayer = modeParams.layer;
+        return activeLayersDef.map(layer =>
+          layer.id !== diffLayer
+            ? layer
+            : getLayerDef(layer.id, dataLayers[layer.id], {
+                ...layers[layer.id],
+                dateRange: [modeParams.map2Date, modeParams.map2Date],
+                currentDate: modeParams.map2Date,
+              })
+        );
+      }
+
+      return activeLayersDef;
+    }
   ),
 };
 

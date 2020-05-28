@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { getLayerDef } from 'utils/map';
+import { getLayerDef, getDatesFromInterval } from 'utils/map';
 import { BASEMAPS, ATTRIBUTIONS, DATA_LAYERS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -63,6 +63,18 @@ export const selectBasemapLayerDef = createSelector(
 );
 
 export const selectActiveDataLayers = createSelector([selectLayers], layers => Object.keys(layers));
+
+export const selectExportTemporalDiffLayers = createSelector([selectActiveDataLayers], layers =>
+  layers
+    .filter(layer => !!DATA_LAYERS[layer].legend?.timeline)
+    .reduce((res, layer) => {
+      const { minDate, maxDate, interval, dateFormat, marks } = DATA_LAYERS[layer].legend.timeline;
+      return {
+        ...res,
+        [layer]: getDatesFromInterval([minDate, maxDate], interval, dateFormat, marks),
+      };
+    }, {})
+);
 
 export const selectLegendDataLayers = createSelector(
   [selectDataLayers, selectActiveDataLayers, selectLayers],

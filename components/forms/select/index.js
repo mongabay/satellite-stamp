@@ -12,6 +12,7 @@ const Select = ({
   disabled,
   'aria-label': ariaLabel,
   className,
+  required,
 }) => {
   const onChangeSelect = useCallback(
     e => {
@@ -30,6 +31,7 @@ const Select = ({
       defaultValue={defaultValue}
       value={value}
       onChange={onChangeSelect}
+      required={required}
     >
       {options.map(option => (
         <option key={option.value} value={option.value} disabled={option.disabled}>
@@ -55,6 +57,7 @@ Select.propTypes = {
   disabled: PropTypes.bool,
   'aria-label': PropTypes.string,
   className: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 Select.defaultProps = {
@@ -64,6 +67,7 @@ Select.defaultProps = {
   disabled: false,
   'aria-label': null,
   className: undefined,
+  required: false,
 };
 
 export default Select;

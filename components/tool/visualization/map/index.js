@@ -6,5 +6,4 @@ import Component from './component';
 export default connect(state => ({
   basemap: mapSelectors.selectBasemap(state),
   contextualLayers: mapSelectors.selectContextualLayers(state),
-  activeLayersDef: mapSelectors.selectActiveLayersDef(state),
 }))(Component);

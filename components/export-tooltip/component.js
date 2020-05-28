@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 
 import Icon from 'components/icon';
 import { Select } from 'components/forms';
+import { DATA_LAYERS } from 'components/map';
 import { downloadImage } from './helper';
 
 import './style.scss';
@@ -16,6 +17,7 @@ const ExportTooltip = ({
   height,
   mode,
   modeParams,
+  temporalDiffLayers,
   updateSettings,
   updateExporting,
   updateMode,
@@ -69,6 +71,13 @@ const ExportTooltip = ({
     },
     [updateExporting]
   );
+
+  // If the user removes the layer that was used for temporal diffing, then we reset the options
+  useEffect(() => {
+    if (modeParams.layer && Object.keys(temporalDiffLayers).indexOf(modeParams.layer) === -1) {
+      updateModeParams({ ...modeParams, layer: '', map1Date: '', map2Date: '' });
+    }
+  }, [modeParams, temporalDiffLayers, updateModeParams]);
 
   return (
     <div className="c-export-tooltip">
@@ -170,17 +179,110 @@ const ExportTooltip = ({
                     <Select
                       id="export-difference"
                       value={modeParams.difference}
-                      options={[{ label: 'Spatial', value: 'spatial' }]}
+                      options={[
+                        { label: 'Spatial', value: 'spatial' },
+                        { label: 'Temporal', value: 'temporal' },
+                      ]}
                       onChange={({ value }) =>
                         updateModeParams({
                           ...modeParams,
                           difference: value,
+                          ...(value === 'temporal'
+                            ? { layer: '', map1Date: '', map2Date: '' }
+                            : {}),
                         })
                       }
                     />
                   </div>
                 </div>
               </div>
+              {modeParams.difference === 'temporal' && (
+                <>
+                  <div className="form-row">
+                    <div className="form-group col">
+                      <label htmlFor="export-layer-modify">Layer to modify</label>
+                      <div className="input-group">
+                        <Select
+                          id="export-layer-modify"
+                          value={modeParams.layer}
+                          options={[
+                            { label: 'Select a layer', value: '', disabled: true },
+                            ...Object.keys(temporalDiffLayers)
+                              .sort((a, b) =>
+                                DATA_LAYERS[a].label.localeCompare(DATA_LAYERS[b].label)
+                              )
+                              .map(layer => ({
+                                label: DATA_LAYERS[layer].label,
+                                value: layer,
+                              })),
+                          ]}
+                          onChange={({ value }) =>
+                            updateModeParams({
+                              ...modeParams,
+                              layer: value,
+                              map1Date: '',
+                              map2Date: '',
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group col-6">
+                      <label htmlFor="export-map-1">Map 1</label>
+                      <div className="input-group">
+                        <Select
+                          id="export-map-1"
+                          value={modeParams.map1Date}
+                          options={[
+                            { label: 'Select a date', value: '', disabled: true },
+                            ...(modeParams.layer && temporalDiffLayers[modeParams.layer]
+                              ? temporalDiffLayers[modeParams.layer].map(({ label, value }) => ({
+                                  label,
+                                  value,
+                                }))
+                              : []),
+                          ]}
+                          onChange={({ value }) =>
+                            updateModeParams({
+                              ...modeParams,
+                              map1Date: value,
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group col-6">
+                      <label htmlFor="export-map-2">Map 2</label>
+                      <div className="input-group">
+                        <Select
+                          id="export-map-2"
+                          value={modeParams.map2Date}
+                          options={[
+                            { label: 'Select a date', value: '', disabled: true },
+                            ...(modeParams.layer && temporalDiffLayers[modeParams.layer]
+                              ? temporalDiffLayers[modeParams.layer].map(({ label, value }) => ({
+                                  label,
+                                  value,
+                                }))
+                              : []),
+                          ]}
+                          onChange={({ value }) =>
+                            updateModeParams({
+                              ...modeParams,
+                              map2Date: value,
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </>
           )}
         </fieldset>
@@ -201,6 +303,7 @@ ExportTooltip.propTypes = {
   height: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   modeParams: PropTypes.object.isRequired,
+  temporalDiffLayers: PropTypes.object.isRequired,
   updateSettings: PropTypes.func.isRequired,
   updateExporting: PropTypes.func.isRequired,
   updateMode: PropTypes.func.isRequired,
