@@ -64,10 +64,11 @@ const ExportTooltip = ({
     e => {
       e.preventDefault();
       updateExporting(true);
-      requestAnimationFrame(async () => {
+      // The delay gives enough time to the map to fit the bounds and load any extra tiles
+      setTimeout(async () => {
         await downloadImage();
         updateExporting(false);
-      });
+      }, 2000);
     },
     [updateExporting]
   );

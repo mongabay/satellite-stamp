@@ -62,7 +62,10 @@ const Visualization = ({
       {exporting && <div className="exporting-message">Exporting...</div>}
       <div
         className="container-width js-visualization"
-        style={exporting ? { width: `${width}px` } : undefined}
+        // We need both width and min-width:
+        // - width so that maps smaller than the parent are correctly sized
+        // - min-width so that maps bigger than the parent overflow correctly
+        style={exporting ? { width: `${width}px`, minWidth: `${width}px` } : undefined}
       >
         <div className="container-ratio" style={exporting ? { height: `${height}px` } : undefined}>
           <Legend
