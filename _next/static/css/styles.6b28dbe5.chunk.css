@@ -246,6 +246,9 @@ select.c-select {
       clip: rect(0, 0, 0, 0);
       white-space: nowrap;
       border: 0; }
+      .c-export-tooltip .grid-buttons input:disabled + label .c-icon {
+        opacity: 0.4;
+        cursor: not-allowed; }
       .c-export-tooltip .grid-buttons input:checked + label .c-icon use {
         stroke: #03755e;
         fill: #03755e; }
