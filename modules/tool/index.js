@@ -1,4 +1,4 @@
-import { createSelector, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSelector, createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import moment from 'moment';
 import omit from 'lodash/omit';
 
@@ -15,6 +15,8 @@ const actions = {
     const query = selectQuery(state);
     return deserialize(query.state);
   }),
+  updateMode: createAction('tool/updateMode'),
+  updateMapDifference: createAction('tool/updateMapDifference'),
 };
 
 // Slices belonging to the tool module
@@ -31,7 +33,7 @@ const selectors = {
         [exportModule.SLICE_NAME]: exportState,
       })
   ),
-  selectMap1ActiveLayersDef: createSelector(
+  selectMapsActiveLayersDef: createSelector(
     [
       mapModule.selectLayers,
       mapModule.selectDataLayers,
@@ -40,94 +42,52 @@ const selectors = {
       exportModule.selectModeParams,
     ],
     (layers, dataLayers, activeLayersDef, mode, modeParams) => {
-      if (
-        (mode === '2-vertical' || mode === '2-horizontal') &&
-        modeParams.difference === 'temporal' &&
-        modeParams.map1Date
-      ) {
-        const diffLayer = modeParams.layer;
-        return activeLayersDef.map(layer =>
-          layer.id !== diffLayer
-            ? layer
-            : getLayerDef(layer.id, dataLayers[layer.id], {
-                ...layers[layer.id],
-                dateRange: [modeParams.map1Date, modeParams.map1Date],
-                currentDate: modeParams.map1Date,
-              })
-        );
-      }
+      return modeParams.dates.map(date => {
+        if (
+          (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
+          modeParams.difference === 'temporal' &&
+          date
+        ) {
+          const diffLayer = modeParams.layer;
+          return activeLayersDef.map(layer =>
+            layer.id !== diffLayer
+              ? layer
+              : getLayerDef(layer.id, dataLayers[layer.id], {
+                  ...layers[layer.id],
+                  dateRange: [date, date],
+                  currentDate: date,
+                })
+          );
+        }
 
-      return activeLayersDef;
+        return activeLayersDef;
+      });
     }
   ),
-  selectMap2ActiveLayersDef: createSelector(
-    [
-      mapModule.selectLayers,
-      mapModule.selectDataLayers,
-      mapModule.selectActiveLayersDef,
-      exportModule.selectMode,
-      exportModule.selectModeParams,
-    ],
-    (layers, dataLayers, activeLayersDef, mode, modeParams) => {
-      if (
-        (mode === '2-vertical' || mode === '2-horizontal') &&
-        modeParams.difference === 'temporal' &&
-        modeParams.map2Date
-      ) {
-        const diffLayer = modeParams.layer;
-        return activeLayersDef.map(layer =>
-          layer.id !== diffLayer
-            ? layer
-            : getLayerDef(layer.id, dataLayers[layer.id], {
-                ...layers[layer.id],
-                dateRange: [modeParams.map2Date, modeParams.map2Date],
-                currentDate: modeParams.map2Date,
-              })
-        );
-      }
-
-      return activeLayersDef;
-    }
-  ),
-  selectMap1Title: createSelector(
+  selectMapsTitle: createSelector(
     [mapModule.selectDataLayers, exportModule.selectMode, exportModule.selectModeParams],
     (dataLayers, mode, modeParams) => {
-      if (
-        (mode === '2-vertical' || mode === '2-horizontal') &&
-        modeParams.difference === 'temporal' &&
-        modeParams.layer &&
-        modeParams.map1Date
-      ) {
-        const layer = dataLayers[modeParams.layer];
-        const format = layer.legend.timeline.dateFormat;
-        return moment(modeParams.map1Date).format(format);
-      }
+      return modeParams.dates.map(date => {
+        if (
+          (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
+          modeParams.difference === 'temporal' &&
+          modeParams.layer &&
+          date
+        ) {
+          const layer = dataLayers[modeParams.layer];
+          const format = layer.legend.timeline.dateFormat;
+          return moment(date).format(format);
+        }
 
-      return null;
-    }
-  ),
-  selectMap2Title: createSelector(
-    [mapModule.selectDataLayers, exportModule.selectMode, exportModule.selectModeParams],
-    (dataLayers, mode, modeParams) => {
-      if (
-        (mode === '2-vertical' || mode === '2-horizontal') &&
-        modeParams.difference === 'temporal' &&
-        modeParams.layer &&
-        modeParams.map2Date
-      ) {
-        const layer = dataLayers[modeParams.layer];
-        const format = layer.legend.timeline.dateFormat;
-        return moment(modeParams.map2Date).format(format);
-      }
-
-      return null;
+        return null;
+      });
     }
   ),
   selectLegendDataLayers: createSelector(
     [mapModule.selectLegendDataLayers, exportModule.selectMode, exportModule.selectModeParams],
     (legendDataLayers, mode, modeParams) => {
       if (
-        (mode === '2-vertical' || mode === '2-horizontal') &&
+        (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
         modeParams.difference === 'temporal' &&
         modeParams.layer
       ) {

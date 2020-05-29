@@ -13,48 +13,41 @@ const Visualization = ({
   exporting,
   width,
   height,
-  activeLayersDef,
-  map1ActiveLayersDef,
-  map2ActiveLayersDef,
-  map1Title,
-  map2Title,
+  mapsActiveLayersDef,
+  mapsTitle,
   legendDataLayers,
-  viewport,
+  viewports,
   mode,
   modeParams,
   updateLayer,
   removeLayer,
   updateLayerOrder,
   updateViewport,
-  updateModeParams,
+  updateViewports,
 }) => {
+  /**
+   * @type {(mapIndex: any, mapViewport: any) => void}
+   */
   const onChangeViewport = useCallback(
-    // @ts-ignore
-    debounce(v => {
-      updateViewport({
-        zoom: v.zoom,
-        latitude: v.latitude,
-        longitude: v.longitude,
-        bounds: v.bounds,
-      });
+    debounce((index, difference, mapViewport) => {
+      const viewport = {
+        zoom: mapViewport.zoom,
+        latitude: mapViewport.latitude,
+        longitude: mapViewport.longitude,
+        bounds: mapViewport.bounds,
+      };
+
+      // If the user is using a temporal difference, all the maps should have the same position
+      if (difference === 'temporal' && index === 0) {
+        updateViewports(viewport);
+      } else {
+        updateViewport({
+          index,
+          viewport,
+        });
+      }
     }, 500),
     [updateViewport]
-  );
-
-  const onChangeModeParamsViewport = useCallback(
-    // @ts-ignore
-    debounce(v => {
-      updateModeParams({
-        ...modeParams,
-        viewport: {
-          zoom: v.zoom,
-          latitude: v.latitude,
-          longitude: v.longitude,
-          bounds: v.bounds,
-        },
-      });
-    }, 500),
-    [modeParams, updateModeParams]
   );
 
   return (
@@ -89,55 +82,34 @@ const Visualization = ({
                 : undefined
             }
           >
-            <div className="map">
-              {map1Title && <div className="title">{map1Title}</div>}
-              <Map
-                layers={
-                  mode === '2-vertical' || mode === '2-horizontal'
-                    ? map1ActiveLayersDef
-                    : activeLayersDef
-                }
-                viewport={viewport}
-                onChangeViewport={onChangeViewport}
-                onResize={({ width, height }) => {
-                  if (viewport.bounds) {
-                    updateViewport(getViewportFromBounds(width, height, viewport, viewport.bounds));
-                  }
-                }}
-              />
-            </div>
-            {(mode === '2-vertical' || mode === '2-horizontal') && (
-              <div className="map">
-                {map2Title && <div className="title">{map2Title}</div>}
+            {viewports.map((viewport, index) => (
+              <div key={index} className="map">
+                {mapsTitle[index] && <div className="title">{mapsTitle[index]}</div>}
                 <Map
-                  // Needed so we correctly determine if the map has loaded
-                  key={modeParams.difference}
-                  isStatic={modeParams.difference !== 'spatial'}
-                  layers={map2ActiveLayersDef}
-                  viewport={modeParams.difference === 'spatial' ? modeParams.viewport : viewport}
+                  layers={mapsActiveLayersDef[index]}
+                  viewport={viewports[index]}
                   onChangeViewport={
-                    modeParams.difference === 'spatial' ? onChangeModeParamsViewport : () => null
-                  }
-                  onResize={
-                    modeParams.difference === 'spatial'
-                      ? ({ width, height }) => {
-                          if (modeParams.viewport?.bounds) {
-                            updateModeParams({
-                              ...modeParams,
-                              viewport: getViewportFromBounds(
-                                width,
-                                height,
-                                modeParams.viewport,
-                                modeParams.viewport.bounds
-                              ),
-                            });
-                          }
-                        }
+                    // We remove the callback to indicate the map should be static
+                    index === 0 || modeParams.difference === 'spatial'
+                      ? v => onChangeViewport(index, modeParams.difference, v)
                       : undefined
                   }
+                  onResize={({ width, height }) => {
+                    if (viewports[index].bounds) {
+                      updateViewport({
+                        index,
+                        viewport: getViewportFromBounds(
+                          width,
+                          height,
+                          viewports[index],
+                          viewports[index].bounds
+                        ),
+                      });
+                    }
+                  }}
                 />
               </div>
-            )}
+            ))}
           </div>
           <Attributions />
         </div>
@@ -147,12 +119,9 @@ const Visualization = ({
 };
 
 Visualization.propTypes = {
-  viewport: PropTypes.object.isRequired,
-  activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
-  map1ActiveLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
-  map2ActiveLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
-  map1Title: PropTypes.string,
-  map2Title: PropTypes.string,
+  viewports: PropTypes.arrayOf(PropTypes.object).isRequired,
+  mapsActiveLayersDef: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+  mapsTitle: PropTypes.arrayOf(PropTypes.string).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
@@ -160,16 +129,11 @@ Visualization.propTypes = {
   mode: PropTypes.string.isRequired,
   modeParams: PropTypes.object.isRequired,
   updateViewport: PropTypes.func.isRequired,
+  updateViewports: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
   updateLayerOrder: PropTypes.func.isRequired,
-  updateModeParams: PropTypes.func.isRequired,
-};
-
-Visualization.defaultProps = {
-  map1Title: null,
-  map2Title: null,
 };
 
 export default Visualization;

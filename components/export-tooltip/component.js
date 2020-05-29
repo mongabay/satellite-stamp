@@ -21,6 +21,7 @@ const ExportTooltip = ({
   updateSettings,
   updateExporting,
   updateMode,
+  updateDifference,
   updateModeParams,
 }) => {
   const [form, setForm] = useState({
@@ -132,7 +133,7 @@ const ExportTooltip = ({
                 name="export-tooltip-grid"
                 value="1"
                 checked={mode === '1'}
-                onChange={() => updateMode({ mode: '1', params: {} })}
+                onChange={() => updateMode('1')}
               />
               <label htmlFor="export-tooltip-grid-1">
                 <Icon name="one-map" />
@@ -143,12 +144,7 @@ const ExportTooltip = ({
                 name="export-tooltip-grid"
                 value="2-horizontal"
                 checked={mode === '2-horizontal'}
-                onChange={() =>
-                  updateMode({
-                    mode: '2-horizontal',
-                    params: { difference: 'spatial', viewport: modeParams.viewport || undefined },
-                  })
-                }
+                onChange={() => updateMode('2-horizontal')}
               />
               <label htmlFor="export-tooltip-grid-2-horizontal">
                 <Icon name="two-maps-horizontal" />
@@ -159,12 +155,7 @@ const ExportTooltip = ({
                 name="export-tooltip-grid"
                 value="2-vertical"
                 checked={mode === '2-vertical'}
-                onChange={() =>
-                  updateMode({
-                    mode: '2-vertical',
-                    params: { difference: 'spatial', viewport: modeParams.viewport || undefined },
-                  })
-                }
+                onChange={() => updateMode('2-vertical')}
               />
               <label htmlFor="export-tooltip-grid-2-vertical">
                 <Icon name="two-maps-vertical" />
@@ -175,13 +166,7 @@ const ExportTooltip = ({
                 name="export-tooltip-grid"
                 value="4"
                 checked={mode === '4'}
-                onChange={() =>
-                  updateMode({
-                    mode: '4',
-                    params: {},
-                  })
-                }
-                disabled
+                onChange={() => updateMode('4')}
               />
               <label htmlFor="export-tooltip-grid-4">
                 <Icon name="four-maps" />
@@ -192,12 +177,7 @@ const ExportTooltip = ({
                 name="export-tooltip-grid"
                 value="animated"
                 checked={mode === 'animated'}
-                onChange={() =>
-                  updateMode({
-                    mode: 'animated',
-                    params: {},
-                  })
-                }
+                onChange={() => updateMode('animated')}
                 disabled
               />
               <label htmlFor="export-tooltip-grid-animated">
@@ -205,7 +185,7 @@ const ExportTooltip = ({
               </label>
             </div>
           </div>
-          {(mode === '2-vertical' || mode === '2-horizontal') && (
+          {(mode === '2-vertical' || mode === '2-horizontal' || mode === '4') && (
             <>
               <div className="form-row">
                 <div className="form-group col">
@@ -218,15 +198,7 @@ const ExportTooltip = ({
                         { label: 'Spatial', value: 'spatial' },
                         { label: 'Temporal', value: 'temporal' },
                       ]}
-                      onChange={({ value }) =>
-                        updateModeParams({
-                          ...modeParams,
-                          difference: value,
-                          ...(value === 'temporal'
-                            ? { layer: '', map1Date: '', map2Date: '' }
-                            : {}),
-                        })
-                      }
+                      onChange={({ value }) => updateDifference(value)}
                     />
                   </div>
                 </div>
@@ -255,8 +227,7 @@ const ExportTooltip = ({
                             updateModeParams({
                               ...modeParams,
                               layer: value,
-                              map1Date: '',
-                              map2Date: '',
+                              dates: modeParams.dates.map(() => ''),
                             })
                           }
                           required
@@ -264,58 +235,44 @@ const ExportTooltip = ({
                       </div>
                     </div>
                   </div>
-                  <div className="form-row">
-                    <div className="form-group col-6">
-                      <label htmlFor="export-map-1">Map 1</label>
-                      <div className="input-group">
-                        <Select
-                          id="export-map-1"
-                          value={modeParams.map1Date}
-                          options={[
-                            { label: 'Select a date', value: '', disabled: true },
-                            ...(modeParams.layer && temporalDiffLayers[modeParams.layer]
-                              ? temporalDiffLayers[modeParams.layer].map(({ label, value }) => ({
-                                  label,
-                                  value,
-                                }))
-                              : []),
-                          ]}
-                          onChange={({ value }) =>
-                            updateModeParams({
-                              ...modeParams,
-                              map1Date: value,
-                            })
-                          }
-                          required
-                        />
-                      </div>
+                  {new Array(modeParams.dates.length / 2).fill(null).map((_, groupIndex) => (
+                    <div key={groupIndex} className="form-row">
+                      {modeParams.dates.slice(0, 2).map((_2, index) => (
+                        <div key={index} className="form-group col-6">
+                          <label htmlFor={`export-map-${2 * groupIndex + index + 1}`}>
+                            Map {2 * groupIndex + index + 1}
+                          </label>
+                          <div className="input-group">
+                            <Select
+                              id={`export-map-${2 * groupIndex + index + 1}`}
+                              value={modeParams.dates[2 * groupIndex + index]}
+                              options={[
+                                { label: 'Select a date', value: '', disabled: true },
+                                ...(modeParams.layer && temporalDiffLayers[modeParams.layer]
+                                  ? temporalDiffLayers[modeParams.layer].map(
+                                      ({ label, value }) => ({
+                                        label,
+                                        value,
+                                      })
+                                    )
+                                  : []),
+                              ]}
+                              onChange={({ value }) => {
+                                const newDates = [...modeParams.dates];
+                                newDates.splice(2 * groupIndex + index, 1, value);
+
+                                updateModeParams({
+                                  ...modeParams,
+                                  dates: newDates,
+                                });
+                              }}
+                              required
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className="form-group col-6">
-                      <label htmlFor="export-map-2">Map 2</label>
-                      <div className="input-group">
-                        <Select
-                          id="export-map-2"
-                          value={modeParams.map2Date}
-                          options={[
-                            { label: 'Select a date', value: '', disabled: true },
-                            ...(modeParams.layer && temporalDiffLayers[modeParams.layer]
-                              ? temporalDiffLayers[modeParams.layer].map(({ label, value }) => ({
-                                  label,
-                                  value,
-                                }))
-                              : []),
-                          ]}
-                          onChange={({ value }) =>
-                            updateModeParams({
-                              ...modeParams,
-                              map2Date: value,
-                            })
-                          }
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </>
               )}
             </>
@@ -342,6 +299,7 @@ ExportTooltip.propTypes = {
   updateSettings: PropTypes.func.isRequired,
   updateExporting: PropTypes.func.isRequired,
   updateMode: PropTypes.func.isRequired,
+  updateDifference: PropTypes.func.isRequired,
   updateModeParams: PropTypes.func.isRequired,
 };
 

@@ -32,7 +32,9 @@ const VisualizationMap = ({ layers, basemap, contextualLayers, onChangeViewport,
   return (
     <Map
       ref={mapRef}
-      preserveDrawingBuffer // Needed for the export
+      // Needed for the export but have a hit on performance
+      // If we automatically set it, we would have to wait for the maps to re-render
+      preserveDrawingBuffer
       mapStyle={mapStyle}
       onViewportChange={onChangeViewport}
       onLoad={onLoadMap}
@@ -47,7 +49,11 @@ VisualizationMap.propTypes = {
   basemap: PropTypes.string.isRequired,
   contextualLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   layers: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onChangeViewport: PropTypes.func.isRequired,
+  onChangeViewport: PropTypes.func,
+};
+
+VisualizationMap.defaultProps = {
+  onChangeViewport: undefined,
 };
 
 export default VisualizationMap;

@@ -70,6 +70,25 @@
       }
     }
 
+    &.mode-4 {
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .map {
+        flex-basis: calc(50% - #{rem(5)});
+        height: calc(50% - #{rem(5)});
+
+        &:nth-of-type(3),
+        &:nth-of-type(4) {
+          margin-top: rem(10);
+        }
+
+        &:nth-of-type(2n + 1) + .map {
+          margin-left: rem(10);
+        }
+      }
+    }
+
     .map {
       position: relative;
       width: 100%;

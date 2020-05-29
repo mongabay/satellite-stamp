@@ -48,7 +48,6 @@ const ToolPresetsModal = ({ open, onClose, updateActiveLayers }) => {
             >
               <button type="button" onClick={() => onSelect(preset)}>
                 <Map
-                  isStatic
                   mapStyle={mapStyle}
                   viewport={{
                     zoom: 2,

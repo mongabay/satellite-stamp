@@ -20,7 +20,23 @@ export default toolActions =>
     initialState: {
       exporting: false,
       mode: '1',
-      modeParams: {},
+      modeParams: {
+        /**
+         * The difference between the multiple maps
+         * @type {string}
+         */
+        difference: '',
+        /**
+         * ID of the layer used for a temporal difference
+         * @type {string}
+         */
+        layer: '',
+        /**
+         * The configuration of each map from top left corner to bottom right
+         * @type {Array<string>}
+         */
+        dates: [''],
+      },
       width: 900,
       height: 600,
     },
@@ -32,12 +48,6 @@ export default toolActions =>
       },
       updateExporting(state, action) {
         state.exporting = action.payload;
-      },
-      updateMode(state, action) {
-        state.mode = action.payload.mode;
-        if (action.payload.params) {
-          state.modeParams = action.payload.params;
-        }
       },
       updateModeParams(state, action) {
         state.modeParams = action.payload;
@@ -51,6 +61,37 @@ export default toolActions =>
           ...state,
           ...stateToRestore,
         };
+      },
+      [toolActions.updateMode.toString()]: (state, action) => {
+        state.mode = action.payload;
+
+        switch (action.payload) {
+          case '1':
+            state.modeParams.difference = '';
+            state.modeParams.layer = '';
+            state.modeParams.dates = [''];
+            return;
+
+          case '2-vertical':
+          case '2-horizontal':
+            state.modeParams.difference = 'spatial';
+            state.modeParams.layer = '';
+            state.modeParams.dates = ['', ''];
+            return;
+
+          case '4':
+            state.modeParams.difference = 'spatial';
+            state.modeParams.layer = '';
+            state.modeParams.dates = ['', '', '', ''];
+            return;
+
+          default:
+        }
+      },
+      [toolActions.updateMapDifference.toString()]: (state, action) => {
+        state.modeParams.difference = action.payload;
+        state.modeParams.layer = '';
+        state.modeParams.dates = state.modeParams.dates.map(() => '');
       },
     },
   });

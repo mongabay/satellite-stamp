@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { exportSelectors, exportActions, mapSelectors } from 'modules/tool';
+import { toolActions, exportSelectors, exportActions, mapSelectors } from 'modules/tool';
 import Component from './component';
 
 export default connect(
@@ -14,7 +14,8 @@ export default connect(
   {
     updateSettings: exportActions.updateSettings,
     updateExporting: exportActions.updateExporting,
-    updateMode: exportActions.updateMode,
+    updateMode: toolActions.updateMode,
+    updateDifference: toolActions.updateMapDifference,
     updateModeParams: exportActions.updateModeParams,
   }
 )(Component);

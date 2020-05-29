@@ -6,13 +6,7 @@ import { BASEMAPS, ATTRIBUTIONS, DATA_LAYERS } from 'components/map';
 
 export const SLICE_NAME = 'map';
 
-export const selectViewport = state => state[SLICE_NAME].viewport;
-export const selectZoom = createSelector([selectViewport], viewport => viewport.zoom);
-export const selectCenter = createSelector([selectViewport], viewport => ({
-  latitude: viewport.lat,
-  longitude: viewport.lng,
-}));
-export const selectBounds = createSelector([selectViewport], viewport => viewport.bounds);
+export const selectViewports = state => state[SLICE_NAME].viewports;
 export const selectBasemap = state => state[SLICE_NAME].basemap;
 export const selectBasemapParams = state => state[SLICE_NAME].basemapParams;
 export const selectContextualLayers = state => state[SLICE_NAME].contextualLayers;
@@ -144,10 +138,10 @@ export const selectAttributions = createSelector(
 );
 
 export const selectSerializedState = createSelector(
-  [selectViewport, selectBasemap, selectBasemapParams, selectContextualLayers, selectLayers],
-  (viewport, basemap, basemapParams, contextualLayers, layers) => {
+  [selectViewports, selectBasemap, selectBasemapParams, selectContextualLayers, selectLayers],
+  (viewports, basemap, basemapParams, contextualLayers, layers) => {
     return {
-      viewport: omit(viewport, 'transitionDuration', 'bounds'),
+      viewports: viewports.map(viewport => omit(viewport, 'transitionDuration', 'bounds')),
       basemap,
       basemapParams: omit(basemapParams, 'key'),
       contextualLayers,
@@ -160,33 +154,33 @@ export default toolActions =>
   createSlice({
     name: SLICE_NAME,
     initialState: {
-      viewport: {
-        zoom: 2,
-        latitude: 0,
-        longitude: 0,
-        transitionDuration: 250,
-        bounds: null,
-      },
+      // Each viewport correspond to a map
+      viewports: [
+        {
+          zoom: 2,
+          latitude: 0,
+          longitude: 0,
+          transitionDuration: 250,
+          bounds: null,
+        },
+      ],
       basemap: 'mongabay-paper',
       basemapParams: null,
       contextualLayers: [],
       layers: {},
     },
     reducers: {
-      updateZoom(state, action) {
-        state.viewport.zoom = action.payload;
-      },
-      updateCenter(state, action) {
-        state.viewport.latitude = action.payload.latitude;
-        state.viewport.longitude = action.payload.longitude;
-      },
-      updateBounds(state, action) {
-        state.viewport.bounds = action.payload;
+      updateViewports(state, action) {
+        state.viewports = new Array(state.viewports.length).fill(action.payload);
       },
       updateViewport(state, action) {
-        const { transitionDuration } = state.viewport;
-        state.viewport = action.payload;
-        state.viewport.transitionDuration = transitionDuration;
+        const { index, viewport } = action.payload;
+        const { transitionDuration } = state.viewports[index];
+
+        state.viewports.splice(index, 1, {
+          ...viewport,
+          transitionDuration,
+        });
       },
       updateBasemap(state, action) {
         state.basemap = action.payload.basemap;
@@ -262,16 +256,48 @@ export default toolActions =>
         return {
           ...state,
           ...stateToRestore,
-          viewport: {
-            ...state.viewport,
-            ...(stateToRestore.viewport ?? {}),
-          },
           layers: {
             ...state.layers,
             ...(stateToRestore.layers ?? {}),
           },
           contextualLayers: [...state.contextualLayers, ...(stateToRestore.contextualLayers ?? [])],
         };
+      },
+      [toolActions.updateMode.toString()]: (state, action) => {
+        switch (action.payload) {
+          case '1':
+            state.viewports = [{ ...state.viewports[0] }];
+            return;
+
+          case '2-vertical':
+          case '2-horizontal':
+            // Since the default difference is spatial, we try to maintain the map positions
+            // See: modules/tool/export/index.js
+            state.viewports = new Array(2)
+              .fill(null)
+              .map((_, index) => ({ ...(state.viewports[index] ?? state.viewports[0]) }));
+            return;
+
+          case '4':
+            // Since the default difference is spatial, we try to maintain the map positions
+            // See: modules/tool/export/index.js
+            state.viewports = new Array(4)
+              .fill(null)
+              .map((_, index) => ({ ...(state.viewports[index] ?? state.viewports[0]) }));
+            return;
+
+          default:
+        }
+      },
+      [toolActions.updateMapDifference.toString()]: (state, action) => {
+        if (action.payload === 'temporal') {
+          state.viewports = state.viewports.map((viewport, index) => {
+            if (index === 0) {
+              return viewport;
+            }
+            return { ...state.viewports[0] };
+          });
+        }
       },
     },
   });

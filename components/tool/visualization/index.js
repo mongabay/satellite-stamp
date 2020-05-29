@@ -1,22 +1,13 @@
 import { connect } from 'react-redux';
 
-import {
-  mapSelectors,
-  mapActions,
-  exportSelectors,
-  exportActions,
-  toolSelectors,
-} from 'modules/tool';
+import { mapSelectors, mapActions, exportSelectors, toolSelectors } from 'modules/tool';
 import Component from './component';
 
 export default connect(
   state => ({
-    viewport: mapSelectors.selectViewport(state),
-    activeLayersDef: mapSelectors.selectActiveLayersDef(state),
-    map1ActiveLayersDef: toolSelectors.selectMap1ActiveLayersDef(state),
-    map2ActiveLayersDef: toolSelectors.selectMap2ActiveLayersDef(state),
-    map1Title: toolSelectors.selectMap1Title(state),
-    map2Title: toolSelectors.selectMap2Title(state),
+    viewports: mapSelectors.selectViewports(state),
+    mapsActiveLayersDef: toolSelectors.selectMapsActiveLayersDef(state),
+    mapsTitle: toolSelectors.selectMapsTitle(state),
     legendDataLayers: toolSelectors.selectLegendDataLayers(state),
     width: exportSelectors.selectWidth(state),
     height: exportSelectors.selectHeight(state),
@@ -26,10 +17,10 @@ export default connect(
   }),
   {
     updateViewport: mapActions.updateViewport,
+    updateViewports: mapActions.updateViewports,
     updateBasemap: mapActions.updateBasemap,
     removeLayer: mapActions.removeLayer,
     updateLayer: mapActions.updateLayer,
     updateLayerOrder: mapActions.updateLayerOrder,
-    updateModeParams: exportActions.updateModeParams,
   }
 )(Component);

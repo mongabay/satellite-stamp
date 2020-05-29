@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useMemo, useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import ReactMapGL, { StaticMap } from 'react-map-gl';
+import ReactMapGL from 'react-map-gl';
 import composeRefs from '@seznam/compose-react-refs';
 
 import './style.scss';
@@ -12,7 +12,7 @@ const DEFAULT_VIEWPORT = {
 };
 
 const Comp = (
-  { className, isStatic, viewport, mapStyle, onLoad, onViewportChange, children, ...rest },
+  { className, viewport, mapStyle, onLoad, onViewportChange, children, ...rest },
   ref
 ) => {
   const mapContainer = useRef(null);
@@ -21,7 +21,6 @@ const Comp = (
   const [previousViewport, setPreviousViewport] = useState(viewport);
   const [internalViewport, setInternalViewport] = useState(viewport);
 
-  const ReactMap = isStatic ? StaticMap : ReactMapGL;
   const inner = useMemo(() => {
     if (typeof children === 'function') {
       if (loaded) {
@@ -66,21 +65,28 @@ const Comp = (
 
   return (
     <div ref={mapContainer} className={['c-map', ...(className ? [className] : [])].join(' ')}>
-      <ReactMap
+      <ReactMapGL
         ref={composeRefs(map, ref)}
         mapboxApiAccessToken={process.env.MAPBOX_API_KEY}
         width="100%"
         height="100%"
         mapStyle={mapStyle}
         {...internalViewport}
-        {...(isStatic
-          ? {}
-          : { maxPitch: 0, dragRotate: false, onViewportChange: onChangeViewport })}
+        maxPitch={0}
+        dragRotate={false}
+        // If there isn't onViewportChange, then the map should be static
+        onViewportChange={onViewportChange ? onChangeViewport : undefined}
         onLoad={onLoadMap}
+        getCursor={({ isHovering, isDragging }) => {
+          if (!onViewportChange) return 'default';
+          if (isHovering) return 'pointer';
+          if (isDragging) return 'grabbing';
+          return 'grab';
+        }}
         {...rest}
       >
         {inner}
-      </ReactMap>
+      </ReactMapGL>
     </div>
   );
 };
@@ -91,7 +97,6 @@ Map.displayName = 'Map';
 
 Map.propTypes = {
   className: PropTypes.string,
-  isStatic: PropTypes.bool,
   viewport: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -105,7 +110,6 @@ Map.propTypes = {
 
 Map.defaultProps = {
   className: undefined,
-  isStatic: false,
   viewport: DEFAULT_VIEWPORT,
   mapboxStyle: undefined,
   children: undefined,
