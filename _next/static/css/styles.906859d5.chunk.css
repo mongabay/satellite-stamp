@@ -376,6 +376,16 @@ select.c-select {
         flex-basis: calc(50% - 0.3125rem); }
         .c-tool-visualization .map-container.mode-2-horizontal .map + .map {
           margin-top: 0.625rem; }
+    .c-tool-visualization .map-container.mode-4 {
+      flex-wrap: wrap;
+      justify-content: space-between; }
+      .c-tool-visualization .map-container.mode-4 .map {
+        flex-basis: calc(50% - 0.3125rem);
+        height: calc(50% - 0.3125rem); }
+        .c-tool-visualization .map-container.mode-4 .map:nth-of-type(3), .c-tool-visualization .map-container.mode-4 .map:nth-of-type(4) {
+          margin-top: 0.625rem; }
+        .c-tool-visualization .map-container.mode-4 .map:nth-of-type(2n + 1) + .map {
+          margin-left: 0.625rem; }
     .c-tool-visualization .map-container .map {
       position: relative;
       width: 100%;
