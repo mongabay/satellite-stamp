@@ -1215,9 +1215,65 @@ export const DATA_LAYERS = {
   // mangroves: {
   //   label: 'Mangroves',
   // },
-  // peatlands: {
-  //   label: 'Peatlands',
-  // },
+  peatlands: {
+    label: 'Peatlands',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 0,
+        maxzoom: 18,
+        provider: {
+          type: 'carto',
+          account: 'wri-rw',
+          layers: [
+            {
+              options: {
+                sql: 'SELECT * FROM for_029_peatlands',
+                cartocss:
+                  '#for_029_peatlands{polygon-fill: #CD853F; polygon-opacity: 1; line-width: 0.3; line-color: #CD853F; line-opacity: 1;}',
+                cartocss_version: '2.3.0',
+              },
+              type: 'mapnik',
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            paint: {
+              'fill-color': ' #CD853F',
+              'fill-opacity': 1,
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all'],
+          },
+          {
+            paint: {
+              'line-width': ['interpolate', ['linear'], ['zoom'], 0, 2, 6, 0.8, 12, 0.5],
+              'line-color': ' #FFF',
+              'line-opacity': 0.6,
+              'line-blur': 2,
+            },
+            'source-layer': 'layer0',
+            type: 'line',
+            filter: ['all'],
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Peatland',
+          color: '#CD853F',
+        },
+      ],
+    },
+  },
   // 'intact-forest-landscapes': {
   //   label: 'Intact Forest Landscapes',
   // },
@@ -1282,9 +1338,9 @@ export const PRESETS = {
       // {
       //   id: 'mangroves',
       // },
-      // {
-      //   id: 'peatlands',
-      // },
+      {
+        id: 'peatlands',
+      },
       // {
       //   id: 'intact-forest-landscapes',
       // },
@@ -1311,9 +1367,9 @@ export const PRESETS = {
       // {
       //   id: 'mangroves',
       // },
-      // {
-      //   id: 'peatlands',
-      // },
+      {
+        id: 'peatlands',
+      },
       // {
       //   id: 'intact-forest-landscapes',
       // },
