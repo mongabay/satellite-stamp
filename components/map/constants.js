@@ -906,9 +906,54 @@ export const DATA_LAYERS = {
       },
     },
   },
-  // roads: {
-  //   label: 'Roads',
-  // },
+  roads: {
+    label: 'Roads',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 0,
+        maxzoom: 18,
+        provider: {
+          type: 'carto',
+          account: 'wri-rw',
+          layers: [
+            {
+              type: 'mapnik',
+              options: {
+                sql: 'SELECT * FROM cit_016_road_network',
+                cartocss: '#layer {line-color: #d95f0e; line-width: 0.5; line-opacity: 1;}',
+                cartocss_version: '2.3.0',
+              },
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            paint: {
+              'line-color': ' #d95f0e',
+              'line-width': 0.5,
+              'line-opacity': 1,
+            },
+            'source-layer': 'layer0',
+            type: 'line',
+            filter: ['all'],
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#d95f0e',
+          name: 'Roads',
+        },
+      ],
+    },
+  },
   // 'logging-concessions': {
   //   label: 'Logging concessions',
   // },
@@ -1056,9 +1101,9 @@ export const PRESETS = {
       {
         id: 'urban-built-up-area',
       },
-      // {
-      //   id: 'roads',
-      // },
+      {
+        id: 'roads',
+      },
       // {
       //   id: 'mangroves',
       // },
@@ -1102,9 +1147,9 @@ export const PRESETS = {
       {
         id: 'population',
       },
-      // {
-      //   id: 'roads',
-      // },
+      {
+        id: 'roads',
+      },
     ],
   },
 };
