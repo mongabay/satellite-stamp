@@ -1052,9 +1052,54 @@ export const DATA_LAYERS = {
       ],
     },
   },
-  // 'oil-palm-concessions': {
-  //   label: 'Oil palm concessions',
-  // },
+  'oil-palm-concessions': {
+    label: 'Oil palm concessions',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 2,
+        maxzoom: 19,
+        provider: {
+          type: 'carto',
+          account: 'wri-01',
+          layers: [
+            {
+              options: {
+                cartocss:
+                  '#gfw_oil_palm{  polygon-fill: #ee9587;  polygon-opacity: 0.7;  line-color: #ee9587;  line-width: 1;  line-opacity: 1;}',
+                cartocss_version: '2.3.0',
+                sql:
+                  'SELECT cartodb_id, the_geom_webmercator, name,company, type, country, area_ha FROM gfw_oil_palm',
+              },
+              type: 'cartodb',
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            paint: {
+              'fill-color': '#ee9587',
+              'fill-opacity': 0.7,
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Oil palm',
+          color: '#ee9587',
+        },
+      ],
+    },
+  },
   // 'wood-fiber-concessions': {
   //   label: 'Wood fiber concessions by type',
   // },
@@ -1180,9 +1225,9 @@ export const PRESETS = {
       {
         id: 'mining-concessions',
       },
-      // {
-      //   id: 'oil-palm-concessions',
-      // },
+      {
+        id: 'oil-palm-concessions',
+      },
       // {
       //   id: 'wood-fiber-concessions',
       // },
