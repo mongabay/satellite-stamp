@@ -51,7 +51,7 @@ const Visualization = ({
   );
 
   return (
-    <div className="c-tool-visualization">
+    <div className={classnames(['c-tool-visualization', `mode-${mode}`])}>
       {exporting && <div className="exporting-message">Exporting...</div>}
       <div
         className="container-width js-visualization"
@@ -62,6 +62,7 @@ const Visualization = ({
       >
         <div className="container-ratio" style={exporting ? { height: `${height}px` } : undefined}>
           <Legend
+            exporting={exporting}
             layers={legendDataLayers}
             onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
             onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
@@ -72,7 +73,7 @@ const Visualization = ({
             onChangeLayersOrder={updateLayerOrder}
           />
           <div
-            className={classnames(['map-container', `mode-${mode}`])}
+            className="map-container"
             style={
               exporting
                 ? {

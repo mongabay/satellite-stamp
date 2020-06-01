@@ -2,7 +2,7 @@
 
 .c-tool-attributions {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
   position: absolute;
   bottom: 0;
@@ -10,6 +10,11 @@
   @include font-size($font-size-xs);
   font-style: italic;
   color: $text-color-3;
+
+  svg {
+    display: block;
+    margin-right: map-get($spacers, 2);
+  }
 
   > span {
     display: inline-block;

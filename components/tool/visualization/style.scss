@@ -9,6 +9,74 @@
   background-color: rgba($primary, 0.1);
   overflow: hidden;
 
+  &.mode-2-vertical {
+    .map-container {
+      justify-content: space-between;
+
+      .map {
+        flex-basis: calc(50% - #{rem(5)});
+
+        & + .map {
+          margin-left: rem(10);
+        }
+      }
+    }
+
+    .c-map-legend {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+  }
+
+  &.mode-2-horizontal {
+    .map-container {
+      flex-direction: column;
+      justify-content: space-between;
+
+      .map {
+        flex-basis: calc(50% - #{rem(5)});
+
+        & + .map {
+          margin-top: rem(10);
+        }
+      }
+    }
+
+    .c-map-legend {
+      top: 50%;
+      bottom: auto;
+      transform: translateY(calc(-50% - #{rem(26) / 2}));
+    }
+  }
+
+  &.mode-4 {
+    .map-container {
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .map {
+        flex-basis: calc(50% - #{rem(5)});
+        height: calc(50% - #{rem(5)});
+
+        &:nth-of-type(3),
+        &:nth-of-type(4) {
+          margin-top: rem(10);
+        }
+
+        &:nth-of-type(2n + 1) + .map {
+          margin-left: rem(10);
+        }
+      }
+    }
+
+    .c-map-legend {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+  }
+
   .exporting-message {
     position: absolute;
     top: 0;
@@ -44,50 +112,6 @@
     width: 100%;
     height: calc(100% - #{rem(26)}); // The attributions are 26px high
     background-color: $white;
-
-    &.mode-2-vertical {
-      justify-content: space-between;
-
-      .map {
-        flex-basis: calc(50% - #{rem(5)});
-
-        & + .map {
-          margin-left: rem(10);
-        }
-      }
-    }
-
-    &.mode-2-horizontal {
-      flex-direction: column;
-      justify-content: space-between;
-
-      .map {
-        flex-basis: calc(50% - #{rem(5)});
-
-        & + .map {
-          margin-top: rem(10);
-        }
-      }
-    }
-
-    &.mode-4 {
-      flex-wrap: wrap;
-      justify-content: space-between;
-
-      .map {
-        flex-basis: calc(50% - #{rem(5)});
-        height: calc(50% - #{rem(5)});
-
-        &:nth-of-type(3),
-        &:nth-of-type(4) {
-          margin-top: rem(10);
-        }
-
-        &:nth-of-type(2n + 1) + .map {
-          margin-left: rem(10);
-        }
-      }
-    }
 
     .map {
       position: relative;

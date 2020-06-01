@@ -6,6 +6,12 @@
   right: 0;
   z-index: 1; // Needed to be on top of the map, but below the backdrop of the tabs
 
+  &.-exporting {
+    .vizzuality__c-legend-map {
+      width: rem(300);
+    }
+  }
+
   .vizzuality__c-legend-map {
     width: rem(400);
     border: none;
@@ -29,6 +35,20 @@ li.vizzuality__c-legend-item {
 
   &:last-of-type {
     margin-bottom: 0;
+  }
+
+  .c-map-legend.-exporting & {
+    .vizzuality__legend-item-container {
+      padding: map-get($spacers, 2) map-get($spacers, 3);
+
+      .vizzuality__legend-item-header h3 {
+        @include font-size($font-size-s);
+      }
+
+      .vizzuality__c-legend-item-types {
+        margin-top: map-get($spacers, 2);
+      }
+    }
   }
 
   .vizzuality__legend-item-container {
