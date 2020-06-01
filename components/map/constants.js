@@ -1100,9 +1100,67 @@ export const DATA_LAYERS = {
       ],
     },
   },
-  // 'wood-fiber-concessions': {
-  //   label: 'Wood fiber concessions by type',
-  // },
+  'wood-fiber-concessions': {
+    label: 'Wood fiber concessions by type',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 2,
+        maxzoom: 19,
+        provider: {
+          type: 'carto',
+          account: 'wri-01',
+          layers: [
+            {
+              options: {
+                cartocss:
+                  '#gov[source_typ="government"] { polygon-fill: #8A2F1D; polygon-opacity: 0.7; }                       #priv[source_typ="private sector"]{ polygon-fill: #EB5B31; polygon-opacity: 0.7; }',
+                cartocss_version: '2.3.0',
+                sql: 'SELECT * FROM gfw_woodfiber',
+              },
+              type: 'cartodb',
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            filter: ['all', ['==', 'source_typ', 'government']],
+            paint: {
+              'fill-color': '#8A2F1D',
+              'fill-opacity': 0.7,
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+          },
+          {
+            filter: ['all', ['==', 'source_typ', 'private sector']],
+            paint: {
+              'fill-color': '#EB5B31',
+              'fill-opacity': 0.7,
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#8A2F1D',
+          name: 'Government',
+        },
+        {
+          color: '#EB5B31',
+          name: 'Private sector',
+        },
+      ],
+    },
+  },
   // 'palm-oil-mills': {
   //   label: 'Palm oil mills',
   // },
@@ -1228,9 +1286,9 @@ export const PRESETS = {
       {
         id: 'oil-palm-concessions',
       },
-      // {
-      //   id: 'wood-fiber-concessions',
-      // },
+      {
+        id: 'wood-fiber-concessions',
+      },
       // {
       //   id: 'palm-oil-mills',
       // },
