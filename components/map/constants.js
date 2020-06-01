@@ -1161,9 +1161,57 @@ export const DATA_LAYERS = {
       ],
     },
   },
-  // 'palm-oil-mills': {
-  //   label: 'Palm oil mills',
-  // },
+  'palm-oil-mills': {
+    label: 'Palm oil mills',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 2,
+        maxzoom: 19,
+        provider: {
+          type: 'carto',
+          account: 'wri-01',
+          layers: [
+            {
+              options: {
+                cartocss:
+                  '#universal_mill_list{ marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-fill: #EADC15; marker-allow-overlap: true; }',
+                cartocss_version: '2.3.0',
+                sql:
+                  'SELECT cartodb_id, the_geom_webmercator, mill_name AS name, parent_com AS company_type, iso AS country, rspo_statu AS cert_status FROM universal_mill_list',
+              },
+              type: 'cartodb',
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            paint: {
+              'circle-color': '#EADC15',
+              'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 2, 10, 10],
+              'circle-stroke-color': '#FFF',
+              'circle-stroke-opacity': 1,
+              'circle-stroke-width': 0.5,
+            },
+            'source-layer': 'layer0',
+            type: 'circle',
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#EADC15',
+          name: 'Palm oil mills',
+        },
+      ],
+    },
+  },
   // mangroves: {
   //   label: 'Mangroves',
   // },
@@ -1289,9 +1337,9 @@ export const PRESETS = {
       {
         id: 'wood-fiber-concessions',
       },
-      // {
-      //   id: 'palm-oil-mills',
-      // },
+      {
+        id: 'palm-oil-mills',
+      },
     ],
   },
   infrastructure: {
