@@ -954,9 +954,62 @@ export const DATA_LAYERS = {
       ],
     },
   },
-  // 'logging-concessions': {
-  //   label: 'Logging concessions',
-  // },
+  'logging-concessions': {
+    label: 'Logging concessions',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 2,
+        maxzoom: 19,
+        provider: {
+          type: 'carto',
+          account: 'wri-01',
+          layers: [
+            {
+              options: {
+                cartocss:
+                  '#gfw_logging{polygon-fill: #fecc5c;  polygon-opacity: 0.7;  line-color: #fecc5c;  line-width: 0.1;  line-opacity: 1;}',
+                cartocss_version: '2.3.0',
+                sql:
+                  'SELECT the_geom_webmercator, cartodb_id, name, country, round(area_ha::float) as area_ha, legal_term, company FROM gfw_logging',
+              },
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            type: 'fill',
+            'source-layer': 'layer0',
+            paint: {
+              'fill-opacity': 0.7,
+              'fill-color': '#fecc5c',
+            },
+          },
+          {
+            type: 'line',
+            'source-layer': 'layer0',
+            paint: {
+              'line-opacity': 1,
+              'line-color': '#fecc5c',
+              'line-width': 0.1,
+            },
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#fecc5c',
+          name: 'Managed forests',
+        },
+      ],
+    },
+  },
   'mining-concessions': {
     label: 'Mining concessions',
     attributions: ['rw'],
@@ -1121,9 +1174,9 @@ export const PRESETS = {
       {
         id: 'tree-plantations',
       },
-      // {
-      //   id: 'logging-concessions',
-      // },
+      {
+        id: 'logging-concessions',
+      },
       {
         id: 'mining-concessions',
       },
