@@ -526,9 +526,104 @@ export const DATA_LAYERS = {
       },
     },
   },
-  // 'tree-plantations': {
-  //   label: 'Tree plantations',
-  // },
+  'tree-plantations': {
+    label: 'Tree plantations',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        url: 'mapbox://resourcewatch.14e4gdsu',
+        minzoom: 2,
+        maxzoom: 12,
+      },
+      render: {
+        layers: [
+          {
+            type: 'fill',
+            'source-layer': 'outnew',
+            paint: {
+              'fill-color': {
+                default: '#a0c746',
+                property: 'species_simp',
+                stops: [
+                  ['Oil Palm ', '#fdada9'],
+                  ['Wood fiber / timber', '#98a7c4'],
+                  ['Rubber', '#9993a3'],
+                  ['Fruit', '#dada95'],
+                  ['Other', '#d1e6ab'],
+                  ['Wood fiber / timber Mix', '#9ebbf2'],
+                  ['Oil Palm Mix', '#fcc4c1'],
+                  ['Rubber Mix', '#a4fdff'],
+                  ['Fruit Mix', '#fefe97'],
+                  ['Other Mix', '#e1efc8'],
+                  ['Unknown', '#dcd9d9'],
+                  ['Recently cleared', '#d5a6ea'],
+                ],
+                type: 'categorical',
+              },
+            },
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#fdada9',
+          name: 'Oil Palm',
+        },
+        {
+          color: '#98a7c4',
+          name: 'Wood fiber / timber',
+        },
+        {
+          color: '#9993a3',
+          name: 'Rubber',
+        },
+        {
+          color: '#dada95',
+          name: 'Fruit',
+        },
+        {
+          color: '#d1e6ab',
+          name: 'Other',
+        },
+        {
+          color: '#9ebbf2',
+          name: 'Wood fiber / timber Mix',
+        },
+        {
+          color: '#fcc4c1',
+          name: 'Oil Palm Mix',
+        },
+        {
+          color: '#a4fdff',
+          name: 'Rubber Mix',
+        },
+        {
+          color: '#fefe97',
+          name: 'Fruit Mix',
+        },
+        {
+          color: '#e1efc8',
+          name: 'Other Mix',
+        },
+        {
+          color: '#dcd9d9',
+          name: 'Unknown',
+        },
+        {
+          color: '#d5a6ea',
+          name: 'Recently cleared',
+        },
+        {
+          color: '#a0c746',
+          name: 'Unknown Mix',
+        },
+      ],
+    },
+  },
   // 'protected-areas': {
   //   label: 'Protected areas',
   // },
@@ -647,9 +742,48 @@ export const DATA_LAYERS = {
   // 'logging-concessions': {
   //   label: 'Logging concessions',
   // },
-  // 'mining-concessions': {
-  //   label: 'Mining concessions',
-  // },
+  'mining-concessions': {
+    label: 'Mining concessions',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        url: 'mapbox://resourcewatch.3259d78x',
+        minzoom: 2,
+        maxzoom: 19,
+      },
+      render: {
+        layers: [
+          {
+            paint: {
+              'fill-color': '#fbb685',
+              'fill-opacity': 0.7,
+            },
+            'source-layer': 'mining_v27022019',
+            type: 'fill',
+          },
+          {
+            paint: {
+              'line-color': '#fbb685',
+              'line-opacity': 1,
+              'line-width': 1,
+            },
+            'source-layer': 'mining_v27022019',
+            type: 'line',
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Mining',
+          color: '#fbb685',
+        },
+      ],
+    },
+  },
   // 'oil-palm-concessions': {
   //   label: 'Oil palm concessions',
   // },
@@ -717,9 +851,9 @@ export const PRESETS = {
       {
         id: 'land-cover',
       },
-      // {
-      //   id: 'tree-plantations',
-      // },
+      {
+        id: 'tree-plantations',
+      },
       // {
       //   id: 'protected-areas',
       // },
@@ -743,9 +877,9 @@ export const PRESETS = {
       {
         id: 'land-cover',
       },
-      // {
-      //   id: 'tree-plantations',
-      // },
+      {
+        id: 'tree-plantations',
+      },
       // {
       //   id: 'protected-areas',
       // },
@@ -769,15 +903,15 @@ export const PRESETS = {
   industry: {
     label: 'Industry',
     layers: [
-      // {
-      //   id: 'tree-plantations',
-      // },
+      {
+        id: 'tree-plantations',
+      },
       // {
       //   id: 'logging-concessions',
       // },
-      // {
-      //   id: 'mining-concessions',
-      // },
+      {
+        id: 'mining-concessions',
+      },
       // {
       //   id: 'oil-palm-concessions',
       // },
