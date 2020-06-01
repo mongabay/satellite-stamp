@@ -1274,9 +1274,77 @@ export const DATA_LAYERS = {
       ],
     },
   },
-  // 'intact-forest-landscapes': {
-  //   label: 'Intact Forest Landscapes',
-  // },
+  'intact-forest-landscapes': {
+    label: 'Intact Forest Landscapes',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 0,
+        maxzoom: 18,
+        provider: {
+          type: 'carto',
+          account: 'wri-01',
+          layers: [
+            {
+              options: {
+                cartocss_version: '2.3.0',
+                cartocss:
+                  "#intact_forest_landscapes {polygon-opacity: 0.7;polygon-fill: #136400;line-width: 0;line-opacity: 1;}#intact_forest_landscapes[class_name='IFL change 2000-2013'] { polygon-fill:  rgb(152, 155, 5);}",
+                sql: 'SELECT * FROM intact_forest_landscapes',
+              },
+              type: 'mapnik',
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            paint: {
+              'line-width': 0,
+              'line-opacity': 1,
+            },
+            'source-layer': 'layer0',
+            type: 'line',
+            filter: ['all'],
+          },
+          {
+            paint: {
+              'fill-opacity': 0.7,
+              'fill-color': ' #136400',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all'],
+          },
+          {
+            paint: {
+              'fill-color': '  rgb(152, 155, 5)',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'class_name', 'IFL change 2000-2013']],
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Intact Forest Landscapes',
+          color: '#136400',
+          id: 0,
+        },
+        {
+          name: 'IFL change 2000-2013',
+          color: 'rgb(152, 155, 5)',
+          id: 1,
+        },
+      ],
+    },
+  },
 };
 
 export const PRESETS = {
@@ -1341,9 +1409,9 @@ export const PRESETS = {
       {
         id: 'peatlands',
       },
-      // {
-      //   id: 'intact-forest-landscapes',
-      // },
+      {
+        id: 'intact-forest-landscapes',
+      },
     ],
   },
   biodiversity: {
@@ -1370,9 +1438,9 @@ export const PRESETS = {
       {
         id: 'peatlands',
       },
-      // {
-      //   id: 'intact-forest-landscapes',
-      // },
+      {
+        id: 'intact-forest-landscapes',
+      },
     ],
   },
   industry: {
