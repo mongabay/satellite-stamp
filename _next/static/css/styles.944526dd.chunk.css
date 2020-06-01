@@ -5,7 +5,7 @@
   .c-map > div {
     width: 100% !important;
     height: 100% !important; }
-  .c-map .mapboxgl-ctrl-attrib {
+  .c-map .mapboxgl-control-container {
     display: none; }
 
 .c-icon {
@@ -21,6 +21,8 @@
   bottom: 0;
   right: 0;
   z-index: 1; }
+  .c-map-legend.-exporting .vizzuality__c-legend-map {
+    width: 18.75rem; }
   .c-map-legend .vizzuality__c-legend-map {
     width: 25rem;
     border: none;
@@ -38,6 +40,12 @@ li.vizzuality__c-legend-item {
   border-bottom: 0.0625rem solid rgba(34, 34, 34, 0.3); }
   li.vizzuality__c-legend-item:last-of-type {
     margin-bottom: 0; }
+  .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container {
+    padding: 0.5rem 1rem; }
+    .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__legend-item-header h3 {
+      font-size: 0.8125rem; }
+    .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-item-types {
+      margin-top: 0.5rem; }
   li.vizzuality__c-legend-item .vizzuality__legend-item-container {
     padding: 0.5rem 1rem 0.5rem 1.875rem; }
     li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-handler {
@@ -313,7 +321,7 @@ select.c-select {
 
 .c-tool-attributions {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
   position: absolute;
   bottom: 0;
@@ -321,6 +329,9 @@ select.c-select {
   font-size: 0.75rem;
   font-style: italic;
   color: #717171; }
+  .c-tool-attributions svg {
+    display: block;
+    margin-right: 0.5rem; }
   .c-tool-attributions > span {
     display: inline-block;
     padding: 0.25rem 0 0.25rem 0.25rem; }
@@ -335,6 +346,41 @@ select.c-select {
   flex-grow: 1;
   background-color: rgba(3, 117, 94, 0.1);
   overflow: hidden; }
+  .c-tool-visualization.mode-2-vertical .map-container {
+    justify-content: space-between; }
+    .c-tool-visualization.mode-2-vertical .map-container .map {
+      flex-basis: calc(50% - 0.3125rem); }
+      .c-tool-visualization.mode-2-vertical .map-container .map + .map {
+        margin-left: 0.625rem; }
+  .c-tool-visualization.mode-2-vertical .c-map-legend {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%); }
+  .c-tool-visualization.mode-2-horizontal .map-container {
+    flex-direction: column;
+    justify-content: space-between; }
+    .c-tool-visualization.mode-2-horizontal .map-container .map {
+      flex-basis: calc(50% - 0.3125rem); }
+      .c-tool-visualization.mode-2-horizontal .map-container .map + .map {
+        margin-top: 0.625rem; }
+  .c-tool-visualization.mode-2-horizontal .c-map-legend {
+    top: 50%;
+    bottom: auto;
+    transform: translateY(calc(-50% - 0.8125rem)); }
+  .c-tool-visualization.mode-4 .map-container {
+    flex-wrap: wrap;
+    justify-content: space-between; }
+    .c-tool-visualization.mode-4 .map-container .map {
+      flex-basis: calc(50% - 0.3125rem);
+      height: calc(50% - 0.3125rem); }
+      .c-tool-visualization.mode-4 .map-container .map:nth-of-type(3), .c-tool-visualization.mode-4 .map-container .map:nth-of-type(4) {
+        margin-top: 0.625rem; }
+      .c-tool-visualization.mode-4 .map-container .map:nth-of-type(2n + 1) + .map {
+        margin-left: 0.625rem; }
+  .c-tool-visualization.mode-4 .c-map-legend {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%); }
   .c-tool-visualization .exporting-message {
     position: absolute;
     top: 0;
@@ -363,29 +409,6 @@ select.c-select {
     width: 100%;
     height: calc(100% - 1.625rem);
     background-color: #fff; }
-    .c-tool-visualization .map-container.mode-2-vertical {
-      justify-content: space-between; }
-      .c-tool-visualization .map-container.mode-2-vertical .map {
-        flex-basis: calc(50% - 0.3125rem); }
-        .c-tool-visualization .map-container.mode-2-vertical .map + .map {
-          margin-left: 0.625rem; }
-    .c-tool-visualization .map-container.mode-2-horizontal {
-      flex-direction: column;
-      justify-content: space-between; }
-      .c-tool-visualization .map-container.mode-2-horizontal .map {
-        flex-basis: calc(50% - 0.3125rem); }
-        .c-tool-visualization .map-container.mode-2-horizontal .map + .map {
-          margin-top: 0.625rem; }
-    .c-tool-visualization .map-container.mode-4 {
-      flex-wrap: wrap;
-      justify-content: space-between; }
-      .c-tool-visualization .map-container.mode-4 .map {
-        flex-basis: calc(50% - 0.3125rem);
-        height: calc(50% - 0.3125rem); }
-        .c-tool-visualization .map-container.mode-4 .map:nth-of-type(3), .c-tool-visualization .map-container.mode-4 .map:nth-of-type(4) {
-          margin-top: 0.625rem; }
-        .c-tool-visualization .map-container.mode-4 .map:nth-of-type(2n + 1) + .map {
-          margin-left: 0.625rem; }
     .c-tool-visualization .map-container .map {
       position: relative;
       width: 100%;
