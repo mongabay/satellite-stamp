@@ -624,9 +624,179 @@ export const DATA_LAYERS = {
       ],
     },
   },
-  // 'protected-areas': {
-  //   label: 'Protected areas',
-  // },
+  'protected-areas': {
+    label: 'Protected areas',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        minzoom: 0,
+        maxzoom: 18,
+        provider: {
+          type: 'carto',
+          account: 'rw-nrt',
+          layers: [
+            {
+              options: {
+                cartocss_version: '2.3.0',
+                cartocss:
+                  "#layer {polygon-opacity: 0.7;} [iucn_cat='II']{polygon-fill: #0f3b82;} [iucn_cat='III']{polygon-fill: #c9ddff;} [iucn_cat='IV']{polygon-fill: #b9b2a1;} [iucn_cat='Ia']{polygon-fill: #5ca2d1;} [iucn_cat='Ib']{polygon-fill: #3e7bb6;} [iucn_cat='Not Applicable']{polygon-fill: #eed54c;} [iucn_cat='Not Assigned']{polygon-fill: #e7ab36;} [iucn_cat='Not Reported']{polygon-fill: #fa894b;} [iucn_cat='V']{polygon-fill: #ae847e;} [iucn_cat='VI']{polygon-fill: #daa89b;}",
+                sql: 'SELECT * FROM bio_007_world_database_on_protected_areas',
+              },
+              type: 'cartodb',
+            },
+          ],
+        },
+      },
+      render: {
+        layers: [
+          {
+            paint: {
+              'fill-opacity': 0.7,
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all'],
+          },
+          {
+            paint: {
+              'fill-color': ' #0f3b82',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'II']],
+          },
+          {
+            paint: {
+              'fill-color': ' #c9ddff',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'III']],
+          },
+          {
+            paint: {
+              'fill-color': ' #b9b2a1',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'IV']],
+          },
+          {
+            paint: {
+              'fill-color': ' #5ca2d1',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'Ia']],
+          },
+          {
+            paint: {
+              'fill-color': ' #3e7bb6',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'Ib']],
+          },
+          {
+            paint: {
+              'fill-color': ' #eed54c',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'Not Applicable']],
+          },
+          {
+            paint: {
+              'fill-color': ' #e7ab36',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'Not Assigned']],
+          },
+          {
+            paint: {
+              'fill-color': ' #fa894b',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'Not Reported']],
+          },
+          {
+            paint: {
+              'fill-color': ' #ae847e',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'V']],
+          },
+          {
+            paint: {
+              'fill-color': ' #daa89b',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all', ['==', 'iucn_cat', 'VI']],
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#5ca2d1',
+          name: 'Ia - Strict nature reserve',
+          id: 0,
+        },
+        {
+          color: '#3e7bb6',
+          name: 'Ib - Wildnerness area',
+          id: 1,
+        },
+        {
+          color: '#0f3b82',
+          name: 'II - National park',
+          id: 2,
+        },
+        {
+          color: '#c9ddff',
+          name: 'III - National monument or feature',
+          id: 3,
+        },
+        {
+          color: '#b9b2a1',
+          name: 'IV - Habitat and species management area',
+          id: 4,
+        },
+        {
+          color: '#ae847e',
+          name: 'V - Protected landscape or seascape',
+          id: 5,
+        },
+        {
+          color: '#daa89b',
+          name: 'VI - Protected area with sustainable use of natural resources',
+          id: 6,
+        },
+        {
+          color: '#eed54c',
+          name: 'Not applicable',
+          id: 7,
+        },
+        {
+          color: '#e7ab36',
+          name: 'Not assigned',
+          id: 8,
+        },
+        {
+          color: '#fa894b',
+          name: 'Not reported',
+          id: 9,
+        },
+      ],
+    },
+  },
   'urban-built-up-area': {
     label: 'Urban built-up Area',
     attributions: ['rw'],
@@ -854,9 +1024,9 @@ export const PRESETS = {
       {
         id: 'tree-plantations',
       },
-      // {
-      //   id: 'protected-areas',
-      // },
+      {
+        id: 'protected-areas',
+      },
       {
         id: 'urban-built-up-area',
       },
@@ -880,9 +1050,9 @@ export const PRESETS = {
       {
         id: 'tree-plantations',
       },
-      // {
-      //   id: 'protected-areas',
-      // },
+      {
+        id: 'protected-areas',
+      },
       {
         id: 'urban-built-up-area',
       },
