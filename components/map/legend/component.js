@@ -11,6 +11,8 @@ import {
 import classnames from 'classnames';
 
 import Icon from 'components/icon';
+import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
+import { getLayerWithFilteredLegendItems } from './helpers';
 import Title from './title';
 
 import './style.scss';
@@ -61,7 +63,26 @@ const Legend = ({
               </LegendItemToolbar>
             }
           >
-            <LegendItemTypes />
+            {layer.layers[0].legendConfig.type !== 'group' && <LegendItemTypes />}
+            {layer.layers[0].legendConfig.type === 'group' && (
+              <div className="c-legend-type-group">
+                <Accordion>
+                  {layer.layers[0].legendConfig.items.map(group => (
+                    <AccordionItem key={group.name} id={group.name}>
+                      <AccordionTitle aria-level={4}>
+                        <div className="group-color" style={{ backgroundColor: group.color }} />
+                        {group.name}
+                      </AccordionTitle>
+                      <AccordionPanel>
+                        <LegendItemTypes
+                          activeLayer={getLayerWithFilteredLegendItems(layer.layers[0], group.name)}
+                        />
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            )}
             {!exporting && (
               <LegendItemTimeStep handleChange={dates => onChangeDate(layer.id, dates)} />
             )}

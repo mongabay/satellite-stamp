@@ -48,6 +48,10 @@ li.vizzuality__c-legend-item {
       .vizzuality__c-legend-item-types {
         margin-top: map-get($spacers, 2);
       }
+
+      .c-legend-type-group .c-icon {
+        display: none;
+      }
     }
   }
 
@@ -108,6 +112,32 @@ li.vizzuality__c-legend-item {
         .vizzuality__name {
           font-family: $font-family-1;
           @include font-size($font-size-s);
+        }
+      }
+    }
+
+    // Custom legend type for groups of basic legend items
+    .c-legend-type-group {
+      .c-accordion {
+        .title {
+          @include font-size($font-size-s);
+
+          .c-icon {
+            margin-right: map-get($spacers, 2);
+            vertical-align: middle;
+          }
+
+          .group-color {
+            display: inline-block;
+            width: rem(12);
+            height: rem(12);
+            margin-right: map-get($spacers, 2);
+            vertical-align: middle;
+          }
+        }
+
+        .vizzuality__c-legend-item-types {
+          margin: 0;
         }
       }
     }
