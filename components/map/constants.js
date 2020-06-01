@@ -1212,9 +1212,81 @@ export const DATA_LAYERS = {
       ],
     },
   },
-  // mangroves: {
-  //   label: 'Mangroves',
-  // },
+  mangroves: {
+    label: 'Mangroves',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: (year = 2016) => ({
+        minzoom: 0,
+        maxzoom: 18,
+        provider: {
+          type: 'carto',
+          account: 'wri-rw',
+          layers: [
+            {
+              options: {
+                cartocss_version: '2.3.0',
+                cartocss:
+                  '#layer {polygon-opacity: 1;polygon-fill:#368c2b;line-color: #368c2b;line-width: 0.1;line-opacity: 1;}',
+                sql: `SELECT * FROM for_005a_mangrove_edit where year = ${year}`,
+              },
+              type: 'mapnik',
+            },
+          ],
+        },
+      }),
+      render: {
+        layers: [
+          {
+            paint: {
+              'line-color': ' #368c2b',
+              'line-width': 0,
+              'line-opacity': 1,
+            },
+            'source-layer': 'layer0',
+            type: 'line',
+            filter: ['all'],
+          },
+          {
+            paint: {
+              'fill-opacity': 0.9,
+              'fill-color': '#368c2b',
+            },
+            'source-layer': 'layer0',
+            type: 'fill',
+            filter: ['all'],
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Mangrove forests',
+          color: '#368c2b',
+        },
+      ],
+      timeline: {
+        step: null,
+        range: false,
+        interval: 'years',
+        dateFormat: 'YYYY',
+        minDate: '1996-01-01',
+        maxDate: '2016-01-01',
+        marks: {
+          0: '1996',
+          11: '',
+          12: '',
+          13: '',
+          14: '',
+          19: '',
+          20: '2016',
+        },
+      },
+    },
+  },
   peatlands: {
     label: 'Peatlands',
     attributions: ['rw'],
@@ -1403,9 +1475,9 @@ export const PRESETS = {
       {
         id: 'urban-built-up-area',
       },
-      // {
-      //   id: 'mangroves',
-      // },
+      {
+        id: 'mangroves',
+      },
       {
         id: 'peatlands',
       },
@@ -1432,9 +1504,9 @@ export const PRESETS = {
       {
         id: 'roads',
       },
-      // {
-      //   id: 'mangroves',
-      // },
+      {
+        id: 'mangroves',
+      },
       {
         id: 'peatlands',
       },
