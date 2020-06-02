@@ -2352,6 +2352,51 @@ export const DATA_LAYERS = {
       ],
     },
   },
+  'forest-canopy-height': {
+    label: 'Forest canopy height',
+    attributions: [],
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          `https://api.mapbox.com/v4/mongabay.0rgyb3bx/{z}/{x}/{y}.png?access_token=${process.env.MAPBOX_API_KEY}`,
+        ],
+        minzoom: 3,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'gradient',
+      items: [
+        {
+          color: '#ffffff',
+          value: '0',
+        },
+        {
+          color: '#559C01',
+          value: '50 m',
+        },
+      ],
+    },
+    decodeParams: {},
+    decodeFunction: `
+      // The domain is the extent of the input values, the range of the output ones
+      float domainMin = 0.;
+      float domainMax = 50. / 255.;
+      float rangeMin = 0.;
+      float rangeMax = 1.;
+      // The value of the pixel is stored in the 3 bands (R, G and B)
+      float value = (color.r - domainMin) / (domainMax - domainMin) * (rangeMax - rangeMin) + rangeMin;
+      // (255, 255, 255) and (85, 156, 1) are the RGB values of the scale
+      if (value == 0.) {
+        alpha = 0.;
+      } else {
+        color.r = ((1. - value) * 255. + value * 85.) / 255.;
+        color.g = ((1. - value) * 255. + value * 156.) / 255.;
+        color.b = ((1. - value) * 255. + value * 1.) / 255.;
+      }
+    `,
+  },
 };
 
 export const PRESETS = {
