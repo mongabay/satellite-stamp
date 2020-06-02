@@ -19,8 +19,18 @@
     background-color: transparent;
     z-index: inherit;
 
-    button.vizzuality__toggle-legend {
-      display: none;
+    button.vizzuality__toggle-legend svg {
+      margin-top: 0;
+    }
+
+    button.vizzuality__close-legend {
+      background-color: $white;
+
+      h1 {
+        font-family: $font-family-1;
+        @include font-size($font-size-base);
+        font-weight: $font-weight-bold !important;
+      }
     }
   }
 }

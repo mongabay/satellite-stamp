@@ -28,6 +28,9 @@ const Legend = ({
 }) => (
   <div className={classnames({ 'c-map-legend': true, '-exporting': exporting })}>
     <VizzLegend
+      // The key forces the legend to re-render when switching between editing and exporting
+      // This makes sure the legend is always expanded when exporting
+      key={exporting}
       sortable={!exporting}
       expanded
       maxHeight={420}
