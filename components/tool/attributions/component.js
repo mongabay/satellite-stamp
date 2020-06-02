@@ -5,7 +5,12 @@ import './style.scss';
 
 const Attributions = ({ attributions }) => (
   <div className="c-tool-attributions">
-    <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://www.mapbox.com/about/maps/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="d-inline-block mt-1"
+    >
       <svg width="70" height="18" viewBox="0 0 70 18">
         <title>Mapbox</title>
         <g fillRule="nonzero" fill="none" opacity=".601">
