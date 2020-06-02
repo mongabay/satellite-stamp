@@ -659,84 +659,26 @@ export const DATA_LAYERS = {
             filter: ['all'],
           },
           {
-            paint: {
-              'fill-color': ' #0f3b82',
-            },
-            'source-layer': 'layer0',
             type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'II']],
-          },
-          {
-            paint: {
-              'fill-color': ' #c9ddff',
-            },
             'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'III']],
-          },
-          {
             paint: {
-              'fill-color': ' #b9b2a1',
+              'fill-color': {
+                type: 'categorical',
+                property: 'iucn_cat',
+                stops: [
+                  ['II', '#0f3b82'],
+                  ['III', '#c9ddff'],
+                  ['IV', '#b9b2a1'],
+                  ['Ia', '#5ca2d1'],
+                  ['Ib', '#3e7bb6'],
+                  ['Not Applicable', '#eed54c'],
+                  ['Not Assigned', '#e7ab36'],
+                  ['Not Reported', '#fa894b'],
+                  ['V', '#ae847e'],
+                  ['VI', '#daa89b'],
+                ],
+              },
             },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'IV']],
-          },
-          {
-            paint: {
-              'fill-color': ' #5ca2d1',
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'Ia']],
-          },
-          {
-            paint: {
-              'fill-color': ' #3e7bb6',
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'Ib']],
-          },
-          {
-            paint: {
-              'fill-color': ' #eed54c',
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'Not Applicable']],
-          },
-          {
-            paint: {
-              'fill-color': ' #e7ab36',
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'Not Assigned']],
-          },
-          {
-            paint: {
-              'fill-color': ' #fa894b',
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'Not Reported']],
-          },
-          {
-            paint: {
-              'fill-color': ' #ae847e',
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'V']],
-          },
-          {
-            paint: {
-              'fill-color': ' #daa89b',
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all', ['==', 'iucn_cat', 'VI']],
           },
         ],
       },
@@ -1127,22 +1069,19 @@ export const DATA_LAYERS = {
       render: {
         layers: [
           {
-            filter: ['all', ['==', 'source_typ', 'government']],
+            type: 'fill',
+            'source-layer': 'layer0',
             paint: {
-              'fill-color': '#8A2F1D',
+              'fill-color': {
+                type: 'categorical',
+                property: 'source_typ',
+                stops: [
+                  ['government ', '#8A2F1D'],
+                  ['private sector', '#EB5B31'],
+                ],
+              },
               'fill-opacity': 0.7,
             },
-            'source-layer': 'layer0',
-            type: 'fill',
-          },
-          {
-            filter: ['all', ['==', 'source_typ', 'private sector']],
-            paint: {
-              'fill-color': '#EB5B31',
-              'fill-opacity': 0.7,
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
           },
         ],
       },
@@ -1444,675 +1383,111 @@ export const DATA_LAYERS = {
       render: {
         layers: [
           {
-            filter: ['all', ['==', 'crop', 'wheat']],
             type: 'fill',
             'source-layer': 'layer0',
             paint: {
-              'fill-color': '#4B0082',
+              'fill-color': {
+                type: 'categorical',
+                property: 'crop',
+                stops: [
+                  ['wheat', '#4B0082'],
+                  ['rice', '#800080'],
+                  ['maize', '#C71585'],
+                  ['barley', '#DB7093'],
+                  ['pearl millet', '#FF1493'],
+                  ['small millet', '#FF69B4'],
+                  ['sorghum', '#FFB6C1'],
+                  ['other cereals', '#FFC0CB'],
+                  ['bean', '#00008B'],
+                  ['chickpea', '#0000CD'],
+                  ['cowpea', '#0000FF'],
+                  ['pigeonpea', '#1E90FF'],
+                  ['lentil', '#00BFFF'],
+                  ['other pulses', '#87CEFA'],
+                  ['potato', '#800000'],
+                  ['sweet potato', '#8B0000'],
+                  ['yams', '#A52A2A'],
+                  ['cassava', '#B22222'],
+                  ['other roots', '#DC143C'],
+                  ['banana', '#FFD700'],
+                  ['plantain', '#FFA500'],
+                  ['tropical fruit', '#FF8C00'],
+                  ['temperate fruit', '#FF6347'],
+                  ['soybean', '#006400'],
+                  ['groundnut', '#228B22'],
+                  ['coconut', '#6B8E23'],
+                  ['oilpalm', '#556B2F'],
+                  ['sunflower', '#808000'],
+                  ['rapeseed', '#2E8B57'],
+                  ['sesameseed', '#3CB371'],
+                  ['other oil crops', '#8FBC8F'],
+                  ['sugarcane', '#FFDAB9'],
+                  ['sugarbeet', '#FFE4B5'],
+                  ['cotton', '#E6E6FA'],
+                  ['other fibre crops', '#FFF0F5'],
+                  ['arabica coffee', '#A0522D'],
+                  ['robusta coffee', '#8B4513'],
+                  ['cocoa', '#D2691E'],
+                  ['tea', '#CD853F'],
+                  ['tobacco', '#DAA520'],
+                  ['vegetables', '#008000'],
+                  ['rest of crops', '#2F4F4F'],
+                ],
+              },
             },
           },
           {
-            filter: ['all', ['==', 'crop', 'rice']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#800080',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'maize']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#C71585',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'barley']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#DB7093',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'pearl millet']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FF1493',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'small millet']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FF69B4',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sorghum']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FFB6C1',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other cereals']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FFC0CB',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'bean']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#00008B',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'chickpea']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#0000CD',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cowpea']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#0000FF',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'pigeonpea']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#1E90FF',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'lentil']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#00BFFF',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other pulses']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#87CEFA',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'potato']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#800000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sweet potato']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#8B0000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'yams']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#A52A2A',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cassava']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#B22222',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other roots']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#DC143C',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'banana']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FFD700',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'plantain']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FFA500',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'tropical fruit']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FF8C00',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'temperate fruit']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FF6347',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'soybean']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#006400',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'groundnut']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#228B22',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'coconut']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#6B8E23',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'oilpalm']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#556B2F',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sunflower']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#808000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'rapeseed']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#2E8B57',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sesameseed']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#3CB371',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other oil crops']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#8FBC8F',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sugarcane']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FFDAB9',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sugarbeet']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FFE4B5',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cotton']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#E6E6FA',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other fibre crops']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#FFF0F5',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'arabica coffee']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#A0522D',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'robusta coffee']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#8B4513',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cocoa']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#D2691E',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'tea']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#CD853F',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'tobacco']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#DAA520',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'vegetables']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#008000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'rest of crops']],
-            type: 'fill',
-            'source-layer': 'layer0',
-            paint: {
-              'fill-color': '#2F4F4F',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'wheat']],
             type: 'line',
             'source-layer': 'layer0',
             paint: {
-              'line-color': '#4B0082',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'rice']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#800080',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'maize']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#C71585',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'barley']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#DB7093',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'pearl millet']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FF1493',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'small millet']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FF69B4',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sorghum']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FFB6C1',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other cereals']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FFC0CB',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'bean']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#00008B',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'chickpea']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#0000CD',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cowpea']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#0000FF',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'pigeonpea']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#1E90FF',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'lentil']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#00BFFF',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other pulses']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#87CEFA',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'potato']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#800000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sweet potato']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#8B0000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'yams']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#A52A2A',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cassava']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#B22222',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other roots']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#DC143C',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'banana']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FFD700',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'plantain']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FFA500',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'tropical fruit']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FF8C00',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'temperate fruit']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FF6347',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'soybean']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#006400',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'groundnut']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#228B22',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'coconut']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#6B8E23',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'oilpalm']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#556B2F',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sunflower']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#808000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'rapeseed']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#2E8B57',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sesameseed']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#3CB371',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other oil crops']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#8FBC8F',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sugarcane']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FFDAB9',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'sugarbeet']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FFE4B5',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cotton']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#E6E6FA',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'other fibre crops']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#FFF0F5',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'arabica coffee']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#A0522D',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'robusta coffee']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#8B4513',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'cocoa']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#D2691E',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'tea']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#CD853F',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'tobacco']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#DAA520',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'vegetables']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#008000',
-            },
-          },
-          {
-            filter: ['all', ['==', 'crop', 'rest of crops']],
-            type: 'line',
-            'source-layer': 'layer0',
-            paint: {
-              'line-color': '#2F4F4F',
+              'line-color': {
+                type: 'categorical',
+                property: 'crop',
+                stops: [
+                  ['wheat', '#4B0082'],
+                  ['rice', '#800080'],
+                  ['maize', '#C71585'],
+                  ['barley', '#DB7093'],
+                  ['pearl millet', '#FF1493'],
+                  ['small millet', '#FF69B4'],
+                  ['sorghum', '#FFB6C1'],
+                  ['other cereals', '#FFC0CB'],
+                  ['bean', '#00008B'],
+                  ['chickpea', '#0000CD'],
+                  ['cowpea', '#0000FF'],
+                  ['pigeonpea', '#1E90FF'],
+                  ['lentil', '#00BFFF'],
+                  ['other pulses', '#87CEFA'],
+                  ['potato', '#800000'],
+                  ['sweet potato', '#8B0000'],
+                  ['yams', '#A52A2A'],
+                  ['cassava', '#B22222'],
+                  ['other roots', '#DC143C'],
+                  ['banana', '#FFD700'],
+                  ['plantain', '#FFA500'],
+                  ['tropical fruit', '#FF8C00'],
+                  ['temperate fruit', '#FF6347'],
+                  ['soybean', '#006400'],
+                  ['groundnut', '#228B22'],
+                  ['coconut', '#6B8E23'],
+                  ['oilpalm', '#556B2F'],
+                  ['sunflower', '#808000'],
+                  ['rapeseed', '#2E8B57'],
+                  ['sesameseed', '#3CB371'],
+                  ['other oil crops', '#8FBC8F'],
+                  ['sugarcane', '#FFDAB9'],
+                  ['sugarbeet', '#FFE4B5'],
+                  ['cotton', '#E6E6FA'],
+                  ['other fibre crops', '#FFF0F5'],
+                  ['arabica coffee', '#A0522D'],
+                  ['robusta coffee', '#8B4513'],
+                  ['cocoa', '#D2691E'],
+                  ['tea', '#CD853F'],
+                  ['tobacco', '#DAA520'],
+                  ['vegetables', '#008000'],
+                  ['rest of crops', '#2F4F4F'],
+                ],
+              },
             },
           },
         ],
