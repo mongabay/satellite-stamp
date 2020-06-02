@@ -166,8 +166,19 @@ export default toolActions =>
       ],
       basemap: 'mongabay-paper',
       basemapParams: null,
-      contextualLayers: [],
-      layers: {},
+      contextualLayers: ['hillshade'],
+      layers: {
+        'tree-cover': {
+          visible: true,
+          opacity: 1,
+          order: 0,
+        },
+        'primary-forests': {
+          visible: true,
+          opacity: 1,
+          order: 1,
+        },
+      },
     },
     reducers: {
       updateViewports(state, action) {
