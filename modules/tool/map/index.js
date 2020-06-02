@@ -268,10 +268,9 @@ export default toolActions =>
           ...state,
           ...stateToRestore,
           layers: {
-            ...state.layers,
-            ...(stateToRestore.layers ?? {}),
+            ...(stateToRestore.layers ?? state.layers),
           },
-          contextualLayers: [...state.contextualLayers, ...(stateToRestore.contextualLayers ?? [])],
+          contextualLayers: [...(stateToRestore.contextualLayers ?? state.contextualLayers)],
         };
       },
       [toolActions.updateMode.toString()]: (state, action) => {
