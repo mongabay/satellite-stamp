@@ -47,7 +47,7 @@ const ExportTooltip = ({
         setForm(f => ({ ...f, [name]: { value, isValid: false } }));
       } else {
         const otherName = name === 'width' ? 'height' : 'width';
-        const otherValue = name === 'width' ? value * IMAGE_RATIO : value / IMAGE_RATIO;
+        const otherValue = Math.round(name === 'width' ? value * IMAGE_RATIO : value / IMAGE_RATIO);
 
         // @ts-ignore
         setForm({
