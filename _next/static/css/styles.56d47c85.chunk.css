@@ -44,8 +44,14 @@
     border-radius: 0;
     background-color: transparent;
     z-index: inherit; }
-    .c-map-legend .vizzuality__c-legend-map button.vizzuality__toggle-legend {
-      display: none; }
+    .c-map-legend .vizzuality__c-legend-map button.vizzuality__toggle-legend svg {
+      margin-top: 0; }
+    .c-map-legend .vizzuality__c-legend-map button.vizzuality__close-legend {
+      background-color: #fff; }
+      .c-map-legend .vizzuality__c-legend-map button.vizzuality__close-legend h1 {
+        font-family: "Open Sans", serif;
+        font-size: 1rem;
+        font-weight: 700 !important; }
 
 li.vizzuality__c-legend-item {
   font-family: "Open Sans", serif;
