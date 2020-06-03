@@ -112,7 +112,7 @@ const Visualization = ({
               </div>
             ))}
           </div>
-          <Attributions />
+          <Attributions exporting={exporting} />
         </div>
       </div>
     </div>
