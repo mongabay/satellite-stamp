@@ -1,3 +1,12 @@
+.l-static-page {
+  position: relative; }
+  .l-static-page > .logo {
+    position: absolute;
+    right: 0;
+    top: -0.875rem;
+    transform: translateY(-100%);
+    display: block;
+    height: 1.25rem; }
 
 .c-map {
   width: 100%;
@@ -343,20 +352,23 @@ select.c-select {
 .c-tool-attributions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   position: absolute;
   bottom: 0;
   right: 0;
   font-size: 0.75rem;
   font-style: italic;
   color: #717171; }
+  .c-tool-attributions img {
+    display: block;
+    height: 1.25rem; }
   .c-tool-attributions svg {
     display: block;
     margin-right: 0.5rem; }
-  .c-tool-attributions > span {
+  .c-tool-attributions span {
     display: inline-block;
     padding: 0.25rem 0 0.25rem 0.25rem; }
-    .c-tool-attributions > span a {
+    .c-tool-attributions span a {
       color: currentColor; }
 
 .c-tool-visualization {
@@ -365,7 +377,6 @@ select.c-select {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  background-color: rgba(3, 117, 94, 0.1);
   overflow: hidden; }
   .c-tool-visualization.mode-2-vertical .map-container {
     justify-content: space-between; }
@@ -402,6 +413,8 @@ select.c-select {
     left: 50%;
     right: auto;
     transform: translateX(-50%); }
+  .c-tool-visualization.exporting .container-ratio {
+    border: none; }
   .c-tool-visualization .exporting-message {
     position: absolute;
     top: 0;
@@ -421,6 +434,7 @@ select.c-select {
     position: relative;
     width: 100%;
     padding-top: 66.66%;
+    border: 0.0625rem solid rgba(0, 0, 0, 0.1);
     overflow: hidden; }
   .c-tool-visualization .map-container {
     display: flex;
