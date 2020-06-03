@@ -5,7 +5,9 @@ import './style.scss';
 
 const Attributions = ({ attributions, exporting }) => (
   <div className="c-tool-attributions">
-    {exporting && <img src="/images/mongabay-horizontal.png" alt="Mongabay" />}
+    {exporting && (
+      <img src={`${process.env.BASE_PATH ?? ''}/images/mongabay-horizontal.png`} alt="Mongabay" />
+    )}
     {!exporting && <div />}
     <div className="d-flex align-items-center">
       <a
