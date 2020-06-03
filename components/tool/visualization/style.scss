@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  background-color: rgba($primary, 0.1);
   overflow: hidden;
 
   &.mode-2-vertical {
@@ -77,6 +76,12 @@
     }
   }
 
+  &.exporting {
+    .container-ratio {
+      border: none;
+    }
+  }
+
   .exporting-message {
     position: absolute;
     top: 0;
@@ -101,6 +106,7 @@
     position: relative;
     width: 100%;
     padding-top: 66.66%;
+    border: rem(1) solid rgba($black, 0.1);
     overflow: hidden;
   }
 

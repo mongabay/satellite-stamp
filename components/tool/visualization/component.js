@@ -51,7 +51,13 @@ const Visualization = ({
   );
 
   return (
-    <div className={classnames(['c-tool-visualization', `mode-${mode}`])}>
+    <div
+      className={classnames([
+        'c-tool-visualization',
+        `mode-${mode}`,
+        `${exporting ? 'exporting' : ''}`,
+      ])}
+    >
       {exporting && <div className="exporting-message">Exporting...</div>}
       <div
         className="container-width js-visualization"
