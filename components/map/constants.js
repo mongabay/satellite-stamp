@@ -1772,6 +1772,171 @@ export const DATA_LAYERS = {
       }
     `,
   },
+  'indigenous-community-lands': {
+    label: 'Indigenous and Community Lands',
+    attributions: ['rw'],
+    config: {
+      type: 'vector',
+      source: {
+        tiles: [
+          'https://tiles.globalforestwatch.org/landmark_land_rights/v20191111/default/{z}/{x}/{y}.pbf',
+        ],
+        minzoom: 0,
+        maxzoom: 9,
+      },
+      render: {
+        layers: [
+          {
+            filter: ['==', 'type', 'Indicative Areas'],
+            paint: {
+              'fill-color': '#9c9c9c',
+              'fill-opacity': 0.8,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'fill',
+          },
+          {
+            filter: ['==', 'type', 'Indicative Areas'],
+            paint: {
+              'line-color': '#9c9c9c',
+              'line-opacity': 1,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'line',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Acknowledged by govt'],
+              ['==', 'identity', 'Indigenous'],
+            ],
+            paint: {
+              'fill-color': '#bf6938',
+              'fill-opacity': 0.8,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'fill',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Acknowledged by govt'],
+              ['==', 'identity', 'Indigenous'],
+            ],
+            paint: {
+              'line-color': '#bf6938',
+              'line-opacity': 1,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'line',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Not acknowledged by govt'],
+              ['==', 'identity', 'Indigenous'],
+            ],
+            paint: {
+              'fill-color': '#f3aa72',
+              'fill-opacity': 0.8,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'fill',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Not acknowledged by govt'],
+              ['==', 'identity', 'Indigenous'],
+            ],
+            paint: {
+              'line-color': '#f3aa72',
+              'line-opacity': 1,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'line',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Acknowledged by govt'],
+              ['==', 'identity', 'Community'],
+            ],
+            paint: {
+              'fill-color': '#2C5682',
+              'fill-opacity': 0.8,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'fill',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Acknowledged by govt'],
+              ['==', 'identity', 'Community'],
+            ],
+            paint: {
+              'line-color': '#2C5682',
+              'line-opacity': 1,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'line',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Not acknowledged by govt'],
+              ['==', 'identity', 'Community'],
+            ],
+            paint: {
+              'fill-color': '#407ebe',
+              'fill-opacity': 0.8,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'fill',
+          },
+          {
+            filter: [
+              'all',
+              ['==', 'form_rec', 'Not acknowledged by govt'],
+              ['==', 'identity', 'Community'],
+            ],
+            paint: {
+              'line-color': '#407ebe',
+              'line-opacity': 1,
+            },
+            'source-layer': 'landmark_land_rights',
+            type: 'line',
+          },
+        ],
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#bf6938',
+          name: 'Indigenous Lands - Acknowledged by Government',
+        },
+        {
+          color: '#f3aa72',
+          name: 'Indigenous Lands - Not acknowledged by Government',
+        },
+        {
+          color: '#2C5682',
+          name: 'Community Lands - Acknowledged by Government',
+        },
+        {
+          color: '#407ebe',
+          name: 'Community Lands - Not acknowledged by Government',
+        },
+        {
+          color: '#9c9c9c',
+          name: 'Indicative Areas of Indigenous and Community Land Rights',
+        },
+      ],
+    },
+  },
 };
 
 export const PRESETS = {
