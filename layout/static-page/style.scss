@@ -1,4 +1,14 @@
 @import 'css/settings';
 
 .l-static-page {
+  position: relative;
+
+  > .logo {
+    position: absolute;
+    right: 0;
+    top: #{- (map-get($spacers, 5) - rem(20)) / 2};
+    transform: translateY(-100%);
+    display: block;
+    height: rem(20);
+  }
 }
