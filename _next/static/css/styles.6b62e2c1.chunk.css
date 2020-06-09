@@ -234,7 +234,7 @@ select.c-select {
 
 .tippy-popper {
   max-width: none !important;
-  z-index: 10 !important; }
+  z-index: 9 !important; }
   .tippy-popper div.tippy-tooltip {
     max-width: none !important; }
   .tippy-popper div.tippy-tooltip.light-theme {
@@ -297,6 +297,57 @@ select.c-select {
       .c-export-tooltip .grid-buttons label .c-icon use {
         stroke: rgba(34, 34, 34, 0.3);
         fill: transparent; }
+
+.ReactModal__Overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  z-index: 10;
+  background-color: rgba(3, 117, 94, 0.7) !important;
+  opacity: 0;
+  transform: scale(1.15);
+  transition: transform 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946);
+  will-change: transform, opacity; }
+  .ReactModal__Overlay.ReactModal__Overlay--after-open {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946); }
+
+.c-modal {
+  position: relative;
+  display: flex;
+  width: calc(100% - 3rem);
+  max-height: calc(100% - 3rem);
+  margin: 0 auto;
+  padding: 3rem;
+  background-color: #fff; }
+  .c-modal .close-button {
+    position: absolute;
+    top: -0.5rem;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    padding: 0;
+    border-radius: 100%;
+    transform: translateY(-100%);
+    background: #fff; }
+    .c-modal .close-button .c-icon {
+      width: 0.625rem;
+      height: 0.625rem; }
+      .c-modal .close-button .c-icon use {
+        fill: currentColor; }
+    .c-modal .close-button:hover {
+      background: #03755e; }
+  .c-modal .content {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch; }
+
+.c-tool-download-success-modal {
+  max-width: 32.5rem; }
 
 .c-tool-basemap-list .basemap-params {
   margin: 1rem 0;
@@ -384,6 +435,9 @@ select.c-select {
       flex-basis: calc(50% - 0.3125rem); }
       .c-tool-visualization.mode-2-vertical .map-container .map + .map {
         margin-left: 0.625rem; }
+        .c-tool-visualization.mode-2-vertical .map-container .map + .map .scale-control {
+          left: auto;
+          right: 0.25rem; }
   .c-tool-visualization.mode-2-vertical .c-map-legend {
     left: 50%;
     right: auto;
@@ -409,6 +463,9 @@ select.c-select {
         margin-top: 0.625rem; }
       .c-tool-visualization.mode-4 .map-container .map:nth-of-type(2n + 1) + .map {
         margin-left: 0.625rem; }
+        .c-tool-visualization.mode-4 .map-container .map:nth-of-type(2n + 1) + .map .scale-control {
+          left: auto;
+          right: 0.25rem; }
   .c-tool-visualization.mode-4 .c-map-legend {
     left: 50%;
     right: auto;
@@ -455,6 +512,12 @@ select.c-select {
         padding: 0.25rem 0.5rem;
         background: #fff;
         z-index: 3; }
+      .c-tool-visualization .map-container .map .scale-control {
+        position: absolute;
+        left: 0.25rem;
+        bottom: 0.25rem; }
+        .c-tool-visualization .map-container .map .scale-control > div {
+          font-size: 0.625rem; }
   .c-tool-visualization .c-map-legend {
     bottom: 1.625rem; }
   .c-tool-visualization .c-tool-attributions {
@@ -464,54 +527,6 @@ select.c-select {
     width: 100%;
     height: 1.625rem;
     background-color: #fff; }
-
-.ReactModal__Overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-  z-index: 9;
-  background-color: rgba(3, 117, 94, 0.7) !important;
-  opacity: 0;
-  transform: scale(1.15);
-  transition: transform 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946);
-  will-change: transform, opacity; }
-  .ReactModal__Overlay.ReactModal__Overlay--after-open {
-    opacity: 1;
-    transform: scale(1);
-    transition: transform 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946); }
-
-.c-modal {
-  position: relative;
-  display: flex;
-  width: calc(100% - 3rem);
-  max-height: calc(100% - 3rem);
-  margin: 0 auto;
-  padding: 3rem;
-  background-color: #fff; }
-  .c-modal .close-button {
-    position: absolute;
-    top: -0.5rem;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.875rem;
-    height: 1.875rem;
-    padding: 0;
-    border-radius: 100%;
-    transform: translateY(-100%);
-    background: #fff; }
-    .c-modal .close-button .c-icon {
-      width: 0.625rem;
-      height: 0.625rem; }
-      .c-modal .close-button .c-icon use {
-        fill: currentColor; }
-    .c-modal .close-button:hover {
-      background: #03755e; }
-  .c-modal .content {
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch; }
 
 .c-tool-planet-modal {
   max-width: 32.5rem; }
