@@ -17,6 +17,11 @@
 
         & + .map {
           margin-left: rem(10);
+
+          .scale-control {
+            left: auto;
+            right: map-get($spacers, 1);
+          }
         }
       }
     }
@@ -65,6 +70,11 @@
 
         &:nth-of-type(2n + 1) + .map {
           margin-left: rem(10);
+
+          .scale-control {
+            left: auto;
+            right: map-get($spacers, 1);
+          }
         }
       }
     }
@@ -131,6 +141,16 @@
         padding: map-get($spacers, 1) map-get($spacers, 2);
         background: $white;
         z-index: 3;
+      }
+
+      .scale-control {
+        position: absolute;
+        left: map-get($spacers, 1);
+        bottom: map-get($spacers, 1);
+
+        > div {
+          @include font-size($font-size-xxs);
+        }
       }
     }
   }

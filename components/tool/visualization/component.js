@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import classnames from 'classnames';
 
-import { getViewportFromBounds, Legend } from 'components/map';
+import { getViewportFromBounds, Legend, ScaleControl } from 'components/map';
 import Map from './map';
 import Attributions from '../attributions';
+import { shouldDisplayScaleBar } from './helpers';
 
 import './style.scss';
 
@@ -114,7 +115,13 @@ const Visualization = ({
                       });
                     }
                   }}
-                />
+                >
+                  {shouldDisplayScaleBar(index, mode, modeParams.difference) && (
+                    <div className="scale-control">
+                      <ScaleControl />
+                    </div>
+                  )}
+                </Map>
               </div>
             ))}
           </div>
