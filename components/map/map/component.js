@@ -5,7 +5,7 @@ import composeRefs from '@seznam/compose-react-refs';
 
 import './style.scss';
 
-export { ScaleControl } from 'react-map-gl';
+export { ScaleControl, Popup } from 'react-map-gl';
 export const DEFAULT_VIEWPORT = {
   zoom: 2,
   latitude: 0,

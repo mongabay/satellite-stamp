@@ -542,9 +542,18 @@ export const DATA_LAYERS = {
         minzoom: 2,
         maxzoom: 12,
       },
+      interactiveLayerIds: ['tree-plantations-1'],
+      interactiveFeatureFormat: properties => ({
+        Name: properties.common_name,
+        'Planted/crop': properties.plant_ag,
+        'Size class': properties.size,
+        Source: properties.source,
+        Year: properties.year,
+      }),
       render: {
         layers: [
           {
+            id: 'tree-plantations-1',
             type: 'fill',
             'source-layer': 'outnew',
             paint: {
@@ -654,6 +663,16 @@ export const DATA_LAYERS = {
           ],
         },
       },
+      interactiveLayerIds: ['protected-areas-1'],
+      interactiveFeatureFormat: properties => ({
+        Name: properties.name,
+        'WDPA ID': properties.wdpa_id,
+        Status: properties.status,
+        'Designation type': properties.desig_type,
+        'Ownership type': properties.own_type,
+        'Governance type': properties.gov_type,
+        'Management authority': properties.mang_auth,
+      }),
       render: {
         layers: [
           {
@@ -665,6 +684,7 @@ export const DATA_LAYERS = {
             filter: ['all'],
           },
           {
+            id: 'protected-areas-1',
             type: 'fill',
             'source-layer': 'layer0',
             paint: {
@@ -878,9 +898,15 @@ export const DATA_LAYERS = {
           ],
         },
       },
+      interactiveLayerIds: ['logging-concessions-1'],
+      interactiveFeatureFormat: properties => ({
+        Name: properties.name,
+        Area: `${properties.area_ha} ha`,
+      }),
       render: {
         layers: [
           {
+            id: 'logging-concessions-1',
             type: 'fill',
             'source-layer': 'layer0',
             paint: {
@@ -920,9 +946,20 @@ export const DATA_LAYERS = {
         minzoom: 2,
         maxzoom: 19,
       },
+      interactiveLayerIds: ['mining-concessions-1'],
+      interactiveFeatureFormat: properties => ({
+        Name: properties.name,
+        Status: properties.status,
+        Company: properties.company,
+        Permit: properties.permit,
+        Mineral: properties.mineral,
+        Type: properties.type,
+        Area: `${properties.area_ha} ha`,
+      }),
       render: {
         layers: [
           {
+            id: 'mining-concessions-1',
             paint: {
               'fill-color': '#fbb685',
               'fill-opacity': 0.7,
@@ -977,9 +1014,15 @@ export const DATA_LAYERS = {
           ],
         },
       },
+      interactiveLayerIds: ['oil-palm-concessions-1'],
+      interactiveFeatureFormat: properties => ({
+        Name: properties.name,
+        Area: `${properties.area_ha} ha`,
+      }),
       render: {
         layers: [
           {
+            id: 'oil-palm-concessions-1',
             paint: {
               'fill-color': '#ee9587',
               'fill-opacity': 0.7,
@@ -1024,9 +1067,19 @@ export const DATA_LAYERS = {
           ],
         },
       },
+      interactiveLayerIds: ['wood-fiber-concessions-1'],
+      interactiveFeatureFormat: properties => ({
+        Name: properties.name,
+        Group: properties.group_comp,
+        Source: properties.source,
+        Type: properties.type,
+        'Last update': properties.last_updat,
+        Area: `${properties.area_ha} ha`,
+      }),
       render: {
         layers: [
           {
+            id: 'wood-fiber-concessions-1',
             type: 'fill',
             'source-layer': 'layer0',
             paint: {
@@ -1083,9 +1136,16 @@ export const DATA_LAYERS = {
           ],
         },
       },
+      interactiveLayerIds: ['palm-oil-mills-1'],
+      interactiveFeatureFormat: properties => ({
+        Name: properties.name,
+        Company: properties.company_type,
+        'Certificate status': properties.cert_status,
+      }),
       render: {
         layers: [
           {
+            id: 'palm-oil-mills-1',
             paint: {
               'circle-color': '#EADC15',
               'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 2, 10, 10],
@@ -1208,9 +1268,14 @@ export const DATA_LAYERS = {
           ],
         },
       },
+      interactiveLayerIds: ['peatlands-1'],
+      interactiveFeatureFormat: properties => ({
+        Area: properties.area,
+      }),
       render: {
         layers: [
           {
+            id: 'peatlands-1',
             paint: {
               'fill-color': ' #CD853F',
               'fill-opacity': 1,
@@ -1742,9 +1807,26 @@ export const DATA_LAYERS = {
         minzoom: 0,
         maxzoom: 9,
       },
+      interactiveLayerIds: [
+        'indigenous-community-lands-1',
+        'indigenous-community-lands-2',
+        'indigenous-community-lands-3',
+        'indigenous-community-lands-4',
+        'indigenous-community-lands-5',
+      ],
+      interactiveFeatureFormat: properties => ({
+        Country: properties.country,
+        Identity: properties.identity,
+        'Recognition status': properties.form_rec,
+        'Documentation status': properties.doc_status,
+        Name: properties.name,
+        'Data contributor': properties.data_ctrb,
+        'Data source': properties.data_src,
+      }),
       render: {
         layers: [
           {
+            id: 'indigenous-community-lands-1',
             filter: ['==', 'type', 'Indicative Areas'],
             paint: {
               'fill-color': '#9c9c9c',
@@ -1763,6 +1845,7 @@ export const DATA_LAYERS = {
             type: 'line',
           },
           {
+            id: 'indigenous-community-lands-2',
             filter: [
               'all',
               ['==', 'form_rec', 'Acknowledged by govt'],
@@ -1789,6 +1872,7 @@ export const DATA_LAYERS = {
             type: 'line',
           },
           {
+            id: 'indigenous-community-lands-3',
             filter: [
               'all',
               ['==', 'form_rec', 'Not acknowledged by govt'],
@@ -1815,6 +1899,7 @@ export const DATA_LAYERS = {
             type: 'line',
           },
           {
+            id: 'indigenous-community-lands-4',
             filter: [
               'all',
               ['==', 'form_rec', 'Acknowledged by govt'],
@@ -1841,6 +1926,7 @@ export const DATA_LAYERS = {
             type: 'line',
           },
           {
+            id: 'indigenous-community-lands-5',
             filter: [
               'all',
               ['==', 'form_rec', 'Not acknowledged by govt'],

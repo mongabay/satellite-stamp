@@ -7,6 +7,7 @@ export default connect(
   state => ({
     viewports: mapSelectors.selectViewports(state),
     mapsActiveLayersDef: toolSelectors.selectMapsActiveLayersDef(state),
+    activeDataLayersInteractiveIds: mapSelectors.selectActiveDataLayersInteractiveIds(state),
     mapsTitle: toolSelectors.selectMapsTitle(state),
     legendDataLayers: toolSelectors.selectLegendDataLayers(state),
     width: exportSelectors.selectWidth(state),

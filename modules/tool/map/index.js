@@ -58,6 +58,14 @@ export const selectBasemapLayerDef = createSelector(
 
 export const selectActiveDataLayers = createSelector([selectLayers], layers => Object.keys(layers));
 
+export const selectActiveDataLayersInteractiveIds = createSelector(
+  [selectActiveDataLayers],
+  activeDataLayers =>
+    activeDataLayers
+      .filter(layerId => DATA_LAYERS[layerId].config.interactiveLayerIds)
+      .reduce((res, layerId) => [...res, ...DATA_LAYERS[layerId].config.interactiveLayerIds], [])
+);
+
 export const selectExportTemporalDiffLayers = createSelector([selectActiveDataLayers], layers =>
   layers
     .filter(layer => !!DATA_LAYERS[layer].legend?.timeline)

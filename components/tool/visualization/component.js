@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import classnames from 'classnames';
 
-import { getViewportFromBounds, Legend, ScaleControl } from 'components/map';
+import { DATA_LAYERS, getViewportFromBounds, Legend, ScaleControl } from 'components/map';
 import Map from './map';
+import InteractiveFeaturePopup from './interactive-feature-popup';
 import Attributions from '../attributions';
 import { shouldDisplayScaleBar } from './helpers';
 
@@ -15,6 +16,7 @@ const Visualization = ({
   width,
   height,
   mapsActiveLayersDef,
+  activeDataLayersInteractiveIds,
   mapsTitle,
   legendDataLayers,
   viewports,
@@ -26,6 +28,8 @@ const Visualization = ({
   updateViewport,
   updateViewports,
 }) => {
+  const [interactiveFeature, setInteractiveFeature] = useState(null);
+
   /**
    * @type {(mapIndex: any, mapViewport: any) => void}
    */
@@ -50,6 +54,33 @@ const Visualization = ({
     }, 500),
     [updateViewport]
   );
+
+  const onClick = useCallback(
+    ({ lngLat, features }) => {
+      if (features.length) {
+        const feature = features[0];
+        const layerId = feature.layer.source;
+        const propertiesFormatter = DATA_LAYERS[layerId]?.config.interactiveFeatureFormat;
+
+        setInteractiveFeature({
+          lat: lngLat[1],
+          lng: lngLat[0],
+          properties: propertiesFormatter
+            ? propertiesFormatter(feature.properties)
+            : feature.properties,
+        });
+      } else {
+        setInteractiveFeature(null);
+      }
+    },
+    [setInteractiveFeature]
+  );
+
+  useEffect(() => {
+    if (exporting) {
+      setInteractiveFeature(null);
+    }
+  }, [exporting, setInteractiveFeature]);
 
   return (
     <div
@@ -96,6 +127,8 @@ const Visualization = ({
                 <Map
                   layers={mapsActiveLayersDef[index]}
                   viewport={viewports[index]}
+                  interactiveLayerIds={activeDataLayersInteractiveIds}
+                  onClick={onClick}
                   onChangeViewport={
                     // We remove the callback to indicate the map should be static
                     index === 0 || modeParams.difference === 'spatial'
@@ -116,11 +149,19 @@ const Visualization = ({
                     }
                   }}
                 >
-                  {shouldDisplayScaleBar(index, mode, modeParams.difference) && (
-                    <div className="scale-control">
-                      <ScaleControl />
-                    </div>
-                  )}
+                  <>
+                    {interactiveFeature && (
+                      <InteractiveFeaturePopup
+                        {...interactiveFeature}
+                        onClose={() => setInteractiveFeature(null)}
+                      />
+                    )}
+                    {shouldDisplayScaleBar(index, mode, modeParams.difference) && (
+                      <div className="scale-control">
+                        <ScaleControl />
+                      </div>
+                    )}
+                  </>
                 </Map>
               </div>
             ))}
@@ -135,6 +176,7 @@ const Visualization = ({
 Visualization.propTypes = {
   viewports: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapsActiveLayersDef: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+  activeDataLayersInteractiveIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   mapsTitle: PropTypes.arrayOf(PropTypes.string).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   width: PropTypes.number.isRequired,

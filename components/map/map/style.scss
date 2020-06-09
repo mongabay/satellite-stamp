@@ -12,4 +12,39 @@
   .mapboxgl-control-container {
     display: none;
   }
+
+  .mapboxgl-popup {
+    .mapboxgl-popup-tip {
+      position: relative;
+      top: -#{rem(2)};
+      border-width: rem(8) !important;
+
+      &:before {
+        position: absolute;
+        top: rem(-7);
+        left: rem(-7);
+        border: rem(7) solid transparent;
+        border-top-color: $white;
+        content: '';
+      }
+
+      &:after {
+        position: absolute;
+        top: rem(-6);
+        left: rem(-7);
+        border: rem(7) solid transparent;
+        border-top-color: $border-color-1;
+        z-index: -1;
+        content: '';
+      }
+    }
+
+    .mapboxgl-popup-content {
+      padding: map-get($spacers, 3);
+      border-radius: rem(10);
+      background-color: $body-bg;
+      border: rem(1) solid $border-color-1;
+      box-shadow: rem(1) rem(1) rem(10) 0 rgba($black, 0.1);
+    }
+  }
 }

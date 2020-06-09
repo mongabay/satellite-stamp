@@ -1,0 +1,47 @@
+@import 'css/settings';
+
+.c-visualization-interactive-feature-popup {
+  position: relative;
+  padding: rem(35) 0 0;
+  @include font-size($font-size-s);
+  width: rem(250);
+
+  .close-button {
+    position: absolute;
+    top: map-get($spacers, 1);
+    right: map-get($spacers, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: rem(20);
+    height: rem(20);
+    padding: 0;
+    border-radius: 100%;
+    background: $body-bg;
+
+    .c-icon {
+      width: rem(10);
+      height: rem(10);
+
+      use {
+        fill: currentColor;
+      }
+    }
+
+    @include hover() {
+      background: $primary;
+    }
+  }
+
+  .label {
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .value {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+}
