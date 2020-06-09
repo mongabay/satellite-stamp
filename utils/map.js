@@ -152,7 +152,9 @@ export const toggleContextualLayers = (map, contextualLayers) => {
     }, {});
 
   const contextualLayerGroupIds = Object.keys(contextualLayerGroups);
-  const contextualLayerStyleGroups = contextualLayers.map(l => l.styleGroup);
+  const contextualLayerStyleGroups = contextualLayers
+    .filter(l => l.styleGroup)
+    .map(l => l.styleGroup);
 
   layers.forEach(layer => {
     const group = layer.metadata?.['mapbox:group'];

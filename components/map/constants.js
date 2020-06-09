@@ -88,16 +88,22 @@ export const BASEMAPS = {
 };
 
 export const CONTEXTUAL_LAYERS = {
+  'labels-none': {
+    label: 'No labels',
+    group: 'labels',
+  },
   'labels-light': {
     label: 'Labels light',
     minZoom: 1,
     maxZoom: 22,
+    group: 'labels',
     styleGroup: 'contextual-labels-light',
   },
   'labels-dark': {
     label: 'Labels dark',
     minZoom: 1,
     maxZoom: 22,
+    group: 'labels',
     styleGroup: 'contextual-labels-dark',
   },
   'admin-boundaries': {

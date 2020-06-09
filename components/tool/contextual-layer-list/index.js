@@ -8,7 +8,8 @@ export default connect(
     contextualLayers: mapSelectors.selectContextualLayers(state),
   }),
   {
-    onAddContextualLayer: mapActions.addContextualLayer,
-    onRemoveContextualLayer: mapActions.removeContextualLayer,
+    updateContextualLayers: mapActions.updateContextualLayers,
+    addContextualLayer: mapActions.addContextualLayer,
+    removeContextualLayer: mapActions.removeContextualLayer,
   }
 )(Component);

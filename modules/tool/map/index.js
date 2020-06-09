@@ -138,8 +138,6 @@ export const selectAttributions = createSelector(
         param => param !== undefined && param !== null && param !== ''
       );
 
-      console.log(Object.values(basemapParams), allParamsSet);
-
       if (allParamsSet) {
         if (basemapParams.period !== undefined && basemapParams.year !== undefined) {
           basemapNotes = `Basemap images from ${basemapParams.period} ${basemapParams.year}`;
@@ -186,7 +184,7 @@ export default toolActions =>
       ],
       basemap: 'mongabay-paper',
       basemapParams: null,
-      contextualLayers: ['hillshade'],
+      contextualLayers: ['labels-none', 'hillshade'],
       layers: {
         'tree-cover': {
           visible: true,
@@ -231,6 +229,9 @@ export default toolActions =>
         if (layerIndex !== -1) {
           state.contextualLayers.splice(layerIndex, 1);
         }
+      },
+      updateContextualLayers(state, action) {
+        state.contextualLayers = action.payload;
       },
       addLayer(state, action) {
         state.layers[action.payload] = {
