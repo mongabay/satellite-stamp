@@ -349,6 +349,11 @@ select.c-select {
 .c-tool-download-success-modal {
   max-width: 32.5rem; }
 
+.c-tool-contextual-layer-list .group {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 0.0625rem solid rgba(34, 34, 34, 0.3); }
+
 .c-tool-basemap-list .basemap-params {
   margin: 1rem 0;
   padding: 0 0 1rem 1.75rem;
