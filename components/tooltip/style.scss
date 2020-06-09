@@ -2,7 +2,7 @@
 
 .tippy-popper {
   max-width: none !important;
-  z-index: 10 !important;
+  z-index: 9 !important; // Needs to be below the z-index of the modal
 
   div.tippy-tooltip {
     max-width: none !important;

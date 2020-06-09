@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { DATA_LAYERS } from 'components/map';
@@ -6,16 +6,30 @@ import { Checkbox } from 'components/forms';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
 import Tooltip, { sticky } from 'components/tooltip';
 import ExportTooltip from 'components/export-tooltip';
+import DownloadSuccessModal from '../download-success-modal';
 import ContextualLayerList from '../contextual-layer-list';
 import BasemapList from '../basemap-list';
 
 import './style.scss';
 
-const Sidebar = ({ activeLayers, addLayer, removeLayer, onClickPresets }) => {
+const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer, onClickPresets }) => {
   const [expandedAccordion, setExpandedAccordion] = useState('data-layers');
+  const [previousExporting, setPreviousExporting] = useState(false);
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (previousExporting !== exporting) {
+      if (!exporting) {
+        setDownloadModalOpen(true);
+      }
+
+      setPreviousExporting(exporting);
+    }
+  }, [exporting, previousExporting, setDownloadModalOpen, setPreviousExporting]);
 
   return (
     <aside className="c-tool-sidebar">
+      <DownloadSuccessModal open={downloadModalOpen} onClose={() => setDownloadModalOpen(false)} />
       <Accordion
         multi={false}
         expanded={[expandedAccordion]}
@@ -91,6 +105,7 @@ const Sidebar = ({ activeLayers, addLayer, removeLayer, onClickPresets }) => {
 
 Sidebar.propTypes = {
   activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  exporting: PropTypes.bool.isRequired,
   addLayer: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,
   onClickPresets: PropTypes.func.isRequired,
