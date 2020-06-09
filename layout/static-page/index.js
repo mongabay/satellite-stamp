@@ -13,7 +13,7 @@ const StaticPage = ({ className, children }) => (
     <Head />
     <main className="l-static-page">
       <img
-        src={`${process.env.BASE_PATH ?? ''}/images/mongabay-horizontal.png`}
+        src={`${process.env.BASE_PATH ?? ''}/images/mongabay-horizontal.jpg`}
         alt="Mongabay"
         className="logo"
       />
