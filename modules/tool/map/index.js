@@ -120,16 +120,36 @@ export const selectActiveLayersDef = createSelector(
 );
 
 export const selectAttributions = createSelector(
-  [selectBasemap, selectDataLayers, selectActiveDataLayers],
-  (basemap, dataLayers, activeDataLayers) => {
+  [selectBasemap, selectBasemapParams, selectDataLayers, selectActiveDataLayers],
+  (basemap, basemapParams, dataLayers, activeDataLayers) => {
     const basemapAttributions = BASEMAPS[basemap].attributions
       ? BASEMAPS[basemap].attributions
       : [];
+
     const layerAttributions = activeDataLayers
       .map(layerId => dataLayers[layerId].attributions || [])
       .reduce((res, attr) => [...res, ...attr], []);
+
     const uniqueAttributions = [...new Set([...basemapAttributions, ...layerAttributions])];
-    return `${
+
+    let basemapNotes;
+    if (basemapParams) {
+      const allParamsSet = Object.values(basemapParams).every(
+        param => param !== undefined && param !== null && param !== ''
+      );
+
+      console.log(Object.values(basemapParams), allParamsSet);
+
+      if (allParamsSet) {
+        if (basemapParams.period !== undefined && basemapParams.year !== undefined) {
+          basemapNotes = `Basemap images from ${basemapParams.period} ${basemapParams.year}`;
+        } else if (basemapParams.year !== undefined) {
+          basemapNotes = `Basemap images from ${basemapParams.year}`;
+        }
+      }
+    }
+
+    return `${basemapNotes ? `${basemapNotes}, ` : ''}${
       uniqueAttributions.length
         ? `${uniqueAttributions.map(attr => ATTRIBUTIONS[attr]).join(', ')}, `
         : ''
