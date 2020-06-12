@@ -1,0 +1,43 @@
+@import 'css/settings';
+
+.c-range {
+  width: 100%;
+  padding: 0 map-get($spacers, 2); // Needed to the handle and the marks fit the container
+
+  input {
+    display: block;
+  }
+
+  .marks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: map-get($spacers, 1);
+    @include font-size($font-size-xs);
+
+    span {
+      position: relative;
+      display: block;
+      width: $custom-range-thumb-width;
+      height: rem(22);
+
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: rem(2);
+        height: rem(7);
+        background-color: $border-color-1;
+        content: '';
+      }
+
+      &:after {
+        position: absolute;
+        top: map-get($spacers, 2);
+        left: 50%;
+        transform: translateX(-50%);
+        content: attr(data-label);
+      }
+    }
+  }
+}

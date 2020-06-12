@@ -96,6 +96,10 @@ $custom-checkbox-indicator-icon-checked: none;
 $custom-select-box-shadow: none;
 $custom-select-border-color: $border-color-1;
 
+$custom-range-thumb-bg: $primary;
+$custom-range-thumb-active-bg: rgba($primary, 0.3);
+$custom-range-thumb-focus-box-shadow: 0 0 0 1px $body-bg, $input-focus-box-shadow;
+
 // Options
 
 $enable-shadows: true;
