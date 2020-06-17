@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const Radio = ({ id, name, disabled, checked, onChange, children, className }) => (
+const Component = ({ id, name, disabled, checked, onChange, children, className }, ref) => (
   <div
+    ref={ref}
     className={[
       'custom-control',
       'custom-radio',
@@ -26,6 +27,9 @@ const Radio = ({ id, name, disabled, checked, onChange, children, className }) =
     </label>
   </div>
 );
+
+const Radio = forwardRef(Component);
+
 Radio.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
