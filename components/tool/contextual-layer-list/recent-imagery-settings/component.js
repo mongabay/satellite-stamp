@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
-import sub from 'date-fns/sub';
+import moment from 'moment';
 import debounce from 'lodash/debounce';
 
 import { Checkbox, Radio, Datepicker, Range, Select } from 'components/forms';
@@ -48,8 +47,10 @@ const RecentImagerySettings = ({
       isToggledOn
         ? null
         : {
-            minDate: format(sub(new Date(), { months: 3 }), 'yyyy-MM-dd'),
-            maxDate: format(new Date(), 'yyyy-MM-dd'),
+            minDate: moment()
+              .subtract(3, 'months')
+              .format('YYYY-MM-DD'),
+            maxDate: moment().format('YYYY-MM-DD'),
             cloudCoverage: '25',
             color: '0',
           }
@@ -182,7 +183,7 @@ const RecentImagerySettings = ({
                 <Datepicker
                   id="contextual-layer-recent-imagery-max-date"
                   min={recentImagery.minDate || undefined}
-                  max={format(new Date(), 'yyyy-MM-dd')}
+                  max={moment().format('YYYY-MM-DD')}
                   value={recentImagery.maxDate || ''}
                   onChange={({ target }) =>
                     updateRecentImagery({ ...recentImagery, maxDate: target.value })

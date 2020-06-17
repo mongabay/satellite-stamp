@@ -1,5 +1,4 @@
-import parse from 'date-fns/parse';
-import format from 'date-fns/format';
+import moment from 'moment';
 
 export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus';
 
@@ -52,7 +51,7 @@ export const BASEMAPS = {
 
       const mosaic =
         interval === 'Monthly'
-          ? `global_monthly_${year}_${format(parse(period, 'MMMM', new Date()), 'MM')}_mosaic`
+          ? `global_monthly_${year}_${moment(period, 'MMMM').format('MM')}_mosaic`
           : `global_quarterly_${year}${period.toLowerCase()}_mosaic`;
 
       return [

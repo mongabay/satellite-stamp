@@ -38,7 +38,6 @@
     "@zeit/next-sass": "^1.0.1",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
-    "date-fns": "^2.14.0",
     "deck.gl": "7.3.6",
     "html2canvas": "^1.0.0-rc.5",
     "layer-manager": "3.0.4",

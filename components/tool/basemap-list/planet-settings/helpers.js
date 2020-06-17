@@ -1,5 +1,4 @@
-import parse from 'date-fns/parse';
-import format from 'date-fns/format';
+import moment from 'moment';
 
 /**
  * Return the list of options for the Planet basemap
@@ -20,7 +19,7 @@ export const getPlanetBasemapConfig = async apiKey => {
           .map(mosaic => {
             const split = mosaic.name.split('_');
             const year = +split[2];
-            const period = format(parse(`${split[3]}`, 'MM', new Date()), 'MMMM');
+            const period = moment(`${split[3]}`, 'MM').format('MMMM');
             return [year, period];
           })
           .reduce(
