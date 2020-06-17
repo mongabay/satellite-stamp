@@ -42,6 +42,17 @@
 
     &[data-placement^='right'] > .tippy-arrow {
       border-right-color: $body-bg;
+
+      &:after {
+        position: absolute;
+        top: rem(-7);
+        left: rem(-8);
+        border: rem(7) solid transparent;
+        border-top-color: $border-color-1;
+        z-index: -1;
+        transform: rotate(90deg);
+        content: '';
+      }
     }
 
     .tippy-content {
