@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { CONTEXTUAL_LAYERS } from 'components/map';
 import { Checkbox, Radio } from 'components/forms';
+import RecentImagerySettings from './recent-imagery-settings';
 
 import './style.scss';
 
@@ -83,6 +84,7 @@ const ContextualLayerList = ({
               ))}
           </div>
         ))}
+      <RecentImagerySettings />
     </div>
   );
 };

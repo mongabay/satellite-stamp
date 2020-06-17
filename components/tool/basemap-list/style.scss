@@ -8,7 +8,7 @@
 
     .param {
       & + .param {
-        margin-top: map-get($spacers, 2);
+        margin-top: map-get($spacers, 3);
       }
 
       label {

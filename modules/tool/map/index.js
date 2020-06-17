@@ -10,6 +10,7 @@ export const selectViewports = state => state[SLICE_NAME].viewports;
 export const selectBasemap = state => state[SLICE_NAME].basemap;
 export const selectBasemapParams = state => state[SLICE_NAME].basemapParams;
 export const selectContextualLayers = state => state[SLICE_NAME].contextualLayers;
+export const selectRecentImagery = state => state[SLICE_NAME].recentImagery;
 export const selectLayers = state => state[SLICE_NAME].layers;
 export const selectDataLayers = () => DATA_LAYERS;
 
@@ -128,8 +129,14 @@ export const selectActiveLayersDef = createSelector(
 );
 
 export const selectAttributions = createSelector(
-  [selectBasemap, selectBasemapParams, selectDataLayers, selectActiveDataLayers],
-  (basemap, basemapParams, dataLayers, activeDataLayers) => {
+  [
+    selectBasemap,
+    selectBasemapParams,
+    selectDataLayers,
+    selectActiveDataLayers,
+    selectRecentImagery,
+  ],
+  (basemap, basemapParams, dataLayers, activeDataLayers, recentImagery) => {
     const basemapAttributions = BASEMAPS[basemap].attributions
       ? BASEMAPS[basemap].attributions
       : [];
@@ -138,7 +145,13 @@ export const selectAttributions = createSelector(
       .map(layerId => dataLayers[layerId].attributions || [])
       .reduce((res, attr) => [...res, ...attr], []);
 
-    const uniqueAttributions = [...new Set([...basemapAttributions, ...layerAttributions])];
+    // TODO: we shouldn't display the attributions when more than one map is shown at once because
+    // the layer is not displayed on the map
+    const recentImageryAttributions = recentImagery?.tileUrl ? ['rw'] : [];
+
+    const uniqueAttributions = [
+      ...new Set([...basemapAttributions, ...layerAttributions, ...recentImageryAttributions]),
+    ];
 
     let basemapNotes;
     if (basemapParams) {
@@ -164,13 +177,21 @@ export const selectAttributions = createSelector(
 );
 
 export const selectSerializedState = createSelector(
-  [selectViewports, selectBasemap, selectBasemapParams, selectContextualLayers, selectLayers],
-  (viewports, basemap, basemapParams, contextualLayers, layers) => {
+  [
+    selectViewports,
+    selectBasemap,
+    selectBasemapParams,
+    selectContextualLayers,
+    selectRecentImagery,
+    selectLayers,
+  ],
+  (viewports, basemap, basemapParams, contextualLayers, recentImagery, layers) => {
     return {
       viewports: viewports.map(viewport => omit(viewport, 'transitionDuration', 'bounds')),
       basemap,
       basemapParams: omit(basemapParams, 'key'),
       contextualLayers,
+      recentImagery,
       layers,
     };
   }
@@ -184,8 +205,8 @@ export default toolActions =>
       viewports: [
         {
           zoom: 2,
-          latitude: 0,
-          longitude: 0,
+          latitude: 27,
+          longitude: 12,
           transitionDuration: 250,
           bounds: null,
         },
@@ -193,6 +214,7 @@ export default toolActions =>
       basemap: 'mongabay-paper',
       basemapParams: null,
       contextualLayers: ['labels-none', 'hillshade'],
+      recentImagery: null,
       layers: {
         'tree-cover': {
           visible: true,
@@ -240,6 +262,9 @@ export default toolActions =>
       },
       updateContextualLayers(state, action) {
         state.contextualLayers = action.payload;
+      },
+      updateRecentImagery(state, action) {
+        state.recentImagery = action.payload;
       },
       addLayer(state, action) {
         state.layers[action.payload] = {

@@ -38,36 +38,79 @@ const selectors = {
       mapModule.selectLayers,
       mapModule.selectDataLayers,
       mapModule.selectActiveLayersDef,
+      mapModule.selectRecentImagery,
       exportModule.selectMode,
       exportModule.selectModeParams,
     ],
-    (layers, dataLayers, activeLayersDef, mode, modeParams) => {
+    (layers, dataLayers, activeLayersDef, recentImagery, mode, modeParams) => {
       return modeParams.dates.map(date => {
+        let res = [...activeLayersDef];
+
+        if (mode === '1' && recentImagery?.tileUrl) {
+          res.push(
+            getLayerDef(
+              'recent-imagery',
+              {
+                label: 'Recent satellite imagery',
+                config: {
+                  type: 'raster',
+                  source: {
+                    tiles: [recentImagery.tileUrl],
+                    minzoom: 9,
+                    maxzoom: 18,
+                  },
+                },
+              },
+              {
+                opacity: 1,
+                visibility: true,
+                // The z-index must be 2 to be on top of the external basemaps which have a z-index
+                // equal to 1
+                // The getLayerDef function takes the order prop and adds 3 so all the data layers
+                // are on top of th external basemaps and the recent imagery layer
+                order: -1,
+              }
+            )
+          );
+        }
+
         if (
           (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
           modeParams.difference === 'temporal' &&
           date
         ) {
           const diffLayer = modeParams.layer;
-          return activeLayersDef.map(layer =>
-            layer.id !== diffLayer
-              ? layer
-              : getLayerDef(layer.id, dataLayers[layer.id], {
-                  ...layers[layer.id],
-                  dateRange: [date, date],
-                  currentDate: date,
-                })
-          );
+          const diffLayerIndex = res.findIndex(layer => layer.id === diffLayer);
+          if (diffLayerIndex !== -1) {
+            res.splice(
+              diffLayerIndex,
+              1,
+              getLayerDef(res[diffLayerIndex].id, dataLayers[res[diffLayerIndex].id], {
+                ...layers[res[diffLayerIndex].id],
+                dateRange: [date, date],
+                currentDate: date,
+              })
+            );
+          }
         }
 
-        return activeLayersDef;
+        return res;
       });
     }
   ),
   selectMapsTitle: createSelector(
-    [mapModule.selectDataLayers, exportModule.selectMode, exportModule.selectModeParams],
-    (dataLayers, mode, modeParams) => {
+    [
+      mapModule.selectDataLayers,
+      mapModule.selectRecentImagery,
+      exportModule.selectMode,
+      exportModule.selectModeParams,
+    ],
+    (dataLayers, recentImagery, mode, modeParams) => {
       return modeParams.dates.map(date => {
+        if (mode === '1' && recentImagery?.tileInfo) {
+          return `${recentImagery.tileInfo.date} - ${recentImagery.tileInfo.satellite}`;
+        }
+
         if (
           (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
           modeParams.difference === 'temporal' &&

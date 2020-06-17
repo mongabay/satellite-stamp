@@ -76,8 +76,9 @@ export const getLayerDef = (layerId, layer, layerSettings) => ({
       : layer.config.source,
   opacity: layerSettings.opacity,
   visibility: layerSettings.visible,
-  // We need to add 2: +1 because it can't be 0 and +1 to be on top of external basemaps
-  zIndex: layerSettings.order + 2,
+  // We need to add 3: +1 because it can't be 0, +1 to be on top of external basemaps and +1 to be
+  // on top of the recent imagery
+  zIndex: layerSettings.order + 3,
   ...(layer.decodeParams
     ? {
         decodeParams: {
