@@ -1142,7 +1142,7 @@ export const DATA_LAYERS = {
                 type: 'categorical',
                 property: 'source_typ',
                 stops: [
-                  ['government ', '#8A2F1D'],
+                  ['government', '#8A2F1D'],
                   ['private sector', '#EB5B31'],
                 ],
               },
@@ -1157,7 +1157,7 @@ export const DATA_LAYERS = {
                 type: 'categorical',
                 property: 'source_typ',
                 stops: [
-                  ['government ', '#8A2F1D'],
+                  ['government', '#8A2F1D'],
                   ['private sector', '#EB5B31'],
                 ],
               },
