@@ -2,6 +2,8 @@ import moment from 'moment';
 
 export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus';
 
+export const VECTOR_LAYERS_FILL_OPACITY = 0.3;
+
 export const ATTRIBUTIONS = {
   rw:
     'Powered by <a href="https://resourcewatch.org/" target="_blank" rel="noopener noreferrer">Resource Watch</a>',
@@ -575,6 +577,34 @@ export const DATA_LAYERS = {
                 ],
                 type: 'categorical',
               },
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
+            },
+          },
+          {
+            type: 'line',
+            'source-layer': 'outnew',
+            paint: {
+              'line-color': {
+                default: '#a0c746',
+                property: 'species_simp',
+                stops: [
+                  ['Oil Palm ', '#fdada9'],
+                  ['Wood fiber / timber', '#98a7c4'],
+                  ['Rubber', '#9993a3'],
+                  ['Fruit', '#dada95'],
+                  ['Other', '#d1e6ab'],
+                  ['Wood fiber / timber Mix', '#9ebbf2'],
+                  ['Oil Palm Mix', '#fcc4c1'],
+                  ['Rubber Mix', '#a4fdff'],
+                  ['Fruit Mix', '#fefe97'],
+                  ['Other Mix', '#e1efc8'],
+                  ['Unknown', '#dcd9d9'],
+                  ['Recently cleared', '#d5a6ea'],
+                ],
+                type: 'categorical',
+              },
+              'line-opacity': 1,
+              'line-width': 1,
             },
           },
         ],
@@ -675,14 +705,6 @@ export const DATA_LAYERS = {
       render: {
         layers: [
           {
-            paint: {
-              'fill-opacity': 0.7,
-            },
-            'source-layer': 'layer0',
-            type: 'fill',
-            filter: ['all'],
-          },
-          {
             id: 'protected-areas-1',
             type: 'fill',
             'source-layer': 'layer0',
@@ -703,6 +725,31 @@ export const DATA_LAYERS = {
                   ['VI', '#daa89b'],
                 ],
               },
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
+            },
+          },
+          {
+            type: 'line',
+            'source-layer': 'layer0',
+            paint: {
+              'line-color': {
+                type: 'categorical',
+                property: 'iucn_cat',
+                stops: [
+                  ['II', '#0f3b82'],
+                  ['III', '#c9ddff'],
+                  ['IV', '#b9b2a1'],
+                  ['Ia', '#5ca2d1'],
+                  ['Ib', '#3e7bb6'],
+                  ['Not Applicable', '#eed54c'],
+                  ['Not Assigned', '#e7ab36'],
+                  ['Not Reported', '#fa894b'],
+                  ['V', '#ae847e'],
+                  ['VI', '#daa89b'],
+                ],
+              },
+              'line-width': 1,
+              'line-opacity': 1,
             },
           },
         ],
@@ -909,7 +956,7 @@ export const DATA_LAYERS = {
             type: 'fill',
             'source-layer': 'layer0',
             paint: {
-              'fill-opacity': 0.7,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
               'fill-color': '#fecc5c',
             },
           },
@@ -919,7 +966,7 @@ export const DATA_LAYERS = {
             paint: {
               'line-opacity': 1,
               'line-color': '#fecc5c',
-              'line-width': 0.1,
+              'line-width': 1,
             },
           },
         ],
@@ -961,7 +1008,7 @@ export const DATA_LAYERS = {
             id: 'mining-concessions-1',
             paint: {
               'fill-color': '#fbb685',
-              'fill-opacity': 0.7,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'mining_v27022019',
             type: 'fill',
@@ -1024,10 +1071,19 @@ export const DATA_LAYERS = {
             id: 'oil-palm-concessions-1',
             paint: {
               'fill-color': '#ee9587',
-              'fill-opacity': 0.7,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'layer0',
             type: 'fill',
+          },
+          {
+            paint: {
+              'line-color': '#ee9587',
+              'line-opacity': 1,
+              'line-width': 1,
+            },
+            'source-layer': 'layer0',
+            type: 'line',
           },
         ],
       },
@@ -1090,7 +1146,23 @@ export const DATA_LAYERS = {
                   ['private sector', '#EB5B31'],
                 ],
               },
-              'fill-opacity': 0.7,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
+            },
+          },
+          {
+            type: 'line',
+            'source-layer': 'layer0',
+            paint: {
+              'line-color': {
+                type: 'categorical',
+                property: 'source_typ',
+                stops: [
+                  ['government ', '#8A2F1D'],
+                  ['private sector', '#EB5B31'],
+                ],
+              },
+              'line-opacity': 1,
+              'line-width': 1,
             },
           },
         ],
@@ -1197,7 +1269,7 @@ export const DATA_LAYERS = {
           {
             paint: {
               'line-color': ' #368c2b',
-              'line-width': 0,
+              'line-width': 1,
               'line-opacity': 1,
             },
             'source-layer': 'layer0',
@@ -1206,7 +1278,7 @@ export const DATA_LAYERS = {
           },
           {
             paint: {
-              'fill-opacity': 0.9,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
               'fill-color': '#368c2b',
             },
             'source-layer': 'layer0',
@@ -1277,7 +1349,7 @@ export const DATA_LAYERS = {
             id: 'peatlands-1',
             paint: {
               'fill-color': ' #CD853F',
-              'fill-opacity': 1,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'layer0',
             type: 'fill',
@@ -1286,9 +1358,8 @@ export const DATA_LAYERS = {
           {
             paint: {
               'line-width': ['interpolate', ['linear'], ['zoom'], 0, 2, 6, 0.8, 12, 0.5],
-              'line-color': ' #FFF',
-              'line-opacity': 0.6,
-              'line-blur': 2,
+              'line-color': ' #CD853F',
+              'line-opacity': 1,
             },
             'source-layer': 'layer0',
             type: 'line',
@@ -1335,7 +1406,8 @@ export const DATA_LAYERS = {
         layers: [
           {
             paint: {
-              'line-width': 0,
+              'line-color': ' #136400',
+              'line-width': 1,
               'line-opacity': 1,
             },
             'source-layer': 'layer0',
@@ -1344,7 +1416,7 @@ export const DATA_LAYERS = {
           },
           {
             paint: {
-              'fill-opacity': 0.7,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
               'fill-color': ' #136400',
             },
             'source-layer': 'layer0',
@@ -1353,7 +1425,18 @@ export const DATA_LAYERS = {
           },
           {
             paint: {
+              'line-color': '  rgb(152, 155, 5)',
+              'line-width': 1,
+              'line-opacity': 1,
+            },
+            'source-layer': 'layer0',
+            type: 'line',
+            filter: ['all', ['==', 'class_name', 'IFL change 2000-2013']],
+          },
+          {
+            paint: {
               'fill-color': '  rgb(152, 155, 5)',
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'layer0',
             type: 'fill',
@@ -1456,6 +1539,7 @@ export const DATA_LAYERS = {
                   ['rest of crops', '#2F4F4F'],
                 ],
               },
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
           },
           {
@@ -1829,7 +1913,7 @@ export const DATA_LAYERS = {
             filter: ['==', 'type', 'Indicative Areas'],
             paint: {
               'fill-color': '#9c9c9c',
-              'fill-opacity': 0.8,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'landmark_land_rights',
             type: 'fill',
@@ -1852,7 +1936,7 @@ export const DATA_LAYERS = {
             ],
             paint: {
               'fill-color': '#bf6938',
-              'fill-opacity': 0.8,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'landmark_land_rights',
             type: 'fill',
@@ -1879,7 +1963,7 @@ export const DATA_LAYERS = {
             ],
             paint: {
               'fill-color': '#f3aa72',
-              'fill-opacity': 0.8,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'landmark_land_rights',
             type: 'fill',
@@ -1906,7 +1990,7 @@ export const DATA_LAYERS = {
             ],
             paint: {
               'fill-color': '#2C5682',
-              'fill-opacity': 0.8,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'landmark_land_rights',
             type: 'fill',
@@ -1933,7 +2017,7 @@ export const DATA_LAYERS = {
             ],
             paint: {
               'fill-color': '#407ebe',
-              'fill-opacity': 0.8,
+              'fill-opacity': VECTOR_LAYERS_FILL_OPACITY,
             },
             'source-layer': 'landmark_land_rights',
             type: 'fill',
