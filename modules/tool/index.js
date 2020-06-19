@@ -154,6 +154,40 @@ const selectors = {
       return legendDataLayers;
     }
   ),
+  selectMapsShowScaleBar: createSelector(
+    [exportModule.selectMode, exportModule.selectModeParams],
+    (mode, modeParams) => {
+      if (mode === '1') {
+        return [true];
+      }
+
+      if (mode === '2-horizontal') {
+        if (modeParams.difference === 'spatial') {
+          return [true, true];
+        }
+
+        return [false, true];
+      }
+
+      if (mode === '2-vertical') {
+        if (modeParams.difference === 'spatial') {
+          return [true, true];
+        }
+
+        return [true, false];
+      }
+
+      if (mode === '4') {
+        if (modeParams.difference === 'spatial') {
+          return [true, true, true, true];
+        }
+
+        return [false, false, true, false];
+      }
+
+      return [true];
+    }
+  ),
 };
 
 export const toolActions = actions;

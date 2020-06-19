@@ -7,7 +7,6 @@ import { DATA_LAYERS, getViewportFromBounds, Legend, ScaleControl } from 'compon
 import Map from './map';
 import InteractiveFeaturePopup from './interactive-feature-popup';
 import Attributions from '../attributions';
-import { shouldDisplayScaleBar } from './helpers';
 
 import './style.scss';
 
@@ -22,6 +21,7 @@ const Visualization = ({
   viewports,
   mode,
   modeParams,
+  mapsShowScaleBar,
   updateLayer,
   removeLayer,
   updateLayerOrder,
@@ -156,7 +156,7 @@ const Visualization = ({
                         onClose={() => setInteractiveFeature(null)}
                       />
                     )}
-                    {shouldDisplayScaleBar(index, mode, modeParams.difference) && (
+                    {mapsShowScaleBar[index] && (
                       <div className="scale-control">
                         <ScaleControl />
                       </div>
@@ -184,6 +184,7 @@ Visualization.propTypes = {
   exporting: PropTypes.bool.isRequired,
   mode: PropTypes.string.isRequired,
   modeParams: PropTypes.object.isRequired,
+  mapsShowScaleBar: PropTypes.arrayOf(PropTypes.bool).isRequired,
   updateViewport: PropTypes.func.isRequired,
   updateViewports: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,
