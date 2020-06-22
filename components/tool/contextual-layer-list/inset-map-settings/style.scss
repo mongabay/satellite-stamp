@@ -1,0 +1,7 @@
+@import 'css/settings';
+
+.c-tool-inset-map-settings {
+  .note {
+    @include font-size($font-size-s);
+  }
+}

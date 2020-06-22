@@ -188,6 +188,12 @@ const selectors = {
       return [true];
     }
   ),
+  selectShowInsetMap: createSelector(
+    [mapModule.selectInsetMap, exportModule.selectMode],
+    (showInsetMap, mode) => {
+      return mode === '1' && showInsetMap;
+    }
+  ),
 };
 
 export const toolActions = actions;

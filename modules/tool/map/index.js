@@ -13,6 +13,7 @@ export const selectContextualLayers = state => state[SLICE_NAME].contextualLayer
 export const selectRecentImagery = state => state[SLICE_NAME].recentImagery;
 export const selectLayers = state => state[SLICE_NAME].layers;
 export const selectDataLayers = () => DATA_LAYERS;
+export const selectInsetMap = state => state[SLICE_NAME].insetMap;
 
 export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
@@ -184,8 +185,9 @@ export const selectSerializedState = createSelector(
     selectContextualLayers,
     selectRecentImagery,
     selectLayers,
+    selectInsetMap,
   ],
-  (viewports, basemap, basemapParams, contextualLayers, recentImagery, layers) => {
+  (viewports, basemap, basemapParams, contextualLayers, recentImagery, layers, insetMap) => {
     return {
       viewports: viewports.map(viewport => omit(viewport, 'transitionDuration', 'bounds')),
       basemap,
@@ -193,6 +195,7 @@ export const selectSerializedState = createSelector(
       contextualLayers,
       recentImagery,
       layers,
+      insetMap,
     };
   }
 );
@@ -215,6 +218,7 @@ export default toolActions =>
       basemapParams: null,
       contextualLayers: ['labels-none', 'hillshade'],
       recentImagery: null,
+      insetMap: false,
       layers: {
         'tree-cover': {
           visible: true,
@@ -312,6 +316,9 @@ export default toolActions =>
         Object.keys(state.layers).forEach(layerId => {
           state.layers[layerId].order = mapLayerToOrder[layerId];
         });
+      },
+      updateInsetMap(state, action) {
+        state.insetMap = action.payload;
       },
     },
     extraReducers: {

@@ -16,6 +16,7 @@ export default connect(
     mode: exportSelectors.selectMode(state),
     modeParams: exportSelectors.selectModeParams(state),
     mapsShowScaleBar: toolSelectors.selectMapsShowScaleBar(state),
+    showInsetMap: toolSelectors.selectShowInsetMap(state),
   }),
   {
     updateViewport: mapActions.updateViewport,

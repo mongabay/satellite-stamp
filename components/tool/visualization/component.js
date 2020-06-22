@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 import classnames from 'classnames';
 
 import { DATA_LAYERS, getViewportFromBounds, Legend, ScaleControl } from 'components/map';
+import InsetMap from 'components/inset-map';
 import Map from './map';
 import InteractiveFeaturePopup from './interactive-feature-popup';
 import Attributions from '../attributions';
@@ -22,6 +23,7 @@ const Visualization = ({
   mode,
   modeParams,
   mapsShowScaleBar,
+  showInsetMap,
   updateLayer,
   removeLayer,
   updateLayerOrder,
@@ -156,6 +158,7 @@ const Visualization = ({
                         onClose={() => setInteractiveFeature(null)}
                       />
                     )}
+                    {showInsetMap && <InsetMap />}
                     {mapsShowScaleBar[index] && (
                       <div className="scale-control">
                         <ScaleControl />
@@ -185,6 +188,7 @@ Visualization.propTypes = {
   mode: PropTypes.string.isRequired,
   modeParams: PropTypes.object.isRequired,
   mapsShowScaleBar: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  showInsetMap: PropTypes.bool.isRequired,
   updateViewport: PropTypes.func.isRequired,
   updateViewports: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,

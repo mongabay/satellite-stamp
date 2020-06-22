@@ -158,6 +158,13 @@
           @include font-size($font-size-xxs);
         }
       }
+
+      .c-inset-map {
+        position: absolute;
+        top: -#{rem(1)};
+        right: -#{rem(1)};
+        z-index: 3;
+      }
     }
   }
 

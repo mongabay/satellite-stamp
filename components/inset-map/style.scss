@@ -1,0 +1,26 @@
+@import 'css/settings';
+
+.c-inset-map {
+  padding: rem(5);
+  background-color: $white;
+  border: rem(1) solid rgba($black, 0.1);
+
+  // This div helps us remove the padding from the calculations of the marker's position
+  > div {
+    position: relative;
+
+    > img:first-of-type {
+      display: block;
+      width: rem(150);
+      height: rem(100);
+    }
+
+    > img:nth-of-type(2) {
+      position: absolute;
+      display: block;
+      width: rem(10);
+      height: rem(10);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
