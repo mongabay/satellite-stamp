@@ -524,6 +524,9 @@ select.c-select {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -124; } }
 
+.c-tool-inset-map-settings .note {
+  font-size: 0.8125rem; }
+
 .c-tool-contextual-layer-list .group {
   margin-top: 1rem;
   padding-top: 1rem;
@@ -593,6 +596,23 @@ select.c-select {
         text-transform: uppercase;
         font-size: 1rem;
         font-weight: 700; }
+
+.c-inset-map {
+  padding: 0.3125rem;
+  background-color: #fff;
+  border: 0.0625rem solid rgba(0, 0, 0, 0.1); }
+  .c-inset-map > div {
+    position: relative; }
+    .c-inset-map > div > img:first-of-type {
+      display: block;
+      width: 9.375rem;
+      height: 6.25rem; }
+    .c-inset-map > div > img:nth-of-type(2) {
+      position: absolute;
+      display: block;
+      width: 0.625rem;
+      height: 0.625rem;
+      transform: translate(-50%, -50%); }
 
 .c-visualization-interactive-feature-popup {
   position: relative;
@@ -748,6 +768,11 @@ select.c-select {
         bottom: 0.25rem; }
         .c-tool-visualization .map-container .map .scale-control > div {
           font-size: 0.625rem; }
+      .c-tool-visualization .map-container .map .c-inset-map {
+        position: absolute;
+        top: -0.0625rem;
+        right: -0.0625rem;
+        z-index: 3; }
   .c-tool-visualization .c-map-legend {
     right: 0.0625rem;
     bottom: 1.6875rem; }
