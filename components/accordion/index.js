@@ -58,8 +58,8 @@ AccordionItem.defaultProps = {
 const AccordionTitle = ({ 'aria-level': ariaLevel, children }) => (
   <ReactAccordionItemHeading aria-level={ariaLevel} className="title">
     <ReactAccordionItemButton className="button">
-      <Icon name="bottom-arrow" />
       {children}
+      <Icon name="bottom-arrow" />
     </ReactAccordionItemButton>
   </ReactAccordionItemHeading>
 );

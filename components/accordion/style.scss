@@ -6,6 +6,10 @@
       cursor: default;
 
       .button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
         &[aria-expanded='false'] {
           .c-icon {
             transform: rotate(-90deg);
@@ -15,7 +19,6 @@
 
         .c-icon {
           width: rem(15);
-          margin-right: map-get($spacers, 3);
           vertical-align: initial;
 
           use {
