@@ -137,6 +137,7 @@ export const DATA_LAYERS = {
   'tree-cover-loss': {
     label: 'Tree cover loss',
     attributions: ['rw'],
+    group: 'forests',
     config: {
       type: 'raster',
       source: {
@@ -211,6 +212,7 @@ export const DATA_LAYERS = {
   glad: {
     label: 'Deforestation alerts (GLAD)',
     attributions: ['rw'],
+    group: 'forests',
     config: {
       type: 'raster',
       source: {
@@ -285,6 +287,7 @@ export const DATA_LAYERS = {
   'tree-cover': {
     label: 'Tree cover',
     attributions: ['rw'],
+    group: 'forests',
     config: {
       type: 'raster',
       source: (year = 2010) => {
@@ -346,6 +349,7 @@ export const DATA_LAYERS = {
   'primary-forests': {
     label: 'Primary forests',
     attributions: ['rw'],
+    group: 'forests',
     config: {
       type: 'raster',
       source: {
@@ -369,6 +373,7 @@ export const DATA_LAYERS = {
   'south-america-tree-cover-height': {
     label: 'South America tree cover height',
     attributions: ['rw'],
+    group: 'forests',
     config: {
       type: 'raster',
       source: (year = 2016) => {
@@ -451,6 +456,7 @@ export const DATA_LAYERS = {
   'land-cover': {
     label: 'Global land cover',
     attributions: ['rw'],
+    group: 'food-agriculture',
     config: {
       type: 'raster',
       source: (year = 2015) => {
@@ -536,6 +542,7 @@ export const DATA_LAYERS = {
   'tree-plantations': {
     label: 'Tree plantations',
     attributions: ['rw'],
+    group: 'food-agriculture',
     config: {
       type: 'vector',
       source: {
@@ -671,6 +678,7 @@ export const DATA_LAYERS = {
   'protected-areas': {
     label: 'Protected areas',
     attributions: ['rw'],
+    group: 'conservation',
     config: {
       type: 'vector',
       source: {
@@ -814,6 +822,7 @@ export const DATA_LAYERS = {
   'urban-built-up-area': {
     label: 'Urban built-up Area',
     attributions: ['rw'],
+    group: 'people',
     config: {
       type: 'raster',
       source: {
@@ -853,6 +862,7 @@ export const DATA_LAYERS = {
   population: {
     label: 'Population (grid, 250 m)',
     attributions: ['rw'],
+    group: 'people',
     config: {
       type: 'raster',
       source: (year = 2015) => {
@@ -923,6 +933,7 @@ export const DATA_LAYERS = {
   'logging-concessions': {
     label: 'Logging concessions',
     attributions: ['rw'],
+    group: 'industry',
     config: {
       type: 'vector',
       source: {
@@ -985,6 +996,7 @@ export const DATA_LAYERS = {
   'mining-concessions': {
     label: 'Mining concessions',
     attributions: ['rw'],
+    group: 'industry',
     config: {
       type: 'vector',
       source: {
@@ -1038,6 +1050,7 @@ export const DATA_LAYERS = {
   'oil-palm-concessions': {
     label: 'Oil palm concessions',
     attributions: ['rw'],
+    group: 'industry',
     config: {
       type: 'vector',
       source: {
@@ -1101,6 +1114,7 @@ export const DATA_LAYERS = {
   'wood-fiber-concessions': {
     label: 'Wood fiber concessions by type',
     attributions: ['rw'],
+    group: 'industry',
     config: {
       type: 'vector',
       source: {
@@ -1185,6 +1199,7 @@ export const DATA_LAYERS = {
   'palm-oil-mills': {
     label: 'Palm oil mills',
     attributions: ['rw'],
+    group: 'industry',
     config: {
       type: 'vector',
       source: {
@@ -1243,6 +1258,7 @@ export const DATA_LAYERS = {
   mangroves: {
     label: 'Mangroves',
     attributions: ['rw'],
+    group: 'oceans',
     config: {
       type: 'vector',
       source: (year = 2016) => ({
@@ -1318,6 +1334,7 @@ export const DATA_LAYERS = {
   peatlands: {
     label: 'Peatlands',
     attributions: ['rw'],
+    group: 'forests',
     config: {
       type: 'vector',
       source: {
@@ -1381,6 +1398,7 @@ export const DATA_LAYERS = {
   'intact-forest-landscapes': {
     label: 'Intact Forest Landscapes',
     attributions: ['rw'],
+    group: 'forests',
     config: {
       type: 'vector',
       source: {
@@ -1464,6 +1482,7 @@ export const DATA_LAYERS = {
   'all-crops': {
     label: 'All Crops',
     attributions: ['rw'],
+    group: 'food-agriculture',
     config: {
       type: 'vector',
       source: {
@@ -1836,6 +1855,7 @@ export const DATA_LAYERS = {
   'forest-canopy-height': {
     label: 'Forest canopy height',
     attributions: [],
+    group: 'forests',
     config: {
       type: 'raster',
       source: {
@@ -1881,6 +1901,7 @@ export const DATA_LAYERS = {
   'indigenous-community-lands': {
     label: 'Indigenous and Community Lands',
     attributions: ['rw'],
+    group: 'people',
     config: {
       type: 'vector',
       source: {
@@ -2064,6 +2085,15 @@ export const DATA_LAYERS = {
       ],
     },
   },
+};
+
+export const DATA_LAYERS_GROUPS = {
+  forests: 'Forests',
+  'food-agriculture': 'Food and agriculture',
+  conservation: 'Conservation',
+  people: 'People',
+  industry: 'Industry',
+  oceans: 'Oceans',
 };
 
 export const PRESETS = {

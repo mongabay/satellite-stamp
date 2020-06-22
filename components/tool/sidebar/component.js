@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { DATA_LAYERS } from 'components/map';
-import { Checkbox } from 'components/forms';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
 import Tooltip, { sticky } from 'components/tooltip';
 import ExportTooltip from 'components/export-tooltip';
 import DownloadSuccessModal from '../download-success-modal';
+import DataLayerList from '../data-layer-list';
 import ContextualLayerList from '../contextual-layer-list';
 import BasemapList from '../basemap-list';
 
 import './style.scss';
 
-const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer, onClickPresets }) => {
+const Sidebar = ({ exporting, onClickPresets }) => {
   const [expandedAccordion, setExpandedAccordion] = useState('data-layers');
   const [previousExporting, setPreviousExporting] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
@@ -43,27 +42,7 @@ const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer, onClickPreset
             <span className="h1">Data layers</span>
           </AccordionTitle>
           <AccordionPanel>
-            <div className="pt-2">
-              {Object.keys(DATA_LAYERS)
-                .sort((a, b) => DATA_LAYERS[a].label.localeCompare(DATA_LAYERS[b].label))
-                .map(key => (
-                  <Checkbox
-                    key={key}
-                    id={`data-layers-${key}`}
-                    name="data-layers"
-                    checked={activeLayers.indexOf(key) !== -1}
-                    onChange={() => {
-                      if (activeLayers.indexOf(key) !== -1) {
-                        removeLayer(key);
-                      } else {
-                        addLayer(key);
-                      }
-                    }}
-                  >
-                    {DATA_LAYERS[key].label}
-                  </Checkbox>
-                ))}
-            </div>
+            <DataLayerList />
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem
@@ -104,10 +83,7 @@ const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer, onClickPreset
 };
 
 Sidebar.propTypes = {
-  activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   exporting: PropTypes.bool.isRequired,
-  addLayer: PropTypes.func.isRequired,
-  removeLayer: PropTypes.func.isRequired,
   onClickPresets: PropTypes.func.isRequired,
 };
 
