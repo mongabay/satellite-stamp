@@ -2099,26 +2099,27 @@ export const DATA_LAYERS_GROUPS = {
 export const PRESETS = {
   'tree-cover-loss': {
     label: 'Tree cover loss',
-    layers: [
+    basemap: 'landsat',
+    contextualLayers: [
       {
-        id: 'tree-cover-loss',
+        id: 'labels-dark',
       },
       {
-        id: 'tree-cover',
+        id: 'admin-boundaries',
       },
       {
-        id: 'primary-forests',
+        id: 'hillshade',
       },
       {
-        id: 'south-america-tree-cover-height',
+        id: 'roads',
+      },
+      {
+        id: 'water',
       },
     ],
-  },
-  'forest-alerts': {
-    label: 'Forest alerts',
-    layers: [
+    dataLayers: [
       {
-        id: 'glad',
+        id: 'tree-cover-loss',
       },
       {
         id: 'tree-cover',
@@ -2130,68 +2131,48 @@ export const PRESETS = {
   },
   'land-cover-verification': {
     label: 'Land cover verification',
-    layers: [
+    basemap: 'landsat',
+    contextualLayers: [
       {
-        id: 'tree-cover',
+        id: 'labels-light',
       },
       {
-        id: 'primary-forests',
+        id: 'admin-boundaries',
       },
       {
-        id: 'south-america-tree-cover-height',
+        id: 'roads',
       },
       {
-        id: 'land-cover',
-      },
-      {
-        id: 'tree-plantations',
-      },
-      {
-        id: 'protected-areas',
-      },
-      {
-        id: 'urban-built-up-area',
-      },
-      {
-        id: 'mangroves',
-      },
-      {
-        id: 'peatlands',
-      },
-      {
-        id: 'intact-forest-landscapes',
+        id: 'water',
       },
     ],
-  },
-  biodiversity: {
-    label: 'Biodiversity',
-    layers: [
+    dataLayers: [
+      {
+        id: 'glad',
+      },
       {
         id: 'land-cover',
-      },
-      {
-        id: 'tree-plantations',
-      },
-      {
-        id: 'protected-areas',
-      },
-      {
-        id: 'urban-built-up-area',
-      },
-      {
-        id: 'mangroves',
-      },
-      {
-        id: 'peatlands',
-      },
-      {
-        id: 'intact-forest-landscapes',
       },
     ],
   },
   industry: {
     label: 'Industry',
-    layers: [
+    basemap: 'mongabay-paper',
+    contextualLayers: [
+      {
+        id: 'labels-dark',
+      },
+      {
+        id: 'admin-boundaries',
+      },
+      {
+        id: 'hillshade',
+      },
+      {
+        id: 'water',
+      },
+    ],
+    dataLayers: [
       {
         id: 'tree-plantations',
       },
@@ -2207,19 +2188,89 @@ export const PRESETS = {
       {
         id: 'wood-fiber-concessions',
       },
-      {
-        id: 'palm-oil-mills',
-      },
     ],
   },
   infrastructure: {
     label: 'Infrastructure',
-    layers: [
+    basemap: 'mongabay-carbon',
+    contextualLayers: [
+      {
+        id: 'labels-light',
+      },
+      {
+        id: 'admin-boundaries',
+      },
+      {
+        id: 'roads',
+      },
+    ],
+    dataLayers: [
       {
         id: 'urban-built-up-area',
       },
       {
         id: 'population',
+      },
+      {
+        id: 'tree-cover',
+      },
+    ],
+  },
+  'forest-alerts': {
+    label: 'Forest tracker alerts',
+    basemap: 'mongabay-paper',
+    contextualLayers: [
+      {
+        id: 'labels-dark',
+      },
+      {
+        id: 'admin-boundaries',
+      },
+      {
+        id: 'hillshade',
+      },
+      {
+        id: 'roads',
+      },
+    ],
+    dataLayers: [
+      {
+        id: 'glad',
+      },
+      {
+        id: 'primary-forests',
+      },
+      {
+        id: 'tree-cover',
+      },
+    ],
+  },
+  conservation: {
+    label: 'Conservation',
+    basemap: 'mongabay-paper',
+    contextualLayers: [
+      {
+        id: 'labels-dark',
+      },
+      {
+        id: 'admin-boundaries',
+      },
+      {
+        id: 'hillshade',
+      },
+      {
+        id: 'water',
+      },
+    ],
+    dataLayers: [
+      {
+        id: 'protected-areas',
+      },
+      {
+        id: 'primary-forests',
+      },
+      {
+        id: 'tree-cover',
       },
     ],
   },

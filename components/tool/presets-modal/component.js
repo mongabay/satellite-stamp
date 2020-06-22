@@ -1,32 +1,48 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { toggleBasemap, toggleContextualLayers, getLayerDef } from 'utils/map';
+import { toggleBasemap, toggleContextualLayers } from 'utils/map';
 import Modal from 'components/modal';
-import {
-  BASEMAPS,
-  CONTEXTUAL_LAYERS,
-  PRESETS,
-  DATA_LAYERS,
-  mapStyle,
-  Map,
-  LayerManager,
-} from 'components/map';
+import { BASEMAPS, CONTEXTUAL_LAYERS, PRESETS, mapStyle, Map, LayerManager } from 'components/map';
+import { getPresetLayers } from './helpers';
 
 import './style.scss';
 
-const ToolPresetsModal = ({ open, onClose, updateActiveLayers }) => {
-  const onLoadMap = useCallback(map => {
-    toggleBasemap(map, BASEMAPS['mongabay-paper']);
-    toggleContextualLayers(map, [CONTEXTUAL_LAYERS.water]);
+const ToolPresetsModal = ({
+  open,
+  onClose,
+  updateActiveLayers,
+  updateContextualLayers,
+  updateBasemap,
+}) => {
+  const onLoadMap = useCallback((map, preset) => {
+    toggleBasemap(map, BASEMAPS[preset.basemap]);
+    toggleContextualLayers(
+      map,
+      preset.contextualLayers.map(layerId => CONTEXTUAL_LAYERS[layerId.id])
+    );
   }, []);
 
   const onSelect = useCallback(
     preset => {
-      updateActiveLayers(PRESETS[preset.id].layers.map(layer => layer.id).reverse());
+      // We reverse the array so the first layer is on top
+      updateActiveLayers(PRESETS[preset.id].dataLayers.map(layer => layer.id).reverse());
+      updateContextualLayers(PRESETS[preset.id].contextualLayers.map(layer => layer.id));
+      updateBasemap({
+        basemap: PRESETS[preset.id].basemap,
+        params: BASEMAPS[preset.basemap].params
+          ? Object.keys(BASEMAPS[preset.basemap].params).reduce(
+              (res, key) => ({
+                ...res,
+                [key]: BASEMAPS[preset.basemap].params[key].default,
+              }),
+              {}
+            )
+          : {},
+      });
       onClose();
     },
-    [updateActiveLayers, onClose]
+    [updateActiveLayers, updateContextualLayers, updateBasemap, onClose]
   );
 
   return (
@@ -56,16 +72,10 @@ const ToolPresetsModal = ({ open, onClose, updateActiveLayers }) => {
                     transitionDuration: 250,
                     bounds: null,
                   }}
-                  onLoad={onLoadMap}
+                  onLoad={map => onLoadMap(map, preset)}
                 >
                   {map => (
-                    <LayerManager
-                      map={map}
-                      providers={{}}
-                      layers={preset.layers.map(layer =>
-                        getLayerDef(layer.id, DATA_LAYERS[layer.id], {})
-                      )}
-                    />
+                    <LayerManager map={map} providers={{}} layers={getPresetLayers(preset)} />
                   )}
                 </Map>
                 <div className="h1 mt-3 text-center">{preset.label}</div>
@@ -84,6 +94,8 @@ ToolPresetsModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   updateActiveLayers: PropTypes.func.isRequired,
+  updateContextualLayers: PropTypes.func.isRequired,
+  updateBasemap: PropTypes.func.isRequired,
 };
 
 export default ToolPresetsModal;

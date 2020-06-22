@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { getLayerDef, getDatesFromInterval } from 'utils/map';
+import { getLayerDef, getDatesFromInterval, getBasemapDef } from 'utils/map';
 import { BASEMAPS, ATTRIBUTIONS, DATA_LAYERS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -17,45 +17,7 @@ export const selectInsetMap = state => state[SLICE_NAME].insetMap;
 
 export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
-  (basemap, basemapParams) => {
-    if (!BASEMAPS[basemap].url) {
-      return null;
-    }
-
-    let basemapUrls;
-    if (typeof BASEMAPS[basemap].url === 'function') {
-      basemapUrls = BASEMAPS[basemap].url(basemapParams);
-
-      if (basemapUrls === null) {
-        return null;
-      }
-    } else if (Array.isArray(BASEMAPS[basemap].url)) {
-      basemapUrls = BASEMAPS[basemap].url;
-    } else {
-      basemapUrls = [BASEMAPS[basemap].url];
-    }
-
-    if (typeof BASEMAPS[basemap].url !== 'function' && basemapParams) {
-      basemapUrls = basemapUrls.map(url =>
-        Object.keys(basemapParams).reduce(
-          (res, key) => url.replace(`{${key}}`, basemapParams[key]),
-          url
-        )
-      );
-    }
-
-    return {
-      id: basemap,
-      type: 'raster',
-      source: {
-        type: 'raster',
-        tiles: basemapUrls,
-        minzoom: BASEMAPS[basemap].minZoom,
-        maxzoom: BASEMAPS[basemap].maxZoom,
-      },
-      zIndex: 1, // 1 is the minimum we can assign
-    };
-  }
+  (basemap, basemapParams) => getBasemapDef(basemap, BASEMAPS[basemap], basemapParams)
 );
 
 export const selectActiveDataLayers = createSelector([selectLayers], layers => Object.keys(layers));

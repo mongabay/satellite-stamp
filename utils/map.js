@@ -95,6 +95,46 @@ export const getLayerDef = (layerId, layer, layerSettings) => ({
   ...(layer.decodeFunction ? { decodeFunction: layer.decodeFunction } : {}),
 });
 
+export const getBasemapDef = (basemapId, basemap, basemapSettings) => {
+  if (!basemap.url) {
+    return null;
+  }
+
+  let basemapUrls;
+  if (typeof basemap.url === 'function') {
+    basemapUrls = basemap.url(basemapSettings);
+
+    if (basemapUrls === null) {
+      return null;
+    }
+  } else if (Array.isArray(basemap.url)) {
+    basemapUrls = basemap.url;
+  } else {
+    basemapUrls = [basemap.url];
+  }
+
+  if (typeof basemap.url !== 'function' && basemapSettings) {
+    basemapUrls = basemapUrls.map(url =>
+      Object.keys(basemapSettings).reduce(
+        (res, key) => url.replace(`{${key}}`, basemapSettings[key]),
+        url
+      )
+    );
+  }
+
+  return {
+    id: basemapId,
+    type: 'raster',
+    source: {
+      type: 'raster',
+      tiles: basemapUrls,
+      minzoom: basemap.minZoom,
+      maxzoom: basemap.maxZoom,
+    },
+    zIndex: 1, // 1 is the minimum we can assign
+  };
+};
+
 export const toggleBasemap = (map, basemap) => {
   const mapStyle = map.getStyle();
   const { layers } = mapStyle;
