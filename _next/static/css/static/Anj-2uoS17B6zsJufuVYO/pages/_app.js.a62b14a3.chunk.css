@@ -42,15 +42,18 @@
 
 .c-accordion > .item > .title {
   cursor: default; }
-  .c-accordion > .item > .title .button[aria-expanded='false'] .c-icon {
-    transform: rotate(-90deg);
-    transform-origin: center; }
-  .c-accordion > .item > .title .button .c-icon {
-    width: 0.9375rem;
-    margin-right: 1rem;
-    vertical-align: initial; }
-    .c-accordion > .item > .title .button .c-icon use {
-      stroke: currentColor; }
+  .c-accordion > .item > .title .button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; }
+    .c-accordion > .item > .title .button[aria-expanded='false'] .c-icon {
+      transform: rotate(-90deg);
+      transform-origin: center; }
+    .c-accordion > .item > .title .button .c-icon {
+      width: 0.9375rem;
+      vertical-align: initial; }
+      .c-accordion > .item > .title .button .c-icon use {
+        stroke: currentColor; }
 
 .c-accordion > .item > .panel {
   margin: 0.5rem 0; }
