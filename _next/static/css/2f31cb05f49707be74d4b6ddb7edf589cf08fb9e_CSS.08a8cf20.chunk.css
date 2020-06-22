@@ -213,6 +213,48 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
   font-size: 0.75rem;
   color: #222222 !important; }
 
+.tippy-popper {
+  max-width: none !important;
+  z-index: 9 !important; }
+  .tippy-popper div.tippy-tooltip {
+    max-width: none !important; }
+  .tippy-popper div.tippy-tooltip.light-theme {
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: inherit;
+    color: #222222;
+    border-radius: 0.625rem;
+    background-color: #fff;
+    border: 0.0625rem solid rgba(34, 34, 34, 0.3);
+    box-shadow: 0.0625rem 0.0625rem 0.625rem 0 rgba(0, 0, 0, 0.1); }
+    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='top'] > .tippy-arrow {
+      border-top-color: #fff; }
+      .tippy-popper div.tippy-tooltip.light-theme[data-placement^='top'] > .tippy-arrow:after {
+        position: absolute;
+        top: -0.375rem;
+        left: -0.4375rem;
+        border: 0.4375rem solid transparent;
+        border-top-color: rgba(34, 34, 34, 0.3);
+        z-index: -1;
+        content: ''; }
+    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='bottom'] > .tippy-arrow {
+      border-bottom-color: #fff; }
+    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='left'] > .tippy-arrow {
+      border-left-color: #fff; }
+    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='right'] > .tippy-arrow {
+      border-right-color: #fff; }
+      .tippy-popper div.tippy-tooltip.light-theme[data-placement^='right'] > .tippy-arrow:after {
+        position: absolute;
+        top: -0.4375rem;
+        left: -0.5rem;
+        border: 0.4375rem solid transparent;
+        border-top-color: rgba(34, 34, 34, 0.3);
+        z-index: -1;
+        transform: rotate(90deg);
+        content: ''; }
+    .tippy-popper div.tippy-tooltip.light-theme .tippy-content {
+      padding: 0; }
+
 .c-radio .custom-control-input:checked:not(:disabled):active ~ .custom-control-label:before {
   background-color: transparent; }
 
@@ -287,48 +329,6 @@ select.c-select {
         left: 50%;
         transform: translateX(-50%);
         content: attr(data-label); }
-
-.tippy-popper {
-  max-width: none !important;
-  z-index: 9 !important; }
-  .tippy-popper div.tippy-tooltip {
-    max-width: none !important; }
-  .tippy-popper div.tippy-tooltip.light-theme {
-    padding: 1rem;
-    font-size: 1rem;
-    line-height: inherit;
-    color: #222222;
-    border-radius: 0.625rem;
-    background-color: #fff;
-    border: 0.0625rem solid rgba(34, 34, 34, 0.3);
-    box-shadow: 0.0625rem 0.0625rem 0.625rem 0 rgba(0, 0, 0, 0.1); }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='top'] > .tippy-arrow {
-      border-top-color: #fff; }
-      .tippy-popper div.tippy-tooltip.light-theme[data-placement^='top'] > .tippy-arrow:after {
-        position: absolute;
-        top: -0.375rem;
-        left: -0.4375rem;
-        border: 0.4375rem solid transparent;
-        border-top-color: rgba(34, 34, 34, 0.3);
-        z-index: -1;
-        content: ''; }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='bottom'] > .tippy-arrow {
-      border-bottom-color: #fff; }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='left'] > .tippy-arrow {
-      border-left-color: #fff; }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='right'] > .tippy-arrow {
-      border-right-color: #fff; }
-      .tippy-popper div.tippy-tooltip.light-theme[data-placement^='right'] > .tippy-arrow:after {
-        position: absolute;
-        top: -0.4375rem;
-        left: -0.5rem;
-        border: 0.4375rem solid transparent;
-        border-top-color: rgba(34, 34, 34, 0.3);
-        z-index: -1;
-        transform: rotate(90deg);
-        content: ''; }
-    .tippy-popper div.tippy-tooltip.light-theme .tippy-content {
-      padding: 0; }
 
 .c-export-tooltip {
   max-width: 21.25rem; }
@@ -413,6 +413,16 @@ select.c-select {
 
 .c-tool-download-success-modal {
   max-width: 32.5rem; }
+
+.c-tool-data-layer-list h2 {
+  margin: 0 0 1rem;
+  font-family: "Open Sans", serif;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700; }
+
+.c-tool-data-layer-list .group + .group {
+  margin-top: 1.5rem; }
 
 .c-tool-recent-imagery-settings .note {
   font-size: 0.8125rem; }
@@ -590,12 +600,6 @@ select.c-select {
         .c-tool-sidebar .c-accordion .item.-expanded > .panel {
           padding: 0.5rem 0;
           overflow: auto; }
-      .c-tool-sidebar .c-accordion .item h2 {
-        margin: 1.5rem 0 1rem;
-        font-family: "Open Sans", serif;
-        text-transform: uppercase;
-        font-size: 1rem;
-        font-weight: 700; }
 
 .c-inset-map {
   padding: 0.3125rem;
