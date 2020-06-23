@@ -9,6 +9,31 @@
     font-weight: $font-weight-bold;
   }
 
+  .params {
+    margin: map-get($spacers, 3) 0;
+    padding: 0 0 map-get($spacers, 3) $custom-control-gutter + $custom-control-indicator-size;
+    border-bottom: rem(1) solid $border-color-1;
+
+    .param {
+      & + .param {
+        margin-top: map-get($spacers, 3);
+      }
+
+      label {
+        display: block;
+        @include font-size($font-size-xs);
+        color: $text-color-3;
+        text-transform: uppercase;
+      }
+
+      select,
+      input {
+        color: $text-color-2;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+
   .group + .group {
     margin-top: map-get($spacers, 4);
   }

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import omit from 'lodash/omit';
 
 export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
   const minDate = moment(layer.legend.timeline.minDate);
@@ -71,7 +72,8 @@ export const getLayerDef = (layerId, layer, layerSettings) => ({
                 dateRange: layerSettings.dateRange,
                 currentDate: layerSettings.currentDate,
               }).endYear
-            : undefined
+            : undefined,
+          omit(layerSettings, 'dateRange')
         )
       : layer.config.source,
   opacity: layerSettings.opacity,

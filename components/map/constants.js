@@ -290,10 +290,10 @@ export const DATA_LAYERS = {
     group: 'forests',
     config: {
       type: 'raster',
-      source: (year = 2010) => {
+      source: (year = 2010, { canopyDensity = 30 }) => {
         const yearToTiles = {
-          2000: 'https://earthengine.google.org/static/hansen_2014/gfw_loss_tree_year_30_2014/{z}/{x}/{y}.png',
-          2010: 'https://storage.googleapis.com/wri-public/treecover/2010/30/{z}/{x}/{y}.png',
+          2000: `https://earthengine.google.org/static/hansen_2014/gfw_loss_tree_year_${canopyDensity}_2014/{z}/{x}/{y}.png`,
+          2010: `https://storage.googleapis.com/wri-public/treecover/2010/${canopyDensity}/{z}/{x}/{y}.png`,
         };
 
         return {
@@ -301,6 +301,13 @@ export const DATA_LAYERS = {
           minzoom: 2,
           maxzoom: 12,
         };
+      },
+    },
+    params: {
+      canopyDensity: {
+        label: 'Minimum canopy density percentage',
+        values: [10, 15, 20, 25, 30, 50, 75],
+        default: 30,
       },
     },
     legend: {

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { DATA_LAYERS, DATA_LAYERS_GROUPS } from 'components/map';
-import { Checkbox } from 'components/forms';
+import { Checkbox, Select } from 'components/forms';
 
 import './style.scss';
 
@@ -25,7 +25,7 @@ const GROUPS = Object.keys(DATA_LAYERS).reduce((res, key) => {
   return groups;
 }, {});
 
-const DataLayerList = ({ activeLayers, removeLayer, addLayer }) => {
+const DataLayerList = ({ activeLayers, layers, removeLayer, addLayer, updateLayer }) => {
   return (
     <div className="c-tool-data-layer-list">
       {Object.keys(GROUPS)
@@ -34,21 +34,59 @@ const DataLayerList = ({ activeLayers, removeLayer, addLayer }) => {
           <div key={key} className="group">
             <h2>{GROUPS[key].label}</h2>
             {GROUPS[key].layers.map(layer => (
-              <Checkbox
-                key={layer.id}
-                id={`data-layers-${layer.id}`}
-                name="data-layers"
-                checked={activeLayers.indexOf(layer.id) !== -1}
-                onChange={() => {
-                  if (activeLayers.indexOf(layer.id) !== -1) {
-                    removeLayer(layer.id);
-                  } else {
-                    addLayer(layer.id);
-                  }
-                }}
-              >
-                {layer.label}
-              </Checkbox>
+              <Fragment key={layer.id}>
+                <Checkbox
+                  id={`data-layers-${layer.id}`}
+                  name="data-layers"
+                  checked={activeLayers.indexOf(layer.id) !== -1}
+                  onChange={() => {
+                    if (activeLayers.indexOf(layer.id) !== -1) {
+                      removeLayer(layer.id);
+                    } else {
+                      addLayer(layer.id);
+                    }
+                  }}
+                >
+                  {layer.label}
+                </Checkbox>
+                {activeLayers.indexOf(layer.id) !== -1 && !!layer.params && (
+                  <div className="params">
+                    {Object.keys(layer.params).map(param => (
+                      <div key={param} className="param">
+                        <label htmlFor={`basemap-${layer.id}-${param}`}>
+                          {layer.params[param].label}
+                        </label>
+                        <div className="input-group input-group-sm">
+                          {Array.isArray(layer.params[param].values) && (
+                            <Select
+                              id={`basemap-${layer.id}-${param}`}
+                              value={`${layers[layer.id][param] ?? layer.params[param].default}`}
+                              options={layer.params[param].values.map(value => ({
+                                label: `${value}`,
+                                value: `${value}`,
+                              }))}
+                              onChange={({ value }) =>
+                                updateLayer({ id: layer.id, [param]: value })
+                              }
+                            />
+                          )}
+                          {!Array.isArray(layer.params[param].values) && (
+                            <input
+                              type="text"
+                              id={`basemap-${key}-${param}`}
+                              className="form-control"
+                              value={layers[layer.id][param] || ''}
+                              onChange={({ target }) =>
+                                updateLayer({ id: layer.id, [param]: target.value })
+                              }
+                            />
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Fragment>
             ))}
           </div>
         ))}
@@ -58,8 +96,10 @@ const DataLayerList = ({ activeLayers, removeLayer, addLayer }) => {
 
 DataLayerList.propTypes = {
   activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  layers: PropTypes.object.isRequired,
   addLayer: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,
+  updateLayer: PropTypes.func.isRequired,
 };
 
 export default DataLayerList;
