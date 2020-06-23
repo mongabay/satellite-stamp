@@ -243,15 +243,21 @@ export const DATA_LAYERS = {
         canPlay: true,
       },
     },
+    params: {
+      confirmedOnly: {
+        label: 'Confirmed alerts only',
+        default: false,
+      },
+    },
     decodeParams: {
       numberOfDays: 1961,
       startDayIndex: 0,
       endDayIndex: 1961,
+      confirmedOnly: 0,
     },
     decodeFunction: `
       // values for creating power scale, domain (input), and range (output)
       float confidenceValue = 0.;
-      float confirmedOnly = 1.;
       if (confirmedOnly > 0.) {
         confidenceValue = 200.;
       }

@@ -85,6 +85,19 @@ export const getLayerDef = (layerId, layer, layerSettings) => ({
     ? {
         decodeParams: {
           ...layer.decodeParams,
+          ...Object.keys(layer.params ?? {})
+            .filter(key => layer.decodeParams[key] !== undefined)
+            .reduce((res, key) => {
+              let value = layerSettings[key] ?? layer.params[key].default;
+              if (typeof value === 'boolean') {
+                value = value ? 1 : 0;
+              }
+
+              return {
+                ...res,
+                [key]: value,
+              };
+            }, {}),
           ...(layerSettings.dateRange
             ? computeDecodeParams(layer, {
                 dateRange: layerSettings.dateRange,
