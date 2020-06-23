@@ -12,7 +12,7 @@ const InsetMapSettings = ({ showMap, toggleMap }) => {
     <div className="c-tool-inset-map-settings">
       <div className="group">
         <Checkbox
-          id={`contextual-layer-recent-imagery`}
+          id={`contextual-layer-inset-map`}
           name="contextual-layer"
           checked={showMap}
           onChange={onToggle}
