@@ -213,6 +213,24 @@ export const DATA_LAYERS = {
     label: 'Deforestation alerts (GLAD)',
     attributions: ['rw'],
     group: 'forests',
+    init: async layer => {
+      try {
+        const res = await fetch('https://api.resourcewatch.org/v1/glad-alerts/latest');
+        const { data } = await res.json();
+        const date = data[0].attributes.date;
+        const daysDifference = moment(date).diff(moment(layer.legend.timeline.minDate), 'days');
+
+        layer.legend.timeline.maxDate = date;
+        layer.decodeParams = {
+          ...layer.decodeParams,
+          numberOfDays: daysDifference,
+          endDayIndex: daysDifference,
+        };
+      } catch (e) {
+        console.error('Unable to initialize the GLAD layer.');
+        console.error(e);
+      }
+    },
     config: {
       type: 'raster',
       source: {
