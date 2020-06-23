@@ -1,0 +1,25 @@
+@import 'css/settings';
+
+.c-data-layer-list-param {
+  label {
+    display: block;
+    @include font-size($font-size-xs);
+    color: $text-color-3;
+    text-transform: uppercase;
+  }
+
+  select,
+  input {
+    color: $text-color-2;
+    font-weight: $font-weight-bold;
+  }
+
+  .custom-control-label {
+    line-height: $line-height-base * $font-size-base;
+    font-weight: $font-weight-bold;
+  }
+
+  .custom-control-input:checked ~ .custom-control-label {
+    color: $text-color-3;
+  }
+}

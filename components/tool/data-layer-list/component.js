@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { DATA_LAYERS, DATA_LAYERS_GROUPS } from 'components/map';
-import { Checkbox, Select } from 'components/forms';
+import { Checkbox } from 'components/forms';
+import Param from './param';
 
 import './style.scss';
 
@@ -52,37 +53,13 @@ const DataLayerList = ({ activeLayers, layers, removeLayer, addLayer, updateLaye
                 {activeLayers.indexOf(layer.id) !== -1 && !!layer.params && (
                   <div className="params">
                     {Object.keys(layer.params).map(param => (
-                      <div key={param} className="param">
-                        <label htmlFor={`basemap-${layer.id}-${param}`}>
-                          {layer.params[param].label}
-                        </label>
-                        <div className="input-group input-group-sm">
-                          {Array.isArray(layer.params[param].values) && (
-                            <Select
-                              id={`basemap-${layer.id}-${param}`}
-                              value={`${layers[layer.id][param] ?? layer.params[param].default}`}
-                              options={layer.params[param].values.map(value => ({
-                                label: `${value}`,
-                                value: `${value}`,
-                              }))}
-                              onChange={({ value }) =>
-                                updateLayer({ id: layer.id, [param]: value })
-                              }
-                            />
-                          )}
-                          {!Array.isArray(layer.params[param].values) && (
-                            <input
-                              type="text"
-                              id={`basemap-${key}-${param}`}
-                              className="form-control"
-                              value={layers[layer.id][param] || ''}
-                              onChange={({ target }) =>
-                                updateLayer({ id: layer.id, [param]: target.value })
-                              }
-                            />
-                          )}
-                        </div>
-                      </div>
+                      <Param
+                        key={param}
+                        param={param}
+                        paramConfig={layer.params[param]}
+                        paramValue={layers[layer.id][param]}
+                        onChange={value => updateLayer({ id: layer.id, [param]: value })}
+                      />
                     ))}
                   </div>
                 )}
