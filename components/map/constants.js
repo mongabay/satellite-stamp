@@ -2085,6 +2085,166 @@ export const DATA_LAYERS = {
       ],
     },
   },
+  'chicken-density': {
+    label: 'Chicken density (chickens/km²)',
+    attributions: ['rw'],
+    group: 'food-agriculture',
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          'https://api.resourcewatch.org/v1/layer/8e5a3837-06af-4b19-9623-c4e91ef19459/tile/gee/{z}/{x}/{y}',
+        ],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'choropleth',
+      items: [
+        {
+          name: '≥1',
+          color: '#fff7ec',
+        },
+        {
+          name: '≤50',
+          color: '#fee8c8',
+        },
+        {
+          name: '≤100',
+          color: '#fdd49e',
+        },
+        {
+          name: '≤250',
+          color: '#fdbb84',
+        },
+        {
+          name: '≤500',
+          color: '#fc8d59',
+        },
+        {
+          name: '≤1k',
+          color: '#ef6548',
+        },
+        {
+          name: '≤2.5k',
+          color: '#d7301f',
+        },
+        {
+          name: '≤10k',
+          color: '#b30000',
+        },
+        {
+          name: '>10k',
+          color: '#7f0000',
+        },
+      ],
+    },
+  },
+  'pig-density': {
+    label: 'Pig density (pigs/km²)',
+    attributions: ['rw'],
+    group: 'food-agriculture',
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          'https://api.resourcewatch.org/v1/layer/b1a001f5-3af8-4cc9-803d-3acedeb31088/tile/gee/{z}/{x}/{y}',
+        ],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'choropleth',
+      items: [
+        {
+          name: '≥1',
+          color: '#fde0dd',
+        },
+        {
+          name: '≤5',
+          color: '#fcc5c0',
+        },
+        {
+          name: '≤10',
+          color: '#fa9fb5',
+        },
+        {
+          name: '≤20',
+          color: '#f768a1',
+        },
+        {
+          name: '≤50',
+          color: '#dd3497',
+        },
+        {
+          name: '≤100',
+          color: '#ae017e',
+        },
+        {
+          name: '≤250',
+          color: '#7a0177',
+        },
+        {
+          name: '>250',
+          color: '#49006a',
+        },
+      ],
+    },
+  },
+  'cattle-density': {
+    label: 'Cattle density (cattle/km²)',
+    attributions: ['rw'],
+    group: 'food-agriculture',
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          'https://api.resourcewatch.org/v1/layer/10587041-b4c5-493d-ac9e-cf75bc2d58b7/tile/gee/{z}/{x}/{y}',
+        ],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'choropleth',
+      items: [
+        {
+          name: '≥1',
+          color: '#FFFFE5',
+        },
+        {
+          name: '≤5',
+          color: '#FFF7BC',
+        },
+        {
+          name: '≤10',
+          color: '#FEE391',
+        },
+        {
+          name: '≤20',
+          color: '#FEC44F',
+        },
+        {
+          name: '≤50',
+          color: '#FE9929',
+        },
+        {
+          name: '≤100',
+          color: '#EC7014',
+        },
+        {
+          name: '≤250',
+          color: '#CC4C02',
+        },
+        {
+          name: '>250',
+          color: '#8C2D04',
+        },
+      ],
+    },
+  },
 };
 
 export const DATA_LAYERS_GROUPS = {
