@@ -12,6 +12,7 @@ import classnames from 'classnames';
 
 import Icon from 'components/icon';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
+import { Datepicker } from 'components/forms';
 import { getLayerWithFilteredLegendItems } from './helpers';
 import Title from './title';
 
@@ -89,6 +90,51 @@ const Legend = ({
             {!exporting && (
               <LegendItemTimeStep handleChange={dates => onChangeDate(layer.id, dates)} />
             )}
+            {!exporting &&
+              layer.layers[0].legendConfig.timeline?.range !== false &&
+              // The native datepickers only support the combination day, month and year
+              // Layers that use other intervals are also less likely to need separate for precision
+              layer.layers[0].legendConfig.timeline?.interval === 'days' && (
+                <div className="timestep-controls">
+                  <div>
+                    <label htmlFor={`legend-${layer.id}-from`}>From</label>
+                    <div className="input-group input-group-sm">
+                      {console.log(layer.layers[0])}
+                      <Datepicker
+                        id={`legend-${layer.id}-from`}
+                        min={layer.layers[0].legendConfig.timeline.minDate}
+                        max={layer.layers[0].timelineParams?.trimEndDate || undefined}
+                        value={layer.layers[0].timelineParams?.startDate || ''}
+                        onChange={({ target }) =>
+                          onChangeDate(layer.id, [
+                            target.value,
+                            layer.layers[0].timelineParams?.trimEndDate,
+                            layer.layers[0].timelineParams?.trimEndDate,
+                          ])
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor={`legend-${layer.id}-from`}>To</label>
+                    <div className="input-group input-group-sm">
+                      <Datepicker
+                        id={`legend-${layer.id}-from`}
+                        min={layer.layers[0].timelineParams?.startDate}
+                        max={layer.layers[0].legendConfig.timeline.maxDate || undefined}
+                        value={layer.layers[0].timelineParams?.trimEndDate || ''}
+                        onChange={({ target }) =>
+                          onChangeDate(layer.id, [
+                            layer.layers[0].timelineParams?.startDate,
+                            target.value,
+                            target.value,
+                          ])
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
           </LegendListItem>
         ))}
     </VizzLegend>
