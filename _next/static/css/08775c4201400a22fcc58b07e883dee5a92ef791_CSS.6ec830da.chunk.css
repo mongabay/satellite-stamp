@@ -178,7 +178,8 @@ li.vizzuality__c-legend-item {
     .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__legend-item-header h3 {
       font-size: 0.8125rem; }
     .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-item-types {
-      margin-top: 0.5rem; }
+      margin-top: 0.5rem;
+      font-size: 0.75rem; }
     .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .c-legend-type-group .c-icon {
       display: none; }
   li.vizzuality__c-legend-item .vizzuality__legend-item-container {
@@ -558,17 +559,34 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
     transform: translate(-50%, -50%) rotate(0deg);
     height: 3.75rem;
     width: 3.75rem;
-    animation: rotate 2s linear infinite; }
+    -webkit-animation: rotate 2s linear infinite;
+            animation: rotate 2s linear infinite; }
     .c-loading-spinner > svg > circle {
       stroke-dasharray: 1, 200;
       stroke-dashoffset: 0;
-      animation: dash 1.5s ease-in-out infinite;
+      -webkit-animation: dash 1.5s ease-in-out infinite;
+              animation: dash 1.5s ease-in-out infinite;
       stroke-linecap: round;
       stroke: #03755e; }
+
+@-webkit-keyframes rotate {
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg); } }
 
 @keyframes rotate {
   100% {
     transform: translate(-50%, -50%) rotate(360deg); } }
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124; } }
 
 @keyframes dash {
   0% {

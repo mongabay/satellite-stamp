@@ -168,7 +168,8 @@ li.vizzuality__c-legend-item {
     .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__legend-item-header h3 {
       font-size: 0.8125rem; }
     .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-item-types {
-      margin-top: 0.5rem; }
+      margin-top: 0.5rem;
+      font-size: 0.75rem; }
     .c-map-legend.-exporting li.vizzuality__c-legend-item .vizzuality__legend-item-container .c-legend-type-group .c-icon {
       display: none; }
   li.vizzuality__c-legend-item .vizzuality__legend-item-container {
