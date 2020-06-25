@@ -57,6 +57,7 @@ li.vizzuality__c-legend-item {
 
       .vizzuality__c-legend-item-types {
         margin-top: map-get($spacers, 2);
+        @include font-size($font-size-xs);
       }
 
       .c-legend-type-group .c-icon {
