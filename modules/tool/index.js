@@ -194,6 +194,7 @@ const selectors = {
       return mode === '1' && showInsetMap;
     }
   ),
+  selectRestoring: createSelector([mapModule.selectRestoring], mapRestoring => mapRestoring),
 };
 
 export const toolActions = actions;

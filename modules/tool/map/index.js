@@ -14,6 +14,7 @@ export const selectRecentImagery = state => state[SLICE_NAME].recentImagery;
 export const selectLayers = state => state[SLICE_NAME].layers;
 export const selectDataLayers = () => DATA_LAYERS;
 export const selectInsetMap = state => state[SLICE_NAME].insetMap;
+export const selectRestoring = state => state[SLICE_NAME].restoring;
 
 export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
@@ -166,6 +167,7 @@ export default toolActions =>
   createSlice({
     name: SLICE_NAME,
     initialState: {
+      restoring: true,
       // Each viewport correspond to a map
       viewports: [
         {
@@ -290,6 +292,7 @@ export default toolActions =>
         return {
           ...state,
           ...stateToRestore,
+          restoring: false,
           layers: {
             ...(stateToRestore.layers ?? state.layers),
           },

@@ -6,6 +6,7 @@ import Component from './component';
 export default connect(
   state => ({
     serializedState: toolSelectors.selectSerializedState(state),
+    restoring: toolSelectors.selectRestoring(state),
   }),
   {
     restoreState: toolActions.restoreState,

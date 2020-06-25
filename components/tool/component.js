@@ -11,9 +11,9 @@ import PresetsModal from './presets-modal';
 import './style.scss';
 import LoadingSpinner from 'components/loading-spinner';
 
-const Tool = ({ serializedState, restoreState }) => {
+const Tool = ({ serializedState, restoring, restoreState }) => {
   const [presetsOpen, setPresetsOpen] = useState(false);
-  const [init, setInit] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {
@@ -27,7 +27,7 @@ const Tool = ({ serializedState, restoreState }) => {
 
   // When we init the app, we also want to initialize the layers that need to do so
   useEffect(() => {
-    setInit(true);
+    setLoading(true);
 
     // NOTE: this action will mutate DATA_LAYERS which is not ideal, but is simple enough to update
     // at a later point
@@ -35,13 +35,13 @@ const Tool = ({ serializedState, restoreState }) => {
       Object.keys(DATA_LAYERS)
         .filter(layerId => !!DATA_LAYERS[layerId].init)
         .map(layerId => DATA_LAYERS[layerId].init(DATA_LAYERS[layerId]))
-    ).then(() => setInit(false));
+    ).then(() => setLoading(false));
   }, []);
 
   return (
     <div className="c-tool">
-      {init && <LoadingSpinner />}
-      {!init && (
+      {(loading || restoring) && <LoadingSpinner />}
+      {!loading && !restoring && (
         <>
           <PlanetModal />
           <PresetsModal open={presetsOpen} onClose={() => setPresetsOpen(false)} />
@@ -55,6 +55,7 @@ const Tool = ({ serializedState, restoreState }) => {
 
 Tool.propTypes = {
   serializedState: PropTypes.string.isRequired,
+  restoring: PropTypes.bool.isRequired,
   restoreState: PropTypes.func.isRequired,
 };
 
