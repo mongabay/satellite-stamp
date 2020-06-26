@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
+import after from 'lodash/after';
 
 import Icon from 'components/icon';
 import { Select } from 'components/forms';
@@ -18,6 +19,8 @@ const ExportTooltip = ({
   mode,
   modeParams,
   temporalDiffLayers,
+  exporting,
+  idle,
   updateSettings,
   updateExporting,
   updateMode,
@@ -65,13 +68,23 @@ const ExportTooltip = ({
     e => {
       e.preventDefault();
       updateExporting(true);
-      // The delay gives enough time to the map to fit the bounds and load any extra tiles
-      setTimeout(async () => {
-        await downloadImage();
-        updateExporting(false);
-      }, 2000);
     },
     [updateExporting]
+  );
+
+  const initDownload = useCallback(
+    // When exporting is set to true initially, the maps haven't resized yet and are all idle
+    // For this reason, we wait for the second time all the maps are idle
+    after(2, async () => {
+      await downloadImage();
+      updateExporting(false);
+    }),
+    [
+      // exporting is not used in the function but is necessary to reset the “after” counter on each
+      // of the exports
+      exporting,
+      updateExporting,
+    ]
   );
 
   // If the user removes the layer that was used for temporal diffing, then we reset the options
@@ -80,6 +93,12 @@ const ExportTooltip = ({
       updateModeParams({ ...modeParams, layer: '', map1Date: '', map2Date: '' });
     }
   }, [modeParams, temporalDiffLayers, updateModeParams]);
+
+  useEffect(() => {
+    if (exporting && idle.every(i => i)) {
+      initDownload();
+    }
+  }, [exporting, idle, initDownload]);
 
   return (
     <div className="c-export-tooltip">
@@ -296,6 +315,8 @@ ExportTooltip.propTypes = {
   mode: PropTypes.string.isRequired,
   modeParams: PropTypes.object.isRequired,
   temporalDiffLayers: PropTypes.object.isRequired,
+  exporting: PropTypes.bool.isRequired,
+  idle: PropTypes.arrayOf(PropTypes.bool),
   updateSettings: PropTypes.func.isRequired,
   updateExporting: PropTypes.func.isRequired,
   updateMode: PropTypes.func.isRequired,

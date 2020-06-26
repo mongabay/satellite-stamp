@@ -21,6 +21,7 @@ export default connect(
   {
     updateViewport: mapActions.updateViewport,
     updateViewports: mapActions.updateViewports,
+    updateIdle: mapActions.updateIdle,
     updateBasemap: mapActions.updateBasemap,
     removeLayer: mapActions.removeLayer,
     updateLayer: mapActions.updateLayer,

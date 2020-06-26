@@ -13,7 +13,7 @@ export const DEFAULT_VIEWPORT = {
 };
 
 const Comp = (
-  { className, viewport, mapStyle, onLoad, onViewportChange, children, ...rest },
+  { className, viewport, mapStyle, onLoad, onViewportChange, onBusy, onIdle, children, ...rest },
   ref
 ) => {
   const mapContainer = useRef(null);
@@ -64,6 +64,30 @@ const Comp = (
     }
   }, [viewport, previousViewport, setPreviousViewport, setInternalViewport]);
 
+  useEffect(() => {
+    if (loaded && onBusy) {
+      map.current.getMap().on('dataloading', onBusy);
+    }
+
+    return () => {
+      if (loaded) {
+        map.current.getMap().off('dataloading', onBusy);
+      }
+    };
+  }, [loaded, map.current, onBusy]);
+
+  useEffect(() => {
+    if (loaded && onIdle) {
+      map.current.getMap().on('idle', onIdle);
+    }
+
+    return () => {
+      if (loaded) {
+        map.current.getMap().off('idle', onIdle);
+      }
+    };
+  }, [loaded, map.current, onIdle]);
+
   return (
     <div ref={mapContainer} className={['c-map', ...(className ? [className] : [])].join(' ')}>
       <ReactMapGL
@@ -107,6 +131,8 @@ Map.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   onLoad: PropTypes.func,
   onViewportChange: PropTypes.func,
+  onBusy: PropTypes.func,
+  onIdle: PropTypes.func,
 };
 
 Map.defaultProps = {
@@ -116,6 +142,8 @@ Map.defaultProps = {
   children: undefined,
   onLoad: () => null,
   onViewportChange: undefined,
+  onBusy: undefined,
+  onIdle: undefined,
 };
 
 export default Map;

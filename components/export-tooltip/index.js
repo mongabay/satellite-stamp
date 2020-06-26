@@ -10,6 +10,8 @@ export default connect(
     mode: exportSelectors.selectMode(state),
     modeParams: exportSelectors.selectModeParams(state),
     temporalDiffLayers: mapSelectors.selectExportTemporalDiffLayers(state),
+    exporting: exportSelectors.selectExporting(state),
+    idle: mapSelectors.selectIdle(state),
   }),
   {
     updateSettings: exportActions.updateSettings,

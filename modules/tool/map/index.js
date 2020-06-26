@@ -15,6 +15,7 @@ export const selectLayers = state => state[SLICE_NAME].layers;
 export const selectDataLayers = () => DATA_LAYERS;
 export const selectInsetMap = state => state[SLICE_NAME].insetMap;
 export const selectRestoring = state => state[SLICE_NAME].restoring;
+export const selectIdle = state => state[SLICE_NAME].idle;
 
 export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
@@ -178,6 +179,8 @@ export default toolActions =>
           bounds: null,
         },
       ],
+      // Whether each map is idle
+      idle: [true],
       basemap: 'mongabay-paper',
       basemapParams: null,
       contextualLayers: ['labels-none', 'hillshade'],
@@ -208,6 +211,10 @@ export default toolActions =>
           ...viewport,
           transitionDuration,
         });
+      },
+      updateIdle(state, action) {
+        const { index, idle } = action.payload;
+        state.idle.splice(index, 1, idle);
       },
       updateBasemap(state, action) {
         state.basemap = action.payload.basemap;
@@ -303,6 +310,7 @@ export default toolActions =>
         switch (action.payload) {
           case '1':
             state.viewports = [{ ...state.viewports[0] }];
+            state.idle = [state.idle[0]];
             return;
 
           case '2-vertical':
@@ -312,6 +320,9 @@ export default toolActions =>
             state.viewports = new Array(2)
               .fill(null)
               .map((_, index) => ({ ...(state.viewports[index] ?? state.viewports[0]) }));
+            state.idle = Array(2)
+              .fill(null)
+              .map((_, index) => state.idle[index] ?? true);
             return;
 
           case '4':
@@ -320,6 +331,9 @@ export default toolActions =>
             state.viewports = new Array(4)
               .fill(null)
               .map((_, index) => ({ ...(state.viewports[index] ?? state.viewports[0]) }));
+            state.idle = Array(4)
+              .fill(null)
+              .map((_, index) => state.idle[index] ?? true);
             return;
 
           default:

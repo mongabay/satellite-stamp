@@ -29,6 +29,7 @@ const Visualization = ({
   updateLayerOrder,
   updateViewport,
   updateViewports,
+  updateIdle,
 }) => {
   const [interactiveFeature, setInteractiveFeature] = useState(null);
 
@@ -92,7 +93,7 @@ const Visualization = ({
         `${exporting ? 'exporting' : ''}`,
       ])}
     >
-      {exporting && <div className="exporting-message">Exporting...</div>}
+      {exporting && <div className="exporting-message">Gathering the tiles and exporting...</div>}
       <div
         className="container-width js-visualization"
         // We need both width and min-width:
@@ -150,6 +151,8 @@ const Visualization = ({
                       });
                     }
                   }}
+                  onBusy={() => updateIdle({ index, idle: false })}
+                  onIdle={() => updateIdle({ index, idle: true })}
                 >
                   <>
                     {interactiveFeature && (
@@ -195,6 +198,7 @@ Visualization.propTypes = {
   removeLayer: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
   updateLayerOrder: PropTypes.func.isRequired,
+  updateIdle: PropTypes.func.isRequired,
 };
 
 export default Visualization;
