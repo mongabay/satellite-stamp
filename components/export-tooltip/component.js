@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
-import after from 'lodash/after';
+import once from 'lodash/once';
 
 import Icon from 'components/icon';
 import { Select } from 'components/forms';
@@ -37,6 +37,7 @@ const ExportTooltip = ({
       isValid: true,
     },
   });
+  const latestIdle = useRef(idle);
 
   const debouncedUpdateSettings = useCallback(debounce(updateSettings, 500), [updateSettings]);
 
@@ -73,14 +74,13 @@ const ExportTooltip = ({
   );
 
   const initDownload = useCallback(
-    // When exporting is set to true initially, the maps haven't resized yet and are all idle
-    // For this reason, we wait for the second time all the maps are idle
-    after(2, async () => {
+    // The effect might call initDownload several times so we make sure it is only executed once
+    once(async () => {
       await downloadImage();
       updateExporting(false);
     }),
     [
-      // exporting is not used in the function but is necessary to reset the “after” counter on each
+      // exporting is not used in the function but is necessary to reset the “once” counter on each
       // of the exports
       exporting,
       updateExporting,
@@ -94,10 +94,26 @@ const ExportTooltip = ({
     }
   }, [modeParams, temporalDiffLayers, updateModeParams]);
 
+  // We initiate the download when the map is idle and the exporting flag is set
   useEffect(() => {
-    if (exporting && idle.every(i => i)) {
-      initDownload();
-    }
+    // When the user clicks the download button, at that precise moment, the map is idle but it
+    // hasn't resized yet. To avoid executing initDownload at that point, we delay its execution.
+    // Unfortunately, idle will still have the value of when the effect was executed so we may still
+    // export the image before the map was resized.
+    // latestIdle is a ref to idle. By using it instead of idle, we ensure that the function inside
+    // setTimeout will see the latest value of idle. This prevents the app from exporting before the
+    // map has resized and its tiles have loaded.
+    // Learn more about the ref technique here:
+    // https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function
+    latestIdle.current = idle;
+
+    // Because the execution of initDownload is delayed in time, initDownload may be called multiple
+    // times. initDownload must only consider the first call as relevant.
+    setTimeout(() => {
+      if (exporting && latestIdle.current.every(i => i)) {
+        initDownload();
+      }
+    }, 100);
   }, [exporting, idle, initDownload]);
 
   return (
