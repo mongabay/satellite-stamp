@@ -93,6 +93,7 @@ const Comp = (
       <ReactMapGL
         ref={composeRefs(map, ref)}
         mapboxApiAccessToken={process.env.MAPBOX_API_KEY}
+        disableTokenWarning={true}
         width="100%"
         height="100%"
         mapStyle={mapStyle}
