@@ -1,6 +1,10 @@
 # satellite-stamp
 
-Tool to generate map images for Mongabay.
+Satellite stamp is tool that generates map images for Mongabay's articles.
+
+<p align="center">
+  <img src="docs/assets/hero.png" alt="Satellite stamp" />
+</p>
 
 ## Getting Started
 
