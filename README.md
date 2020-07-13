@@ -19,3 +19,7 @@ You can access a hot-reloaded version of the app on [http://localhost:3000](http
 The application is built using [React](https://reactjs.org/) and the framework [Next.js](https://nextjs.org/). The styles use [Sass](https://sass-lang.com/) and the [Bootstrap](https://getbootstrap.com/) framework.
 
 A continuous deployment system is in place. Each time you push to the `master` branch, the application is deployed in GitHub Pages through a GitHub Action defined in `.github/workflows/build.yml`. You can see the status of the build in the “Actions” tab of the repository on GitHub.
+
+## Wiki
+
+This project has a [wiki](https://github.com/mongabay/satellite-stamp/wiki) with instructions on how to edit the layers, presets and attributions. If you plan on modifying the data, please have a read at the wiki.
