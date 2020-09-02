@@ -25,7 +25,7 @@ jobs:
 
       - name: Build
         env:
-          BASE_PATH: /satellite-stamp
+          BASE_PATH:
           MAPBOX_API_KEY: pk.eyJ1IjoibW9uZ2FiYXkiLCJhIjoiY2s4N25oZG82MGFyejNsb2lnN3ZrbG1jbyJ9.coW3do99wi_PmnW6OylFbA
         run: yarn build
 
