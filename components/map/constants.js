@@ -46,21 +46,16 @@ export const BASEMAPS = {
     label: 'Planet',
     minZoom: 0,
     maxZoom: 18,
-    url: ({ key, interval, year, period }) => {
-      if (!interval || !year || !period) {
+    url: ({ key, interval, period }) => {
+      if (!interval || !period) {
         return null;
       }
 
-      const mosaic =
-        interval === 'Monthly'
-          ? `global_monthly_${year}_${moment(period, 'MMMM').format('MM')}_mosaic`
-          : `global_quarterly_${year}${period.toLowerCase()}_mosaic`;
-
       return [
-        `https://tiles0.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
-        `https://tiles1.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
-        `https://tiles2.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
-        `https://tiles3.planet.com/basemaps/v1/planet-tiles/${mosaic}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+        `https://tiles0.planet.com/basemaps/v1/planet-tiles/${period}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+        `https://tiles1.planet.com/basemaps/v1/planet-tiles/${period}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+        `https://tiles2.planet.com/basemaps/v1/planet-tiles/${period}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
+        `https://tiles3.planet.com/basemaps/v1/planet-tiles/${period}/gmap/{z}/{x}/{y}.png?api_key=${key}`,
       ];
     },
     params: {
@@ -70,12 +65,7 @@ export const BASEMAPS = {
       },
       interval: {
         label: 'Interval',
-        values: ['Monthly', 'Quarterly'],
-        default: '',
-      },
-      year: {
-        label: 'Year',
-        values: [],
+        values: ['Monthly', 'Several months', 'Quarterly'],
         default: '',
       },
       period: {

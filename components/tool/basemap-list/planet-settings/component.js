@@ -41,34 +41,16 @@ const PlanetSettings = ({ basemapParams, updatebasemapParams }) => {
             value={basemapParams.interval || ''}
             options={[
               { label: 'Choose option', value: '', disabled: true },
-              ...BASEMAPS.planet.params.interval.values.map(value => ({
+              ...(basemapConfig
+                ? Object.keys(basemapConfig)
+                : BASEMAPS.planet.params.interval.values
+              ).map(value => ({
                 label: `${value}`,
                 value: `${value}`,
               })),
             ]}
             onChange={({ value }) =>
-              updatebasemapParams({ ...basemapParams, interval: value, year: '', period: '' })
-            }
-          />
-        </div>
-      </div>
-      <div className="param">
-        <label htmlFor="basemap-planet-year">{BASEMAPS.planet.params.year.label}</label>
-        <div className="input-group input-group-sm">
-          <Select
-            id="basemap-planet-year"
-            value={basemapParams.year || ''}
-            options={[
-              { label: 'Choose option', value: '', disabled: true },
-              ...(basemapConfig && basemapParams.interval
-                ? Object.keys(basemapConfig[basemapParams.interval]).map(year => ({
-                    label: year,
-                    value: year,
-                  }))
-                : []),
-            ]}
-            onChange={({ value }) =>
-              updatebasemapParams({ ...basemapParams, year: value, period: '' })
+              updatebasemapParams({ ...basemapParams, interval: value, period: '' })
             }
           />
         </div>
@@ -81,10 +63,10 @@ const PlanetSettings = ({ basemapParams, updatebasemapParams }) => {
             value={basemapParams.period || ''}
             options={[
               { label: 'Choose option', value: '', disabled: true },
-              ...(basemapConfig && basemapParams.interval && basemapParams.year
-                ? basemapConfig[basemapParams.interval][basemapParams.year].map(period => ({
-                    label: period,
-                    value: period,
+              ...(basemapConfig && basemapParams.interval && basemapConfig[basemapParams.interval]
+                ? basemapConfig[basemapParams.interval].map(({ label, value }) => ({
+                    label,
+                    value,
                   }))
                 : []),
             ]}
