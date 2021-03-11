@@ -240,8 +240,8 @@ const ExportTooltip = ({
               </div>
               {modeParams.difference === 'temporal' && (
                 <>
-                  <div className="form-row">
-                    <div className="form-group col">
+                  <div className="form-row align-items-end">
+                    <div className="form-group col-9">
                       <label htmlFor="export-layer-modify">Layer to modify</label>
                       <div className="input-group">
                         <Select
@@ -270,6 +270,21 @@ const ExportTooltip = ({
                           required
                         />
                       </div>
+                    </div>
+                    <div className="form-group col-3">
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary btn-sm"
+                        onClick={() =>
+                          updateModeParams({
+                            ...modeParams,
+                            layer: '',
+                            dates: modeParams.dates.map(() => ''),
+                          })
+                        }
+                      >
+                        Reset all
+                      </button>
                     </div>
                   </div>
                   {new Array(modeParams.dates.length / 2).fill(null).map((_, groupIndex) => (

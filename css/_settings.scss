@@ -62,8 +62,10 @@ $box-shadow-2: rem(1) rem(1) rem(10) 0 rgba($black, 0.2);
 // Buttons
 
 $btn-padding-x: rem(20);
+$btn-padding-y-sm: rem(7.5); // A small button would have the height of an input
 
 $btn-border-radius: rem(22);
+$btn-border-radius-sm: rem(15);
 $btn-box-shadow: 0 rem(2) rem(3) 0 rgba($black, 0.15);
 $btn-font-weight: $font-weight-bold;
 
