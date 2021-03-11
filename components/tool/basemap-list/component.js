@@ -4,10 +4,18 @@ import PropTypes from 'prop-types';
 import { BASEMAPS } from 'components/map';
 import { Radio, Select } from 'components/forms';
 import PlanetSettings from './planet-settings';
+import { canShowParam } from './helpers';
 
 import './style.scss';
 
-const BasemapList = ({ basemap, basemapParams, onChangeBasemap, onChangeBasemapParams }) => {
+const BasemapList = ({
+  basemap,
+  basemapParams,
+  mode,
+  modeParams,
+  onChangeBasemap,
+  onChangeBasemapParams,
+}) => {
   const onChange = useCallback(
     key =>
       onChangeBasemap({
@@ -49,35 +57,47 @@ const BasemapList = ({ basemap, basemapParams, onChangeBasemap, onChangeBasemapP
             </Radio>
             {key === basemap && BASEMAPS[key].params && basemap !== 'planet' && (
               <div className="basemap-params">
-                {Object.keys(BASEMAPS[key].params).map(param => (
-                  <div key={param} className="param">
-                    <label htmlFor={`basemap-${key}-${param}`}>
-                      {BASEMAPS[key].params[param].label}
-                    </label>
-                    <div className="input-group input-group-sm">
-                      {Array.isArray(BASEMAPS[key].params[param].values) && (
-                        <Select
-                          id={`basemap-${key}-${param}`}
-                          value={`${basemapParams[param]}`}
-                          options={BASEMAPS[key].params[param].values.map(value => ({
-                            label: `${value}`,
-                            value: `${value}`,
-                          }))}
-                          onChange={({ value }) => onChangeParams(param, value)}
-                        />
-                      )}
-                      {!Array.isArray(BASEMAPS[key].params[param].values) && (
-                        <input
-                          type="text"
-                          id={`basemap-${key}-${param}`}
-                          className="form-control"
-                          value={basemapParams[param] || ''}
-                          onChange={({ target }) => onChangeParams(param, target.value)}
-                        />
-                      )}
+                {Object.keys(BASEMAPS[key].params)
+                  .filter(param => canShowParam(key, param, mode, modeParams))
+                  .map(param => (
+                    <div key={param} className="param">
+                      <label htmlFor={`basemap-${key}-${param}`}>
+                        {BASEMAPS[key].params[param].label}
+                      </label>
+                      <div className="input-group input-group-sm">
+                        {Array.isArray(BASEMAPS[key].params[param].values) && (
+                          <Select
+                            id={`basemap-${key}-${param}`}
+                            value={`${basemapParams[param]}`}
+                            options={BASEMAPS[key].params[param].values.map(value => ({
+                              label: `${value}`,
+                              value: `${value}`,
+                            }))}
+                            onChange={({ value }) => onChangeParams(param, value)}
+                          />
+                        )}
+                        {!Array.isArray(BASEMAPS[key].params[param].values) && (
+                          <input
+                            type="text"
+                            id={`basemap-${key}-${param}`}
+                            className="form-control"
+                            value={basemapParams[param] || ''}
+                            onChange={({ target }) => onChangeParams(param, target.value)}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                {Object.keys(BASEMAPS[key].params).some(
+                  param => !canShowParam(key, param, mode, modeParams)
+                ) && (
+                  <div className="param">
+                    <div className="note">
+                      Some settings are hidden because they are not compatible with the current map
+                      view.
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             )}
             {key === basemap && BASEMAPS[key].params && basemap === 'planet' && <PlanetSettings />}
@@ -90,6 +110,8 @@ const BasemapList = ({ basemap, basemapParams, onChangeBasemap, onChangeBasemapP
 BasemapList.propTypes = {
   basemap: PropTypes.string.isRequired,
   basemapParams: PropTypes.object,
+  mode: PropTypes.string.isRequired,
+  modeParams: PropTypes.object.isRequired,
   onChangeBasemap: PropTypes.func.isRequired,
   onChangeBasemapParams: PropTypes.func.isRequired,
 };

@@ -6,7 +6,7 @@ import once from 'lodash/once';
 
 import Icon from 'components/icon';
 import { Select } from 'components/forms';
-import { DATA_LAYERS } from 'components/map';
+import { DATA_LAYERS, BASEMAPS } from 'components/map';
 import { downloadImage } from './helper';
 
 import './style.scss';
@@ -251,10 +251,12 @@ const ExportTooltip = ({
                             { label: 'Select a layer', value: '', disabled: true },
                             ...Object.keys(temporalDiffLayers)
                               .sort((a, b) =>
-                                DATA_LAYERS[a].label.localeCompare(DATA_LAYERS[b].label)
+                                (DATA_LAYERS[a] ?? BASEMAPS[a]).label.localeCompare(
+                                  (DATA_LAYERS[b] ?? BASEMAPS[b]).label
+                                )
                               )
                               .map(layer => ({
-                                label: DATA_LAYERS[layer].label,
+                                label: (DATA_LAYERS[layer] ?? BASEMAPS[layer]).label,
                                 value: layer,
                               })),
                           ]}

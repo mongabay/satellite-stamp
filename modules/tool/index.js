@@ -3,7 +3,8 @@ import moment from 'moment';
 import omit from 'lodash/omit';
 
 import { deserialize, serialize } from 'utils/functions';
-import { getLayerDef } from 'utils/map';
+import { getBasemapDef, getLayerDef } from 'utils/map';
+import { BASEMAPS, ATTRIBUTIONS, DATA_LAYERS } from 'components/map';
 import { selectQuery } from '../routing';
 import createMapSlice, * as mapModule from './map';
 import createExportSlice, * as exportModule from './export';
@@ -39,10 +40,11 @@ const selectors = {
       mapModule.selectDataLayers,
       mapModule.selectActiveLayersDef,
       mapModule.selectRecentImagery,
+      mapModule.selectBasemapParams,
       exportModule.selectMode,
       exportModule.selectModeParams,
     ],
-    (layers, dataLayers, activeLayersDef, recentImagery, mode, modeParams) => {
+    (layers, dataLayers, activeLayersDef, recentImagery, basemapParams, mode, modeParams) => {
       return modeParams.dates.map(date => {
         let res = [...activeLayersDef];
 
@@ -82,15 +84,27 @@ const selectors = {
           const diffLayer = modeParams.layer;
           const diffLayerIndex = res.findIndex(layer => layer.id === diffLayer);
           if (diffLayerIndex !== -1) {
-            res.splice(
-              diffLayerIndex,
-              1,
-              getLayerDef(res[diffLayerIndex].id, dataLayers[res[diffLayerIndex].id], {
+            const isLayerDataLayer = !!DATA_LAYERS[diffLayer];
+            const isLayerBasemap = !!BASEMAPS[diffLayer];
+
+            let layerDef = res[diffLayerIndex];
+            if (isLayerDataLayer) {
+              layerDef = getLayerDef(res[diffLayerIndex].id, dataLayers[res[diffLayerIndex].id], {
                 ...layers[res[diffLayerIndex].id],
                 dateRange: [date, date],
                 currentDate: date,
-              })
-            );
+              });
+            } else if (isLayerBasemap) {
+              layerDef = getBasemapDef(res[diffLayerIndex].id, BASEMAPS[res[diffLayerIndex].id], {
+                ...basemapParams,
+                // TODO: other basemap may use other attributes for the date
+                year: moment(date).format(
+                  BASEMAPS[res[diffLayerIndex].id].legend.timeline.dateFormat
+                ),
+              });
+            }
+
+            res.splice(diffLayerIndex, 1, layerDef);
           }
         }
 
@@ -117,7 +131,7 @@ const selectors = {
           modeParams.layer &&
           date
         ) {
-          const layer = dataLayers[modeParams.layer];
+          const layer = dataLayers[modeParams.layer] ?? BASEMAPS[modeParams.layer];
           const format = layer.legend.timeline.dateFormat;
           return moment(date).format(format);
         }
@@ -195,6 +209,61 @@ const selectors = {
     }
   ),
   selectRestoring: createSelector([mapModule.selectRestoring], mapRestoring => mapRestoring),
+  selectAttributions: createSelector(
+    [
+      mapModule.selectBasemap,
+      mapModule.selectBasemapParams,
+      mapModule.selectDataLayers,
+      mapModule.selectActiveDataLayers,
+      mapModule.selectRecentImagery,
+      exportModule.selectMode,
+      exportModule.selectModeParams,
+    ],
+    (basemap, basemapParams, dataLayers, activeDataLayers, recentImagery, mode, modeParams) => {
+      const basemapAttributions = BASEMAPS[basemap].attributions
+        ? BASEMAPS[basemap].attributions
+        : [];
+
+      const layerAttributions = activeDataLayers
+        .map(layerId => dataLayers[layerId].attributions || [])
+        .reduce((res, attr) => [...res, ...attr], []);
+
+      // TODO: we shouldn't display the attributions when more than one map is shown at once because
+      // the layer is not displayed on the map
+      const recentImageryAttributions = recentImagery?.tileUrl ? ['rw'] : [];
+
+      const uniqueAttributions = [
+        ...new Set([...basemapAttributions, ...layerAttributions, ...recentImageryAttributions]),
+      ];
+
+      const isBasemapUsedInTemporalDifference =
+        (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
+        modeParams.difference === 'temporal' &&
+        modeParams.layer &&
+        basemap === modeParams.layer;
+
+      let basemapNotes;
+      if (basemapParams && !isBasemapUsedInTemporalDifference) {
+        const allParamsSet = Object.values(basemapParams).every(
+          param => param !== undefined && param !== null && param !== ''
+        );
+
+        if (allParamsSet) {
+          if (basemapParams.period !== undefined && basemapParams.year !== undefined) {
+            basemapNotes = `Basemap images from ${basemapParams.period} ${basemapParams.year}`;
+          } else if (basemapParams.year !== undefined) {
+            basemapNotes = `Basemap images from ${basemapParams.year}`;
+          }
+        }
+      }
+
+      return `${basemapNotes ? `${basemapNotes}, ` : ''}${
+        uniqueAttributions.length
+          ? `${uniqueAttributions.map(attr => ATTRIBUTIONS[attr]).join(', ')}, `
+          : ''
+      }© <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>`;
+    }
+  ),
 };
 
 export const toolActions = actions;

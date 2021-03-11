@@ -23,6 +23,10 @@
         color: $text-color-2;
         font-weight: $font-weight-bold;
       }
+
+      .note {
+        @include font-size($font-size-s);
+      }
     }
   }
 }

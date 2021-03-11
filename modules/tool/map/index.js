@@ -2,7 +2,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
 import { getLayerDef, getDatesFromInterval, getBasemapDef } from 'utils/map';
-import { BASEMAPS, ATTRIBUTIONS, DATA_LAYERS } from 'components/map';
+import { BASEMAPS, DATA_LAYERS } from 'components/map';
 
 export const SLICE_NAME = 'map';
 
@@ -32,16 +32,26 @@ export const selectActiveDataLayersInteractiveIds = createSelector(
       .reduce((res, layerId) => [...res, ...DATA_LAYERS[layerId].config.interactiveLayerIds], [])
 );
 
-export const selectExportTemporalDiffLayers = createSelector([selectActiveDataLayers], layers =>
-  layers
-    .filter(layer => !!DATA_LAYERS[layer].legend?.timeline)
-    .reduce((res, layer) => {
-      const { minDate, maxDate, interval, dateFormat, marks } = DATA_LAYERS[layer].legend.timeline;
+export const selectExportTemporalDiffLayers = createSelector(
+  [selectActiveDataLayers, selectBasemap],
+  (dataLayers, basemap) => {
+    const hasTemporalData = layer => !!layer.legend?.timeline;
+
+    let layers = dataLayers.filter(layer => hasTemporalData(DATA_LAYERS[layer]));
+    if (hasTemporalData(BASEMAPS[basemap])) {
+      layers.push(basemap);
+    }
+
+    return layers.reduce((res, layer) => {
+      const { minDate, maxDate, interval, dateFormat, marks } = (
+        DATA_LAYERS[layer] ?? BASEMAPS[layer]
+      ).legend.timeline;
       return {
         ...res,
         [layer]: getDatesFromInterval([minDate, maxDate], interval, dateFormat, marks),
       };
-    }, {})
+    }, {});
+  }
 );
 
 export const selectLegendDataLayers = createSelector(
@@ -91,54 +101,6 @@ export const selectActiveLayersDef = createSelector(
     ...activeDataLayers.map(layerId => getLayerDef(layerId, dataLayers[layerId], layers[layerId])),
     ...(basemapLayerDef ? [basemapLayerDef] : []),
   ]
-);
-
-export const selectAttributions = createSelector(
-  [
-    selectBasemap,
-    selectBasemapParams,
-    selectDataLayers,
-    selectActiveDataLayers,
-    selectRecentImagery,
-  ],
-  (basemap, basemapParams, dataLayers, activeDataLayers, recentImagery) => {
-    const basemapAttributions = BASEMAPS[basemap].attributions
-      ? BASEMAPS[basemap].attributions
-      : [];
-
-    const layerAttributions = activeDataLayers
-      .map(layerId => dataLayers[layerId].attributions || [])
-      .reduce((res, attr) => [...res, ...attr], []);
-
-    // TODO: we shouldn't display the attributions when more than one map is shown at once because
-    // the layer is not displayed on the map
-    const recentImageryAttributions = recentImagery?.tileUrl ? ['rw'] : [];
-
-    const uniqueAttributions = [
-      ...new Set([...basemapAttributions, ...layerAttributions, ...recentImageryAttributions]),
-    ];
-
-    let basemapNotes;
-    if (basemapParams) {
-      const allParamsSet = Object.values(basemapParams).every(
-        param => param !== undefined && param !== null && param !== ''
-      );
-
-      if (allParamsSet) {
-        if (basemapParams.period !== undefined && basemapParams.year !== undefined) {
-          basemapNotes = `Basemap images from ${basemapParams.period} ${basemapParams.year}`;
-        } else if (basemapParams.year !== undefined) {
-          basemapNotes = `Basemap images from ${basemapParams.year}`;
-        }
-      }
-    }
-
-    return `${basemapNotes ? `${basemapNotes}, ` : ''}${
-      uniqueAttributions.length
-        ? `${uniqueAttributions.map(attr => ATTRIBUTIONS[attr]).join(', ')}, `
-        : ''
-    }© <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>`;
-  }
 );
 
 export const selectSerializedState = createSelector(

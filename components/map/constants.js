@@ -38,6 +38,27 @@ export const BASEMAPS = {
         label: 'Year',
         values: [2013, 2014, 2015, 2016, 2017],
         default: 2017,
+        // When temporal mode is set up with this layer, this param is hidden from the interface
+        hiddenInTemporalMode: true,
+      },
+    },
+    // The legend is not displayed on the tool, it is only used for computing the temporal
+    // difference's options
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Landsat',
+          color: '#020043',
+        },
+      ],
+      timeline: {
+        step: 1,
+        range: false,
+        interval: 'years',
+        dateFormat: 'YYYY',
+        minDate: '2013-01-01',
+        maxDate: '2017-12-31',
       },
     },
     attributions: ['rw'],
