@@ -37,6 +37,9 @@ const ExportTooltip = ({
       isValid: true,
     },
   });
+
+  const [layerUsedInTempDifference, setLayerUsedInTempDifference] = useState('');
+
   const latestIdle = useRef(idle);
 
   const debouncedUpdateSettings = useCallback(debounce(updateSettings, 500), [updateSettings]);
@@ -87,12 +90,44 @@ const ExportTooltip = ({
     ]
   );
 
-  // If the user removes the layer that was used for temporal diffing, then we reset the options
+  // If the user removes one of the layers that was used for temporal diffing, then we also remove
+  // it from the options
   useEffect(() => {
-    if (modeParams.layer && Object.keys(temporalDiffLayers).indexOf(modeParams.layer) === -1) {
-      updateModeParams({ ...modeParams, layer: '', map1Date: '', map2Date: '' });
+    const layersToRemove = [];
+    modeParams.layers.forEach(layer => {
+      if (Object.keys(temporalDiffLayers).indexOf(layer) === -1) {
+        layersToRemove.push(layer);
+      }
+    });
+
+    // We only want to call updateModeParams if there are actually layers that have been removed
+    if (layersToRemove.length > 0) {
+      const newLayers = modeParams.layers.filter(layer => layersToRemove.indexOf(layer) === -1);
+      let newDates = [...modeParams.dates];
+
+      layersToRemove.forEach((layer, index) => {
+        newDates.splice(index, 1);
+      });
+
+      if (newDates.length === 0) {
+        // By default dates contain at least one array item that is an array the length of the
+        // number of maps
+        newDates = [new Array(modeParams.dates[0].length).fill('')];
+      }
+
+      updateModeParams({ ...modeParams, layers: newLayers, dates: newDates });
+
+      if (layersToRemove.indexOf(layerUsedInTempDifference) !== -1) {
+        setLayerUsedInTempDifference(newLayers?.[0] ?? '');
+      }
     }
-  }, [modeParams, temporalDiffLayers, updateModeParams]);
+  }, [
+    modeParams,
+    temporalDiffLayers,
+    layerUsedInTempDifference,
+    updateModeParams,
+    setLayerUsedInTempDifference,
+  ]);
 
   // We initiate the download when the map is idle and the exporting flag is set
   useEffect(() => {
@@ -233,7 +268,10 @@ const ExportTooltip = ({
                         { label: 'Spatial', value: 'spatial' },
                         { label: 'Temporal', value: 'temporal' },
                       ]}
-                      onChange={({ value }) => updateDifference(value)}
+                      onChange={({ value }) => {
+                        updateDifference(value);
+                        setLayerUsedInTempDifference('');
+                      }}
                     />
                   </div>
                 </div>
@@ -242,11 +280,11 @@ const ExportTooltip = ({
                 <>
                   <div className="form-row align-items-end">
                     <div className="form-group col-9">
-                      <label htmlFor="export-layer-modify">Layer to modify</label>
+                      <label htmlFor="export-layers-modify">Layers to modify</label>
                       <div className="input-group">
                         <Select
-                          id="export-layer-modify"
-                          value={modeParams.layer}
+                          id="export-layers-modify"
+                          value={layerUsedInTempDifference}
                           options={[
                             { label: 'Select a layer', value: '', disabled: true },
                             ...Object.keys(temporalDiffLayers)
@@ -256,17 +294,13 @@ const ExportTooltip = ({
                                 )
                               )
                               .map(layer => ({
-                                label: (DATA_LAYERS[layer] ?? BASEMAPS[layer]).label,
+                                label: `${(DATA_LAYERS[layer] ?? BASEMAPS[layer]).label}${
+                                  modeParams.layers.indexOf(layer) !== -1 ? ` (in use)` : ''
+                                }`,
                                 value: layer,
                               })),
                           ]}
-                          onChange={({ value }) =>
-                            updateModeParams({
-                              ...modeParams,
-                              layer: value,
-                              dates: modeParams.dates.map(() => ''),
-                            })
-                          }
+                          onChange={({ value }) => setLayerUsedInTempDifference(value)}
                           required
                         />
                       </div>
@@ -275,21 +309,22 @@ const ExportTooltip = ({
                       <button
                         type="button"
                         className="btn btn-outline-primary btn-sm"
-                        onClick={() =>
+                        onClick={() => {
                           updateModeParams({
                             ...modeParams,
-                            layer: '',
-                            dates: modeParams.dates.map(() => ''),
-                          })
-                        }
+                            layers: [],
+                            dates: [modeParams.dates[0].map(() => '')],
+                          });
+                          setLayerUsedInTempDifference('');
+                        }}
                       >
                         Reset all
                       </button>
                     </div>
                   </div>
-                  {new Array(modeParams.dates.length / 2).fill(null).map((_, groupIndex) => (
+                  {new Array(modeParams.dates[0].length / 2).fill(null).map((_, groupIndex) => (
                     <div key={groupIndex} className="form-row">
-                      {modeParams.dates.slice(0, 2).map((_2, index) => (
+                      {modeParams.dates[0].slice(0, 2).map((_2, index) => (
                         <div key={index} className="form-group col-6">
                           <label htmlFor={`export-map-${2 * groupIndex + index + 1}`}>
                             Map {2 * groupIndex + index + 1}
@@ -297,11 +332,20 @@ const ExportTooltip = ({
                           <div className="input-group">
                             <Select
                               id={`export-map-${2 * groupIndex + index + 1}`}
-                              value={modeParams.dates[2 * groupIndex + index]}
+                              value={
+                                modeParams.layers.indexOf(layerUsedInTempDifference) !== -1
+                                  ? modeParams.dates[
+                                      modeParams.layers.findIndex(
+                                        layer => layer === layerUsedInTempDifference
+                                      )
+                                    ][2 * groupIndex + index]
+                                  : ''
+                              }
                               options={[
                                 { label: 'Select a date', value: '', disabled: true },
-                                ...(modeParams.layer && temporalDiffLayers[modeParams.layer]
-                                  ? temporalDiffLayers[modeParams.layer].map(
+                                ...(layerUsedInTempDifference &&
+                                temporalDiffLayers[layerUsedInTempDifference]
+                                  ? temporalDiffLayers[layerUsedInTempDifference].map(
                                       ({ label, value }) => ({
                                         label,
                                         value,
@@ -310,11 +354,27 @@ const ExportTooltip = ({
                                   : []),
                               ]}
                               onChange={({ value }) => {
-                                const newDates = [...modeParams.dates];
-                                newDates.splice(2 * groupIndex + index, 1, value);
+                                let newLayers = [...modeParams.layers];
+                                let newDates = [...modeParams.dates];
+
+                                let layerIndex = modeParams.layers.findIndex(
+                                  layer => layer === layerUsedInTempDifference
+                                );
+                                if (layerIndex === -1) {
+                                  layerIndex = newLayers.length;
+                                  newLayers.push(layerUsedInTempDifference);
+
+                                  if (modeParams.layers.length > 0) {
+                                    newDates.push('');
+                                  }
+                                }
+
+                                newDates[layerIndex] = [...newDates[layerIndex]];
+                                newDates[layerIndex].splice(2 * groupIndex + index, 1, value);
 
                                 updateModeParams({
                                   ...modeParams,
+                                  layers: newLayers,
                                   dates: newDates,
                                 });
                               }}

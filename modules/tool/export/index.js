@@ -27,15 +27,16 @@ export default toolActions =>
          */
         difference: '',
         /**
-         * ID of the layer used for a temporal difference
-         * @type {string}
+         * IDs of the layers used for a temporal difference
+         * @type {string[]}
          */
-        layer: '',
+        layers: [],
         /**
-         * The configuration of each map from top left corner to bottom right
-         * @type {Array<string>}
+         * The configuration of each map and for eaech of the layers from top left corner to bottom
+         * right
+         * @type {Array<Array<string>>}
          */
-        dates: [''],
+        dates: [['']],
       },
       width: 900,
       height: 600,
@@ -68,21 +69,21 @@ export default toolActions =>
         switch (action.payload) {
           case '1':
             state.modeParams.difference = '';
-            state.modeParams.layer = '';
-            state.modeParams.dates = [''];
+            state.modeParams.layers = [];
+            state.modeParams.dates = [['']];
             return;
 
           case '2-vertical':
           case '2-horizontal':
             state.modeParams.difference = 'spatial';
-            state.modeParams.layer = '';
-            state.modeParams.dates = ['', ''];
+            state.modeParams.layers = [];
+            state.modeParams.dates = [['', '']];
             return;
 
           case '4':
             state.modeParams.difference = 'spatial';
-            state.modeParams.layer = '';
-            state.modeParams.dates = ['', '', '', ''];
+            state.modeParams.layers = [];
+            state.modeParams.dates = [['', '', '', '']];
             return;
 
           default:
@@ -90,8 +91,8 @@ export default toolActions =>
       },
       [toolActions.updateMapDifference.toString()]: (state, action) => {
         state.modeParams.difference = action.payload;
-        state.modeParams.layer = '';
-        state.modeParams.dates = state.modeParams.dates.map(() => '');
+        state.modeParams.layers = [];
+        state.modeParams.dates = [state.modeParams.dates[0].map(() => '')];
       },
     },
   });

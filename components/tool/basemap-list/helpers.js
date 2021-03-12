@@ -5,7 +5,7 @@ import { BASEMAPS } from 'components/map';
  * @param {string} basemap Basemap ID
  * @param {string} param Param ID
  * @param {string} mode Current mode of the application
- * @param {{ difference: string, layer: string }} modeParams Parameters of the mode
+ * @param {{ difference: string, layers: string[] }} modeParams Parameters of the mode
  * @returns {boolean}
  */
 export const canShowParam = (basemap, param, mode, modeParams) => {
@@ -13,8 +13,7 @@ export const canShowParam = (basemap, param, mode, modeParams) => {
   const isTemporalMode =
     (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
     modeParams.difference === 'temporal' &&
-    modeParams.layer &&
-    basemap === modeParams.layer;
+    modeParams.layers.indexOf(basemap) !== -1;
 
   return !isParamHiddenInTemporalMode || !isTemporalMode;
 };

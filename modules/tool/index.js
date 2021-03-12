@@ -45,7 +45,7 @@ const selectors = {
       exportModule.selectModeParams,
     ],
     (layers, dataLayers, activeLayersDef, recentImagery, basemapParams, mode, modeParams) => {
-      return modeParams.dates.map(date => {
+      return modeParams.dates[0].map((date, mapIndex) => {
         let res = [...activeLayersDef];
 
         if (mode === '1' && recentImagery?.tileUrl) {
@@ -78,34 +78,45 @@ const selectors = {
 
         if (
           (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
-          modeParams.difference === 'temporal' &&
-          date
+          modeParams.difference === 'temporal'
         ) {
-          const diffLayer = modeParams.layer;
-          const diffLayerIndex = res.findIndex(layer => layer.id === diffLayer);
-          if (diffLayerIndex !== -1) {
-            const isLayerDataLayer = !!DATA_LAYERS[diffLayer];
-            const isLayerBasemap = !!BASEMAPS[diffLayer];
+          modeParams.layers.forEach((diffLayer, layerIndex) => {
+            const layerDate = modeParams.dates[layerIndex][mapIndex];
+            if (layerDate) {
+              const diffLayerIndex = res.findIndex(layer => layer.id === diffLayer);
+              if (diffLayerIndex !== -1) {
+                const isLayerDataLayer = !!DATA_LAYERS[diffLayer];
+                const isLayerBasemap = !!BASEMAPS[diffLayer];
 
-            let layerDef = res[diffLayerIndex];
-            if (isLayerDataLayer) {
-              layerDef = getLayerDef(res[diffLayerIndex].id, dataLayers[res[diffLayerIndex].id], {
-                ...layers[res[diffLayerIndex].id],
-                dateRange: [date, date],
-                currentDate: date,
-              });
-            } else if (isLayerBasemap) {
-              layerDef = getBasemapDef(res[diffLayerIndex].id, BASEMAPS[res[diffLayerIndex].id], {
-                ...basemapParams,
-                // TODO: other basemap may use other attributes for the date
-                year: moment(date).format(
-                  BASEMAPS[res[diffLayerIndex].id].legend.timeline.dateFormat
-                ),
-              });
+                let layerDef = res[diffLayerIndex];
+                if (isLayerDataLayer) {
+                  layerDef = getLayerDef(
+                    res[diffLayerIndex].id,
+                    dataLayers[res[diffLayerIndex].id],
+                    {
+                      ...layers[res[diffLayerIndex].id],
+                      dateRange: [date, date],
+                      currentDate: date,
+                    }
+                  );
+                } else if (isLayerBasemap) {
+                  layerDef = getBasemapDef(
+                    res[diffLayerIndex].id,
+                    BASEMAPS[res[diffLayerIndex].id],
+                    {
+                      ...basemapParams,
+                      // TODO: other basemap may use other attributes for the date
+                      year: moment(date).format(
+                        BASEMAPS[res[diffLayerIndex].id].legend.timeline.dateFormat
+                      ),
+                    }
+                  );
+                }
+
+                res.splice(diffLayerIndex, 1, layerDef);
+              }
             }
-
-            res.splice(diffLayerIndex, 1, layerDef);
-          }
+          });
         }
 
         return res;
@@ -120,20 +131,28 @@ const selectors = {
       exportModule.selectModeParams,
     ],
     (dataLayers, recentImagery, mode, modeParams) => {
-      return modeParams.dates.map(date => {
+      return modeParams.dates[0].map((date, index) => {
         if (mode === '1' && recentImagery?.tileInfo) {
-          return `${recentImagery.tileInfo.date} - ${recentImagery.tileInfo.satellite}`;
+          return [`${recentImagery.tileInfo.date} - ${recentImagery.tileInfo.satellite}`];
         }
 
         if (
           (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
           modeParams.difference === 'temporal' &&
-          modeParams.layer &&
-          date
+          modeParams.layers.length > 0
         ) {
-          const layer = dataLayers[modeParams.layer] ?? BASEMAPS[modeParams.layer];
-          const format = layer.legend.timeline.dateFormat;
-          return moment(date).format(format);
+          return modeParams.layers
+            .filter((layer, layerIndex) => !!modeParams.dates[layerIndex][index])
+            .map((layer, layerIndex) => {
+              const date = modeParams.dates[layerIndex][index];
+              const layerConfig = dataLayers[layer] ?? BASEMAPS[layer];
+              const format = layerConfig.legend.timeline.dateFormat;
+              if (modeParams.layers.length === 1) {
+                return moment(date).format(format);
+              }
+
+              return `${moment(date).format(format)} - ${layerConfig.label}`;
+            });
         }
 
         return null;
@@ -146,11 +165,10 @@ const selectors = {
       if (
         (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
         modeParams.difference === 'temporal' &&
-        modeParams.layer
+        modeParams.layers.length > 0
       ) {
-        const diffLayer = modeParams.layer;
         return legendDataLayers.map(layerGroup => {
-          if (layerGroup.id !== diffLayer) {
+          if (modeParams.layers.indexOf(layerGroup.id) === -1) {
             return layerGroup;
           }
 
@@ -239,8 +257,7 @@ const selectors = {
       const isBasemapUsedInTemporalDifference =
         (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
         modeParams.difference === 'temporal' &&
-        modeParams.layer &&
-        basemap === modeParams.layer;
+        modeParams.layers.indexOf(basemap !== -1);
 
       let basemapNotes;
       if (basemapParams && !isBasemapUsedInTemporalDifference) {

@@ -126,7 +126,13 @@ const Visualization = ({
           >
             {viewports.map((viewport, index) => (
               <div key={index} className="map">
-                {mapsTitle[index] && <div className="title">{mapsTitle[index]}</div>}
+                {mapsTitle[index] && (
+                  <div className="title">
+                    {mapsTitle[index].map(title => (
+                      <div key={title}>{title}</div>
+                    ))}
+                  </div>
+                )}
                 <Map
                   layers={mapsActiveLayersDef[index]}
                   viewport={viewports[index]}
@@ -183,7 +189,7 @@ Visualization.propTypes = {
   viewports: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapsActiveLayersDef: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
   activeDataLayersInteractiveIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  mapsTitle: PropTypes.arrayOf(PropTypes.string).isRequired,
+  mapsTitle: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
