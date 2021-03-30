@@ -45,41 +45,42 @@ const selectors = {
       exportModule.selectModeParams,
     ],
     (layers, dataLayers, activeLayersDef, recentImagery, basemapParams, mode, modeParams) => {
-      return modeParams.dates[0].map((date, mapIndex) => {
-        let res = [...activeLayersDef];
-
-        if (mode === '1' && recentImagery?.tileUrl) {
-          res.push(
-            getLayerDef(
-              'recent-imagery',
-              {
-                label: 'Recent satellite imagery',
-                config: {
-                  type: 'raster',
-                  source: {
-                    tiles: [recentImagery.tileUrl],
-                    minzoom: 9,
-                    maxzoom: 18,
-                  },
+      if (mode === '1' && recentImagery?.tileUrl) {
+        return modeParams.dates[0].map(() => [
+          ...activeLayersDef,
+          getLayerDef(
+            'recent-imagery',
+            {
+              label: 'Recent satellite imagery',
+              config: {
+                type: 'raster',
+                source: {
+                  tiles: [recentImagery.tileUrl],
+                  minzoom: 9,
+                  maxzoom: 18,
                 },
               },
-              {
-                opacity: 1,
-                visibility: true,
-                // The z-index must be 2 to be on top of the external basemaps which have a z-index
-                // equal to 1
-                // The getLayerDef function takes the order prop and adds 3 so all the data layers
-                // are on top of th external basemaps and the recent imagery layer
-                order: -1,
-              }
-            )
-          );
-        }
+            },
+            {
+              opacity: 1,
+              visibility: true,
+              // The z-index must be 2 to be on top of the external basemaps which have a z-index
+              // equal to 1
+              // The getLayerDef function takes the order prop and adds 3 so all the data layers
+              // are on top of th external basemaps and the recent imagery layer
+              order: -1,
+            }
+          ),
+        ]);
+      }
 
-        if (
-          (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
-          modeParams.difference === 'temporal'
-        ) {
+      if (
+        (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
+        modeParams.difference === 'temporal'
+      ) {
+        return modeParams.dates[0].map((_, mapIndex) => {
+          let res = [...activeLayersDef];
+
           modeParams.layers.forEach((diffLayer, layerIndex) => {
             const layerDate = modeParams.dates[layerIndex][mapIndex];
             if (layerDate) {
@@ -95,8 +96,8 @@ const selectors = {
                     dataLayers[res[diffLayerIndex].id],
                     {
                       ...layers[res[diffLayerIndex].id],
-                      dateRange: [date, date],
-                      currentDate: date,
+                      dateRange: [layerDate, layerDate],
+                      currentDate: layerDate,
                     }
                   );
                 } else if (isLayerBasemap) {
@@ -106,7 +107,7 @@ const selectors = {
                     {
                       ...basemapParams,
                       // TODO: other basemap may use other attributes for the date
-                      year: moment(date).format(
+                      year: moment(layerDate).format(
                         BASEMAPS[res[diffLayerIndex].id].legend.timeline.dateFormat
                       ),
                     }
@@ -117,10 +118,12 @@ const selectors = {
               }
             }
           });
-        }
 
-        return res;
-      });
+          return res;
+        });
+      }
+
+      return modeParams.dates[0].map(() => [...activeLayersDef]);
     }
   ),
   selectMapsTitle: createSelector(
