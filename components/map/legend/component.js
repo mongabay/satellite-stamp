@@ -99,7 +99,6 @@ const Legend = ({
                   <div>
                     <label htmlFor={`legend-${layer.id}-from`}>From</label>
                     <div className="input-group input-group-sm">
-                      {console.log(layer.layers[0])}
                       <Datepicker
                         id={`legend-${layer.id}-from`}
                         min={layer.layers[0].legendConfig.timeline.minDate}
