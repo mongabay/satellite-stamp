@@ -180,6 +180,9 @@ const selectors = {
             layers: [
               {
                 ...omit(layerGroup.layers[0], 'timelineParams'),
+                legendConfig: {
+                  ...omit(layerGroup.layers[0].legendConfig, 'timeline'),
+                },
               },
             ],
           };
