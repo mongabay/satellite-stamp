@@ -385,6 +385,17 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
       .c-export-tooltip .grid-buttons label .c-icon use {
         stroke: rgba(34, 34, 34, 0.3);
         fill: transparent; }
+  .c-export-tooltip .c-checkbox label {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    color: #717171;
+    text-transform: uppercase; }
+  .c-export-tooltip .c-checkbox + .note {
+    padding: 0 0 0 1.75rem; }
+  .c-export-tooltip .note {
+    font-size: 0.8125rem; }
 
 .ReactModal__Overlay {
   display: flex;
@@ -636,6 +647,8 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
   .c-tool-basemap-list .basemap-params .param input {
     color: #03755e;
     font-weight: 700; }
+  .c-tool-basemap-list .basemap-params .param .note {
+    font-size: 0.8125rem; }
 
 .c-tool-sidebar {
   display: flex;
@@ -799,11 +812,15 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
     height: 100%;
     background: #fff;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-weight: 700;
     text-transform: uppercase;
     z-index: 4; }
+    .c-tool-visualization .exporting-message .progress {
+      width: 18.75rem;
+      margin-top: 1rem; }
   .c-tool-visualization .container-width {
     width: min(100%, calc((100vh - 6rem) * 1 / 0.6666)); }
   .c-tool-visualization .container-ratio {
