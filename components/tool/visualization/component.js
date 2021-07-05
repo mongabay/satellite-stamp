@@ -13,6 +13,7 @@ import './style.scss';
 
 const Visualization = ({
   exporting,
+  progress,
   width,
   height,
   mapsActiveLayersDef,
@@ -93,7 +94,23 @@ const Visualization = ({
         `${exporting ? 'exporting' : ''}`,
       ])}
     >
-      {exporting && <div className="exporting-message">Gathering the tiles and exporting...</div>}
+      {exporting && (
+        <div className="exporting-message">
+          Gathering the tiles and exporting...
+          {mode === 'animated' && (
+            <div className="progress">
+              <div
+                className="progress-bar"
+                role="progressbar"
+                style={{ width: `${Math.floor(progress * 100)}%` }}
+                aria-valuenow={Math.floor(progress * 100)}
+                aria-valuemin="0"
+                aria-valuemax="100"
+              />
+            </div>
+          )}
+        </div>
+      )}
       <div
         className="container-width js-visualization"
         // We need both width and min-width:
@@ -194,6 +211,7 @@ Visualization.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   exporting: PropTypes.bool.isRequired,
+  progress: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   modeParams: PropTypes.object.isRequired,
   mapsShowScaleBar: PropTypes.arrayOf(PropTypes.bool).isRequired,

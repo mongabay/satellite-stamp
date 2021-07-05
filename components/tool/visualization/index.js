@@ -13,6 +13,7 @@ export default connect(
     width: exportSelectors.selectWidth(state),
     height: exportSelectors.selectHeight(state),
     exporting: exportSelectors.selectExporting(state),
+    progress: exportSelectors.selectProgress(state),
     mode: exportSelectors.selectMode(state),
     modeParams: exportSelectors.selectModeParams(state),
     mapsShowScaleBar: toolSelectors.selectMapsShowScaleBar(state),

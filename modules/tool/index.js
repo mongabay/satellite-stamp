@@ -129,11 +129,14 @@ const selectors = {
   selectMapsTitle: createSelector(
     [
       mapModule.selectDataLayers,
+      mapModule.selectLayers,
+      mapModule.selectBasemapParams,
       mapModule.selectRecentImagery,
       exportModule.selectMode,
       exportModule.selectModeParams,
+      exportModule.selectExporting,
     ],
-    (dataLayers, recentImagery, mode, modeParams) => {
+    (dataLayers, layers, basemapParams, recentImagery, mode, modeParams, exporting) => {
       return modeParams.dates[0].map((date, index) => {
         if (mode === '1' && recentImagery?.tileInfo) {
           return [`${recentImagery.tileInfo.date} - ${recentImagery.tileInfo.satellite}`];
@@ -158,6 +161,17 @@ const selectors = {
             });
         }
 
+        if (mode === 'animated' && exporting) {
+          const layer = modeParams.layers[0];
+          const date = dataLayers[layer]
+            ? layers[layer].currentDate
+            : // TODO: don't assume the date parameter is the basemap's first param
+              basemapParams[Object.keys(BASEMAPS[layer].params)[0]];
+          const layerConfig = dataLayers[layer] ?? BASEMAPS[layer];
+          const format = layerConfig.legend.timeline.dateFormat;
+          return [moment(date).format(format)];
+        }
+
         return null;
       });
     }
@@ -165,11 +179,14 @@ const selectors = {
   selectLegendDataLayers: createSelector(
     [mapModule.selectLegendDataLayers, exportModule.selectMode, exportModule.selectModeParams],
     (legendDataLayers, mode, modeParams) => {
-      if (
+      const isTemporalMode =
         (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
         modeParams.difference === 'temporal' &&
-        modeParams.layers.length > 0
-      ) {
+        modeParams.layers.length > 0;
+
+      const isAnimatedMode = mode === 'animated' && modeParams.layers.length > 0;
+
+      if (isTemporalMode || isAnimatedMode) {
         return legendDataLayers.map(layerGroup => {
           if (modeParams.layers.indexOf(layerGroup.id) === -1) {
             return layerGroup;
@@ -195,7 +212,7 @@ const selectors = {
   selectMapsShowScaleBar: createSelector(
     [exportModule.selectMode, exportModule.selectModeParams],
     (mode, modeParams) => {
-      if (mode === '1') {
+      if (mode === '1' || mode === 'animated') {
         return [true];
       }
 
@@ -229,7 +246,7 @@ const selectors = {
   selectShowInsetMap: createSelector(
     [mapModule.selectInsetMap, exportModule.selectMode],
     (showInsetMap, mode) => {
-      return mode === '1' && showInsetMap;
+      return (mode === '1' || mode === 'animated') && showInsetMap;
     }
   ),
   selectRestoring: createSelector([mapModule.selectRestoring], mapRestoring => mapRestoring),
@@ -263,10 +280,13 @@ const selectors = {
       const isBasemapUsedInTemporalDifference =
         (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
         modeParams.difference === 'temporal' &&
-        modeParams.layers.indexOf(basemap !== -1);
+        modeParams.layers.indexOf(basemap) !== -1;
+
+      const isBasemapUsedInAnimation =
+        mode === 'animated' && modeParams.layers.indexOf(basemap) !== -1;
 
       let basemapNotes;
-      if (basemapParams && !isBasemapUsedInTemporalDifference) {
+      if (basemapParams && !isBasemapUsedInTemporalDifference && !isBasemapUsedInAnimation) {
         const allParamsSet = Object.values(basemapParams).every(
           param => param !== undefined && param !== null && param !== ''
         );
@@ -285,6 +305,38 @@ const selectors = {
           ? `${uniqueAttributions.map(attr => ATTRIBUTIONS[attr]).join(', ')}, `
           : ''
       }© <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>`;
+    }
+  ),
+  selectAnimatedLayerStartDates: createSelector(
+    [mapModule.selectExportTemporalDiffLayers, exportModule.selectModeParams],
+    (temporalDiffLayers, modeParams) => {
+      if (!modeParams.layers.length || !temporalDiffLayers[modeParams.layers[0]]) {
+        return [];
+      }
+
+      if (modeParams.dates[0].length < 2) {
+        return temporalDiffLayers[modeParams.layers[0]];
+      }
+
+      return temporalDiffLayers[modeParams.layers[0]].filter(option =>
+        moment(option.value).isBefore(moment(modeParams.dates[0][1]))
+      );
+    }
+  ),
+  selectAnimatedLayerEndDates: createSelector(
+    [mapModule.selectExportTemporalDiffLayers, exportModule.selectModeParams],
+    (temporalDiffLayers, modeParams) => {
+      if (!modeParams.layers.length || !temporalDiffLayers[modeParams.layers[0]]) {
+        return [];
+      }
+
+      if (modeParams.dates[0].length < 1 || !modeParams.dates[0][0]) {
+        return temporalDiffLayers[modeParams.layers[0]];
+      }
+
+      return temporalDiffLayers[modeParams.layers[0]].filter(option =>
+        moment(option.value).isAfter(moment(modeParams.dates[0][0]))
+      );
     }
   ),
 };

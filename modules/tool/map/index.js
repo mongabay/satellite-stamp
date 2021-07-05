@@ -271,6 +271,7 @@ export default toolActions =>
       [toolActions.updateMode.toString()]: (state, action) => {
         switch (action.payload) {
           case '1':
+          case 'animated':
             state.viewports = [{ ...state.viewports[0] }];
             state.idle = [state.idle[0]];
             return;

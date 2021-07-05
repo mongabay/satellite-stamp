@@ -42,4 +42,23 @@
       }
     }
   }
+
+  .c-checkbox {
+    label {
+      display: block;
+      @include font-size($font-size-xs);
+      line-height: $line-height-base * $font-size-base;
+      font-weight: $font-weight-bold;
+      color: $text-color-3;
+      text-transform: uppercase;
+    }
+
+    & + .note {
+      padding: 0 0 0 $custom-control-gutter + $custom-control-indicator-size;
+    }
+  }
+
+  .note {
+    @include font-size($font-size-s);
+  }
 }

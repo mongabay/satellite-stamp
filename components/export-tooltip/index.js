@@ -1,6 +1,13 @@
 import { connect } from 'react-redux';
 
-import { toolActions, exportSelectors, exportActions, mapSelectors } from 'modules/tool';
+import {
+  toolActions,
+  toolSelectors,
+  exportSelectors,
+  exportActions,
+  mapSelectors,
+  mapActions,
+} from 'modules/tool';
 import Component from './component';
 
 export default connect(
@@ -10,6 +17,8 @@ export default connect(
     mode: exportSelectors.selectMode(state),
     modeParams: exportSelectors.selectModeParams(state),
     temporalDiffLayers: mapSelectors.selectExportTemporalDiffLayers(state),
+    animatedLayerStartDate: toolSelectors.selectAnimatedLayerStartDates(state),
+    animatedLayerEndDate: toolSelectors.selectAnimatedLayerEndDates(state),
     exporting: exportSelectors.selectExporting(state),
     idle: mapSelectors.selectIdle(state),
   }),
@@ -19,5 +28,8 @@ export default connect(
     updateMode: toolActions.updateMode,
     updateDifference: toolActions.updateMapDifference,
     updateModeParams: exportActions.updateModeParams,
+    updateLayer: mapActions.updateLayer,
+    updateBasemapParams: mapActions.updateBasemapParams,
+    updateProgress: exportActions.updateProgress,
   }
 )(Component);

@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
-import once from 'lodash/once';
+import moment from 'moment';
 
 import Icon from 'components/icon';
-import { Select } from 'components/forms';
+import { Select, Checkbox } from 'components/forms';
 import { DATA_LAYERS, BASEMAPS } from 'components/map';
-import { downloadImage } from './helper';
+import { waitUntil, generateCanvasFrame, downloadImage, downloadAnimatedImage } from './helper';
 
 import './style.scss';
 
@@ -19,6 +19,8 @@ const ExportTooltip = ({
   mode,
   modeParams,
   temporalDiffLayers,
+  animatedLayerStartDate,
+  animatedLayerEndDate,
   exporting,
   idle,
   updateSettings,
@@ -26,6 +28,9 @@ const ExportTooltip = ({
   updateMode,
   updateDifference,
   updateModeParams,
+  updateLayer,
+  updateBasemapParams,
+  updateProgress,
 }) => {
   const [form, setForm] = useState({
     width: {
@@ -40,7 +45,31 @@ const ExportTooltip = ({
 
   const [layerUsedInTempDifference, setLayerUsedInTempDifference] = useState('');
 
+  const [animationDuration, setAnimationDuration] = useState(5);
+  const [aggregateData, setAggregateData] = useState(false);
+
   const latestIdle = useRef(idle);
+  const previousExporting = useRef(exporting);
+
+  const animationDates = useMemo(() => {
+    if (
+      modeParams.layers.length < 1 ||
+      modeParams.dates[0].length < 2 ||
+      !modeParams.dates[0][0] ||
+      !modeParams.dates[0][1] ||
+      Object.keys(temporalDiffLayers).indexOf(modeParams.layers[0]) === -1
+    ) {
+      return [];
+    }
+
+    return temporalDiffLayers[modeParams.layers[0]]
+      .filter(
+        option =>
+          moment(option.value).isSameOrAfter(moment(modeParams.dates[0][0])) &&
+          moment(option.value).isSameOrBefore(moment(modeParams.dates[0][1]))
+      )
+      .map(option => option.value);
+  }, [temporalDiffLayers, modeParams]);
 
   const debouncedUpdateSettings = useCallback(debounce(updateSettings, 500), [updateSettings]);
 
@@ -72,23 +101,72 @@ const ExportTooltip = ({
     e => {
       e.preventDefault();
       updateExporting(true);
+      updateProgress(0);
     },
-    [updateExporting]
+    [updateExporting, updateProgress]
   );
 
-  const initDownload = useCallback(
-    // The effect might call initDownload several times so we make sure it is only executed once
-    once(async () => {
+  const initDownload = useCallback(async () => {
+    if (mode !== 'animated') {
       await downloadImage();
-      updateExporting(false);
-    }),
-    [
-      // exporting is not used in the function but is necessary to reset the “once” counter on each
-      // of the exports
-      exporting,
-      updateExporting,
-    ]
-  );
+    } else {
+      const frames = [];
+
+      for (const date of animationDates) {
+        if (!DATA_LAYERS[modeParams.layers[0]]) {
+          // TODO: don't assume the date parameter is the basemap's first param
+          const paramName = Object.keys(BASEMAPS[modeParams.layers[0]].params)[0];
+          const { dateFormat } = BASEMAPS[modeParams.layers[0]].legend.timeline;
+
+          // TODO: keep the previous params
+          updateBasemapParams({
+            [paramName]: moment(date).format(dateFormat),
+          });
+        } else {
+          const supportsRanges = DATA_LAYERS[modeParams.layers[0]].legend.timeline?.range !== false;
+
+          updateLayer({
+            id: modeParams.layers[0],
+            dateRange:
+              aggregateData && supportsRanges
+                ? [
+                    DATA_LAYERS[modeParams.layers[0]].legend.timeline.minDate,
+                    DATA_LAYERS[modeParams.layers[0]].legend.timeline.maxDate,
+                  ]
+                : [date, date],
+            currentDate: date,
+          });
+        }
+
+        // We wait for the layer changes to be taken into account (setTimeout) and then wait for
+        // the map to be idle
+        await waitUntil(
+          () => latestIdle.current.every(i => i),
+          // Layers that have a decode function don't trigger an idle event on the map, so here we
+          // rely on a greater waiting time
+          DATA_LAYERS[modeParams.layers[0]]?.decodeFunction ? 5000 : 100
+        );
+
+        frames.push(await generateCanvasFrame());
+
+        updateProgress((animationDates.indexOf(date) + 1) / animationDates.length);
+      }
+
+      await downloadAnimatedImage(frames, animationDuration);
+    }
+
+    updateExporting(false);
+  }, [
+    mode,
+    animationDates,
+    modeParams,
+    animationDuration,
+    aggregateData,
+    updateExporting,
+    updateLayer,
+    updateBasemapParams,
+    updateProgress,
+  ]);
 
   // If the user removes one of the layers that was used for temporal diffing, then we also remove
   // it from the options
@@ -129,6 +207,26 @@ const ExportTooltip = ({
     setLayerUsedInTempDifference,
   ]);
 
+  // If the user removes the layer that was used for the animation, then we reset the animation
+  // settings
+  useEffect(() => {
+    if (mode === 'animated' && modeParams.layers.length > 0) {
+      const existsLayer = Object.keys(temporalDiffLayers).indexOf(modeParams.layers[0]) !== -1;
+      if (!existsLayer) {
+        updateModeParams({
+          layers: [],
+          dates: [['']],
+        });
+      }
+    }
+  }, [mode, modeParams, temporalDiffLayers, updateModeParams]);
+
+  // When the mode is changed, reset the animation's duration and aggregation setting
+  useEffect(() => {
+    setAnimationDuration(5);
+    setAggregateData(false);
+  }, [mode, setAnimationDuration, setAggregateData]);
+
   // We initiate the download when the map is idle and the exporting flag is set
   useEffect(() => {
     // When the user clicks the download button, at that precise moment, the map is idle but it
@@ -142,13 +240,16 @@ const ExportTooltip = ({
     // https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function
     latestIdle.current = idle;
 
-    // Because the execution of initDownload is delayed in time, initDownload may be called multiple
-    // times. initDownload must only consider the first call as relevant.
-    setTimeout(() => {
-      if (exporting && latestIdle.current.every(i => i)) {
-        initDownload();
-      }
-    }, 100);
+    const triggerDownload = async () => {
+      await waitUntil(() => latestIdle.current.every(i => i), 100);
+      initDownload();
+    };
+
+    if (!previousExporting.current && exporting) {
+      triggerDownload();
+    }
+
+    previousExporting.current = exporting;
   }, [exporting, idle, initDownload]);
 
   return (
@@ -248,13 +349,134 @@ const ExportTooltip = ({
                 value="animated"
                 checked={mode === 'animated'}
                 onChange={() => updateMode('animated')}
-                disabled
               />
               <label htmlFor="export-tooltip-grid-animated">
                 <Icon name="animated-map" />
               </label>
             </div>
           </div>
+          {mode === 'animated' && (
+            <>
+              <div className="form-row">
+                <div className="form-group col">
+                  <label htmlFor="export-layer-animate">Layer to animate</label>
+                  <div className="input-group">
+                    <Select
+                      id="export-layer-animate"
+                      value={modeParams.layers[0] ?? ''}
+                      options={[
+                        { label: 'Select a layer', value: '', disabled: true },
+                        ...Object.keys(temporalDiffLayers)
+                          .sort((a, b) =>
+                            (DATA_LAYERS[a] ?? BASEMAPS[a]).label.localeCompare(
+                              (DATA_LAYERS[b] ?? BASEMAPS[b]).label
+                            )
+                          )
+                          .map(layer => ({
+                            label: (DATA_LAYERS[layer] ?? BASEMAPS[layer]).label,
+                            value: layer,
+                          })),
+                      ]}
+                      onChange={({ value }) =>
+                        updateModeParams({
+                          ...modeParams,
+                          layers: [value],
+                          dates: [['']],
+                        })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group col-6">
+                  <label htmlFor="export-start-date">Start date</label>
+                  <div className="input-group">
+                    <Select
+                      id="export-start-date"
+                      value={modeParams.dates[0]?.[0] ?? ''}
+                      options={[
+                        { label: 'Select a date', value: '', disabled: true },
+                        ...animatedLayerStartDate,
+                      ]}
+                      onChange={({ value }) => {
+                        let newDates = [...modeParams.dates];
+
+                        newDates[0] = [...newDates[0]];
+                        newDates[0].splice(0, 1, value);
+
+                        updateModeParams({
+                          ...modeParams,
+                          dates: newDates,
+                        });
+                      }}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-group col-6">
+                  <label htmlFor="export-end-date">End date</label>
+                  <div className="input-group">
+                    <Select
+                      id="export-end-date"
+                      value={modeParams.dates[0]?.[1] ?? ''}
+                      options={[
+                        { label: 'Select a date', value: '', disabled: true },
+                        ...animatedLayerEndDate,
+                      ]}
+                      onChange={({ value }) => {
+                        let newDates = [...modeParams.dates];
+
+                        newDates[0] = [...newDates[0]];
+                        newDates[0].splice(1, 1, value);
+
+                        updateModeParams({
+                          ...modeParams,
+                          dates: newDates,
+                        });
+                      }}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group col">
+                  <Checkbox
+                    id="export-aggregate"
+                    name="export-aggregate"
+                    checked={aggregateData}
+                    onChange={({ target }) => setAggregateData(target.checked)}
+                  >
+                    Aggregate data over time
+                  </Checkbox>
+                  <div className="note">
+                    Note this settings is only available to select layers that allow ranges of data
+                    to be selected.
+                  </div>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group col">
+                  <label htmlFor="export-duration">Duration</label>
+                  <div className="input-group">
+                    <input
+                      type="number"
+                      id="export-duration"
+                      name="width"
+                      className="form-control"
+                      pattern="\d+"
+                      value={animationDuration}
+                      min="1"
+                      onChange={({ target }) => setAnimationDuration(+target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
           {(mode === '2-vertical' || mode === '2-horizontal' || mode === '4') && (
             <>
               <div className="form-row">
@@ -408,6 +630,8 @@ ExportTooltip.propTypes = {
   mode: PropTypes.string.isRequired,
   modeParams: PropTypes.object.isRequired,
   temporalDiffLayers: PropTypes.object.isRequired,
+  animatedLayerStartDate: PropTypes.array.isRequired,
+  animatedLayerEndDate: PropTypes.array.isRequired,
   exporting: PropTypes.bool.isRequired,
   idle: PropTypes.arrayOf(PropTypes.bool),
   updateSettings: PropTypes.func.isRequired,
@@ -415,6 +639,9 @@ ExportTooltip.propTypes = {
   updateMode: PropTypes.func.isRequired,
   updateDifference: PropTypes.func.isRequired,
   updateModeParams: PropTypes.func.isRequired,
+  updateLayer: PropTypes.func.isRequired,
+  updateBasemapParams: PropTypes.func.isRequired,
+  updateProgress: PropTypes.func.isRequired,
 };
 
 export default ExportTooltip;

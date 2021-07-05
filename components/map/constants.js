@@ -40,6 +40,8 @@ export const BASEMAPS = {
         default: 2017,
         // When temporal mode is set up with this layer, this param is hidden from the interface
         hiddenInTemporalMode: true,
+        // When animated mode is set up with this layer, this param is hidden from the interface
+        hiddenInAnimatedMode: true,
       },
     },
     // The legend is not displayed on the tool, it is only used for computing the temporal

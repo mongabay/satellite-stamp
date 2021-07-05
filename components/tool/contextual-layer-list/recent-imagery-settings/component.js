@@ -157,7 +157,7 @@ const RecentImagerySettings = ({
         {isToggledOn && (
           <div className="params">
             <div className="param note">
-              Note this layer is only displayed on the single map layout.
+              Note this layer is only displayed on the single map layout, when non animated.
             </div>
             <div className="param">
               <label htmlFor="contextual-layer-recent-imagery-min-date">

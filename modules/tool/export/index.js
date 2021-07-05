@@ -7,6 +7,7 @@ export const selectSettings = state => state[SLICE_NAME];
 export const selectWidth = createSelector([selectSettings], settings => settings.width);
 export const selectHeight = createSelector([selectSettings], settings => settings.height);
 export const selectExporting = createSelector([selectSettings], settings => settings.exporting);
+export const selectProgress = createSelector([selectSettings], settings => settings.progress);
 export const selectMode = createSelector([selectSettings], settings => settings.mode);
 export const selectModeParams = createSelector([selectSettings], settings => settings.modeParams);
 
@@ -19,6 +20,7 @@ export default toolActions =>
     name: SLICE_NAME,
     initialState: {
       exporting: false,
+      progress: 0,
       mode: '1',
       modeParams: {
         /**
@@ -50,6 +52,9 @@ export default toolActions =>
       updateExporting(state, action) {
         state.exporting = action.payload;
       },
+      updateProgress(state, action) {
+        state.progress = action.payload;
+      },
       updateModeParams(state, action) {
         state.modeParams = action.payload;
       },
@@ -68,6 +73,7 @@ export default toolActions =>
 
         switch (action.payload) {
           case '1':
+          case 'animated':
             state.modeParams.difference = '';
             state.modeParams.layers = [];
             state.modeParams.dates = [['']];

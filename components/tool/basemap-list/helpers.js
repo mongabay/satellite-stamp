@@ -14,6 +14,11 @@ export const canShowParam = (basemap, param, mode, modeParams) => {
     (mode === '2-vertical' || mode === '2-horizontal' || mode === '4') &&
     modeParams.difference === 'temporal' &&
     modeParams.layers.indexOf(basemap) !== -1;
+  const isParamHiddenInAnimatedMode = !!BASEMAPS[basemap].params[param].hiddenInAnimatedMode;
+  const isAnimated = mode === 'animated' && modeParams.layers.indexOf(basemap) !== -1;
 
-  return !isParamHiddenInTemporalMode || !isTemporalMode;
+  return (
+    (!isParamHiddenInTemporalMode || !isTemporalMode) &&
+    (!isParamHiddenInAnimatedMode || !isAnimated)
+  );
 };

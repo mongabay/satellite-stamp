@@ -102,6 +102,12 @@ $custom-range-thumb-bg: $primary;
 $custom-range-thumb-active-bg: rgba($primary, 0.3);
 $custom-range-thumb-focus-box-shadow: 0 0 0 1px $body-bg, $input-focus-box-shadow;
 
+// Progress
+
+$progress-bg: rgba($primary, 0.3);
+$progress-bar-bg: $primary;
+$progress-height: rem(12);
+
 // Options
 
 $enable-shadows: true;
