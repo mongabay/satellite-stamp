@@ -222,6 +222,82 @@ export const DATA_LAYERS = {
       }
     `,
   },
+  'tree-cover-loss-cumulative': {
+    label: 'Tree cover loss (cumulative)',
+    attributions: ['rw'],
+    group: 'forests',
+    config: {
+      type: 'raster',
+      source: (year = 2020) => {
+        const yearToTiles = {
+          2001: `https://api.resourcewatch.org/v1/layer/c8d93d0e-a00f-4fd8-a944-1ffbc64fee69/tile/gee/{z}/{x}/{y}`,
+          2002: `https://api.resourcewatch.org/v1/layer/7c567361-3af0-4fa8-bf34-a53b30714f47/tile/gee/{z}/{x}/{y}`,
+          2003: `https://api.resourcewatch.org/v1/layer/ac301d2d-ee46-435b-8899-cc19970c5d3c/tile/gee/{z}/{x}/{y}`,
+          2004: `https://api.resourcewatch.org/v1/layer/b9a617e6-b434-44e1-87bb-4873917498f0/tile/gee/{z}/{x}/{y}`,
+          2005: `https://api.resourcewatch.org/v1/layer/c8012b53-8158-4198-820a-9d29dccffd79/tile/gee/{z}/{x}/{y}`,
+          2006: `https://api.resourcewatch.org/v1/layer/85cd8901-d050-49b2-914f-753651c4a690/tile/gee/{z}/{x}/{y}`,
+          2007: `https://api.resourcewatch.org/v1/layer/d8ca2f12-d1f9-4b14-94e8-7c55a3bcf66d/tile/gee/{z}/{x}/{y}`,
+          2008: `https://api.resourcewatch.org/v1/layer/cc2d80a2-db3d-4922-81cc-2d50aba201a7/tile/gee/{z}/{x}/{y}`,
+          2009: `https://api.resourcewatch.org/v1/layer/408e6b7d-f335-41a2-bce7-9677b514c1e0/tile/gee/{z}/{x}/{y}`,
+          2010: `https://api.resourcewatch.org/v1/layer/470d199a-56e3-45a3-9905-6bb88dd102a9/tile/gee/{z}/{x}/{y}`,
+          2011: `https://api.resourcewatch.org/v1/layer/87a9e844-7760-42f5-a92c-4d8e2833498d/tile/gee/{z}/{x}/{y}`,
+          2012: `https://api.resourcewatch.org/v1/layer/d0c36d15-a6d0-41dc-b44f-72b1309aa664/tile/gee/{z}/{x}/{y}`,
+          2013: `https://api.resourcewatch.org/v1/layer/f3b3cf11-587a-4600-9d46-8f3a03056fc8/tile/gee/{z}/{x}/{y}`,
+          2014: `https://api.resourcewatch.org/v1/layer/4c918229-2e97-478e-bcd9-704cd50bf444/tile/gee/{z}/{x}/{y}`,
+          2015: `https://api.resourcewatch.org/v1/layer/b7557ca6-3382-4426-aa7f-a4e11a1a3411/tile/gee/{z}/{x}/{y}`,
+          2016: `https://api.resourcewatch.org/v1/layer/22043999-9f4d-4d06-87f6-e8910c75bbcf/tile/gee/{z}/{x}/{y}`,
+          2017: `https://api.resourcewatch.org/v1/layer/053dff4b-9d05-4462-a6f8-90e945891246/tile/gee/{z}/{x}/{y}`,
+          2018: `https://api.resourcewatch.org/v1/layer/a37d1d19-3bf8-4d7d-8cce-1158f9ef6a12/tile/gee/{z}/{x}/{y}`,
+          2019: `https://api.resourcewatch.org/v1/layer/bc0a5617-c38b-4efd-805a-26e1811524b3/tile/gee/{z}/{x}/{y}`,
+          2020: `https://api.resourcewatch.org/v1/layer/5f6d1cd9-596d-49b9-93d8-326d3657f7a3/tile/gee/{z}/{x}/{y}`,
+        };
+
+        return {
+          tiles: [yearToTiles[year]],
+          minzoom: 2,
+          maxzoom: 12,
+        };
+      },
+    },
+    legend: {
+      type: 'basic',
+      alignment: 'columns',
+      items: (year = 2020) => {
+        const items = [
+          { name: '2001', color: '#f1eef6' },
+          { name: '2002', color: '#EBE1EC' },
+          { name: '2003', color: '#E6D4E2' },
+          { name: '2004', color: '#E1C8D9' },
+          { name: '2005', color: '#DCBBCF' },
+          { name: '2006', color: '#D7AFC5' },
+          { name: '2007', color: '#D2A2BC' },
+          { name: '2008', color: '#CD96B2' },
+          { name: '2009', color: '#C889A8' },
+          { name: '2010', color: '#C37D9F' },
+          { name: '2011', color: '#BE7095' },
+          { name: '2012', color: '#B9648C' },
+          { name: '2013', color: '#B45782' },
+          { name: '2014', color: '#AF4B78' },
+          { name: '2015', color: '#AA3E6F' },
+          { name: '2016', color: '#A53265' },
+          { name: '2017', color: '#A0255B' },
+          { name: '2018', color: '#9B1952' },
+          { name: '2019', color: '#960C48' },
+          { name: '2020', color: '#760b39' },
+        ];
+
+        return items.slice(0, year - 2001 + 1);
+      },
+      timeline: {
+        step: 1,
+        range: false,
+        interval: 'years',
+        dateFormat: 'YYYY',
+        minDate: '2000-01-01',
+        maxDate: '2020-01-01',
+      },
+    },
+  },
   glad: {
     label: 'Deforestation alerts (GLAD)',
     attributions: ['rw'],
@@ -2323,7 +2399,7 @@ export const PRESETS = {
     ],
     dataLayers: [
       {
-        id: 'tree-cover-loss',
+        id: 'tree-cover-loss-cumulative',
       },
       {
         id: 'tree-cover',

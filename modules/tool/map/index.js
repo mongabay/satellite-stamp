@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { getLayerDef, getDatesFromInterval, getBasemapDef } from 'utils/map';
+import { getLayerDef, getDatesFromInterval, getBasemapDef, computeDecodeParams } from 'utils/map';
 import { BASEMAPS, DATA_LAYERS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -74,7 +74,20 @@ export const selectLegendDataLayers = createSelector(
           name: layer.label,
           opacity: layers[layer.id].opacity,
           order: layers[layer.id].order,
-          legendConfig: layer.legend,
+          legendConfig: {
+            ...layer.legend,
+            items:
+              typeof layer.legend.items === 'function'
+                ? layer.legend.items(
+                    layers[layer.id].dateRange
+                      ? computeDecodeParams(layer, {
+                          dateRange: layers[layer.id].dateRange,
+                          currentDate: layers[layer.id].currentDate,
+                        }).endYear
+                      : undefined
+                  )
+                : layer.legend.items,
+          },
           timelineParams: layer.legend?.timeline
             ? {
                 ...layer.legend?.timeline,

@@ -67,7 +67,14 @@ const Legend = ({
               </LegendItemToolbar>
             }
           >
-            {layer.layers[0].legendConfig.type !== 'group' && <LegendItemTypes />}
+            {layer.layers[0].legendConfig.type !== 'group' && (
+              <LegendItemTypes
+                {...(layer.layers[0].legendConfig.type === 'basic' &&
+                layer.layers[0].legendConfig.alignment
+                  ? { mode: layer.layers[0].legendConfig.alignment }
+                  : {})}
+              />
+            )}
             {layer.layers[0].legendConfig.type === 'group' && (
               <div className="c-legend-type-group">
                 <Accordion>
