@@ -452,7 +452,7 @@ const ExportTooltip = ({
                     Aggregate data over time
                   </Checkbox>
                   <div className="note">
-                    Note this settings is only available to select layers that allow ranges of data
+                    Note this setting is only available to select layers that allow ranges of data
                     to be selected.
                   </div>
                 </div>
