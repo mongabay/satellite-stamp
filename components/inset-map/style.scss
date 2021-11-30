@@ -1,26 +1,39 @@
 @import 'css/settings';
 
 .c-inset-map {
-  padding: rem(5);
-  background-color: $white;
-  border: rem(1) solid rgba($black, 0.1);
-
-  // This div helps us remove the padding from the calculations of the marker's position
   > div {
-    position: relative;
+    width: rem(150);
+    height: rem(100);
+    background-color: $white;
+    border: rem(1) solid rgba($black, 0.1);
 
-    > img:first-of-type {
-      display: block;
-      width: rem(150);
-      height: rem(100);
+    + div {
+      margin-top: #{map-get($spacers, 1) / 2};
     }
 
-    > img:nth-of-type(2) {
-      position: absolute;
-      display: block;
-      width: rem(10);
-      height: rem(10);
-      transform: translate(-50%, -50%);
+    svg {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    path {
+      fill: $yellow;
+      stroke: $white;
+    }
+
+    rect {
+      fill: transparent;
+      stroke: $primary;
+      stroke-width: rem(2);
+    }
+
+    circle.outer {
+      stroke: $primary;
+    }
+
+    circle.inner {
+      fill: $primary;
     }
   }
 }

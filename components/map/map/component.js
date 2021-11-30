@@ -36,8 +36,20 @@ const Comp = (
 
   const onLoadMap = useCallback(() => {
     onLoad(map.current.getMap());
+
+    // When the map is mounted, the bounds of the map are saved
+    if (onViewportChange) {
+      onViewportChange({
+        ...viewport,
+        bounds: map.current
+          .getMap()
+          .getBounds()
+          .toArray(),
+      });
+    }
+
     setLoaded(true);
-  }, [onLoad, map.current, setLoaded]);
+  }, [viewport, onViewportChange, onLoad, map.current, setLoaded]);
 
   const onChangeViewport = useCallback(
     v => {
