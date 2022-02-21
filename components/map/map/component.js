@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ReactMapGL from 'react-map-gl';
 import composeRefs from '@seznam/compose-react-refs';
 
+import { GLOBAL_FISHING_WATCH_TOKEN } from 'components/map/constants';
+
 import './style.scss';
 
 export { ScaleControl, Popup } from 'react-map-gl';
@@ -120,6 +122,23 @@ const Comp = (
           if (isHovering) return 'pointer';
           if (isDragging) return 'grabbing';
           return 'grab';
+        }}
+        transformRequest={(url, resourceType) => {
+          // Global Fishing Watch tilers require authorization so we need to add
+          // the header before Mapbox handles the request
+          if (
+            resourceType === 'Tile' &&
+            url.startsWith('https://gateway.api.globalfishingwatch.org/')
+          ) {
+            return {
+              url,
+              headers: {
+                Authorization: `Bearer ${GLOBAL_FISHING_WATCH_TOKEN}`,
+              },
+            };
+          }
+
+          return null;
         }}
         {...rest}
       >
