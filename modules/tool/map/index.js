@@ -158,7 +158,7 @@ export default toolActions =>
       idle: [true],
       basemap: 'mongabay-paper',
       basemapParams: null,
-      contextualLayers: ['labels-none', 'hillshade'],
+      contextualLayers: ['labels-dark', 'hillshade'],
       recentImagery: null,
       insetMap: false,
       layers: {
