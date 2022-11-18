@@ -21,7 +21,6 @@ const Comp = (
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [loaded, setLoaded] = useState(false);
-  const [previousViewport, setPreviousViewport] = useState(viewport);
   const [internalViewport, setInternalViewport] = useState(viewport);
 
   const inner = useMemo(() => {
@@ -40,23 +39,20 @@ const Comp = (
     onLoad(map.current.getMap());
 
     // When the map is mounted, the bounds of the map are saved
-    if (onViewportChange) {
-      onViewportChange({
-        ...viewport,
-        bounds: map.current
-          .getMap()
-          .getBounds()
-          .toArray(),
-      });
-    }
+    onViewportChange?.({
+      ...viewport,
+      bounds: map.current
+        .getMap()
+        .getBounds()
+        .toArray(),
+    });
 
     setLoaded(true);
-  }, [viewport, onViewportChange, onLoad, map.current, setLoaded]);
+  }, [viewport, onViewportChange, onLoad, setLoaded]);
 
   const onChangeViewport = useCallback(
     v => {
-      setInternalViewport(v);
-      onViewportChange({
+      const newViewport = {
         ...v,
         ...(loaded
           ? {
@@ -66,17 +62,17 @@ const Comp = (
                 .toArray(),
             }
           : {}),
-      });
+      };
+
+      setInternalViewport(newViewport);
+      onViewportChange?.(newViewport);
     },
-    [loaded, map.current, setInternalViewport, onViewportChange]
+    [loaded, setInternalViewport, onViewportChange]
   );
 
   useEffect(() => {
-    if (viewport !== previousViewport) {
-      setInternalViewport(v => ({ ...v, ...viewport }));
-      setPreviousViewport(viewport);
-    }
-  }, [viewport, previousViewport, setPreviousViewport, setInternalViewport]);
+    setInternalViewport(viewport);
+  }, [viewport, setInternalViewport]);
 
   useEffect(() => {
     if (loaded && onBusy) {
@@ -88,7 +84,7 @@ const Comp = (
         map.current.getMap().off('dataloading', onBusy);
       }
     };
-  }, [loaded, map.current, onBusy]);
+  }, [loaded, onBusy]);
 
   useEffect(() => {
     if (loaded && onIdle) {
@@ -100,7 +96,7 @@ const Comp = (
         map.current.getMap().off('idle', onIdle);
       }
     };
-  }, [loaded, map.current, onIdle]);
+  }, [loaded, onIdle]);
 
   return (
     <div ref={mapContainer} className={['c-map', ...(className ? [className] : [])].join(' ')}>
