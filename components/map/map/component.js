@@ -72,7 +72,7 @@ const Comp = (
 
   useEffect(() => {
     setInternalViewport(viewport);
-  }, [viewport, setInternalViewport]);
+  }, [viewport, onViewportChange, setInternalViewport]);
 
   useEffect(() => {
     if (loaded && onBusy) {

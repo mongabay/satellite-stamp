@@ -150,7 +150,10 @@ export default toolActions =>
           zoom: 2,
           latitude: 27,
           longitude: 12,
-          transitionDuration: 250,
+          // If this value is not 0, then when switching from spatial to temporal mode, without
+          // having moved the map in temporal mode before, the new maps won't get the location of
+          // the first map
+          transitionDuration: 0,
           bounds: null,
         },
       ],
@@ -321,6 +324,7 @@ export default toolActions =>
             if (index === 0) {
               return viewport;
             }
+            console.log(JSON.stringify(state.viewports[0]));
             return { ...state.viewports[0] };
           });
         }
