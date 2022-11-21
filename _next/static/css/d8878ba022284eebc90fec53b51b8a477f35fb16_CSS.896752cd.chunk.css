@@ -937,6 +937,7 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
         left: 0.25rem;
         bottom: 0.25rem; }
         .c-tool-visualization .map-container .map .scale-control > div {
+          position: static !important;
           font-size: 0.625rem; }
       .c-tool-visualization .map-container .map .c-inset-map {
         position: absolute;
