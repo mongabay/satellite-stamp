@@ -1,17 +1,11 @@
-import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useEffect, forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import composeRefs from '@seznam/compose-react-refs';
 
 import { toggleBasemap, toggleContextualLayers } from 'utils/map';
 import { BASEMAPS, CONTEXTUAL_LAYERS, mapStyle, Map, LayerManager } from 'components/map';
 
-const VisualizationMap = ({
-  layers,
-  basemap,
-  contextualLayers,
-  children,
-  onChangeViewport,
-  ...rest
-}) => {
+const Comp = ({ layers, basemap, contextualLayers, children, onChangeViewport, ...rest }, ref) => {
   const mapRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const map = useMemo(() => mapRef.current?.getMap(), [mapRef.current]);
@@ -38,7 +32,7 @@ const VisualizationMap = ({
 
   return (
     <Map
-      ref={mapRef}
+      ref={composeRefs(mapRef, ref)}
       // Needed for the export but have a hit on performance
       // If we automatically set it, we would have to wait for the maps to re-render
       preserveDrawingBuffer
@@ -56,6 +50,10 @@ const VisualizationMap = ({
     </Map>
   );
 };
+
+const VisualizationMap = forwardRef(Comp);
+
+VisualizationMap.displayName = 'VisualizationMap';
 
 VisualizationMap.propTypes = {
   basemap: PropTypes.string.isRequired,

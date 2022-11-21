@@ -17,6 +17,7 @@ export default connect(
     mode: exportSelectors.selectMode(state),
     modeParams: exportSelectors.selectModeParams(state),
     mapsShowScaleBar: toolSelectors.selectMapsShowScaleBar(state),
+    mapsSearchProps: toolSelectors.selectMapsSearchProps(state),
     showInsetMap: toolSelectors.selectShowInsetMap(state),
   }),
   {

@@ -51,6 +51,7 @@
     "react-dom": "16.12.0",
     "react-map-gl": "^6.1.18",
     "react-modal": "^3.11.2",
+    "react-places-autocomplete": "^7.3.0",
     "react-redux": "^7.2.0",
     "react-simple-maps": "^2.3.0",
     "viewport-mercator-project": "6.1.1",

@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, createRef, useRef } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import classnames from 'classnames';
 
 import { DATA_LAYERS, getViewportFromBounds, Legend, ScaleControl } from 'components/map';
 import InsetMap from 'components/inset-map';
+import Search from 'components/search';
 import Map from './map';
 import InteractiveFeaturePopup from './interactive-feature-popup';
 import Attributions from '../attributions';
@@ -24,6 +25,7 @@ const Visualization = ({
   mode,
   modeParams,
   mapsShowScaleBar,
+  mapsSearchProps,
   showInsetMap,
   updateLayer,
   removeLayer,
@@ -33,6 +35,7 @@ const Visualization = ({
   updateIdle,
 }) => {
   const [interactiveFeature, setInteractiveFeature] = useState(null);
+  const [mapsRefs, setMapsRefs] = useState(viewports.map(() => createRef()));
 
   /**
    * @type {(mapIndex: any, mapViewport: any) => void}
@@ -85,6 +88,11 @@ const Visualization = ({
       setInteractiveFeature(null);
     }
   }, [exporting, setInteractiveFeature]);
+
+  // Each time the list of `viewports` changes, we recreate the refs to the maps
+  useEffect(() => {
+    setMapsRefs(viewports.map(() => createRef()));
+  }, [viewports, setMapsRefs]);
 
   return (
     <div
@@ -150,7 +158,54 @@ const Visualization = ({
                     ))}
                   </div>
                 )}
+                {!!mapsSearchProps[index] && !exporting && (
+                  <Search
+                    {...mapsSearchProps[index]}
+                    onChangeBounds={bounds => {
+                      const map = mapsRefs[index].current.getMap();
+                      const { offsetWidth: width, offsetHeight: height } = map.getContainer();
+                      const viewport = getViewportFromBounds(
+                        width,
+                        height,
+                        viewports[index],
+                        bounds
+                      );
+
+                      if (mapsSearchProps[index].contained) {
+                        updateViewport({
+                          index,
+                          viewport,
+                        });
+                      } else {
+                        updateViewports(viewport);
+                      }
+                    }}
+                    onChangeCenter={center => {
+                      const map = mapsRefs[index].current.getMap();
+                      const { offsetWidth: width, offsetHeight: height } = map.getContainer();
+                      const viewport = getViewportFromBounds(
+                        width,
+                        height,
+                        viewports[index],
+                        [center, center],
+                        {
+                          maxZoom: 13,
+                        }
+                      );
+
+                      if (mapsSearchProps[index].contained) {
+                        updateViewport({
+                          index,
+                          viewport,
+                        });
+                      } else {
+                        updateViewports(viewport);
+                      }
+                    }}
+                  />
+                )}
                 <Map
+                  ref={mapsRefs[index]}
                   layers={mapsActiveLayersDef[index]}
                   viewport={viewports[index]}
                   interactiveLayerIds={activeDataLayersInteractiveIds}

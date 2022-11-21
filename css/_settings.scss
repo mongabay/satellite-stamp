@@ -36,9 +36,12 @@ $font-family-base: $font-family-1;
 
 $font-size-l: rem(30);
 $font-size-base: rem(16);
+$font-size-medium: rem(14);
 $font-size-s: rem(13);
 $font-size-xs: rem(12);
 $font-size-xxs: rem(10);
+
+$font-weight-strong: 600;
 
 $headings-font-family: $font-family-2;
 $h1-font-size: $font-size-l;
@@ -108,6 +111,10 @@ $custom-range-thumb-focus-box-shadow: 0 0 0 1px $body-bg, $input-focus-box-shado
 $progress-bg: rgba($primary, 0.3);
 $progress-bar-bg: $primary;
 $progress-height: rem(12);
+
+// Code
+
+$kbd-bg: $primary;
 
 // Options
 

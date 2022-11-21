@@ -243,6 +243,51 @@ const selectors = {
       return [true];
     }
   ),
+  selectMapsSearchProps: createSelector(
+    [exportModule.selectMode, exportModule.selectModeParams],
+    (mode, modeParams) => {
+      if (mode === '1' || mode === 'animated') {
+        return [
+          {
+            expanded: true,
+            contained: true,
+          },
+        ];
+      }
+
+      if (mode === '2-horizontal' || mode === '2-vertical') {
+        if (modeParams.difference === 'temporal') {
+          return [
+            {
+              expanded: false,
+              contained: false,
+            },
+          ];
+        }
+
+        return Array.from({ length: 2 }, () => ({
+          expanded: false,
+          contained: true,
+        }));
+      }
+
+      if (mode === '4') {
+        if (modeParams.difference === 'temporal') {
+          return [
+            {
+              expanded: false,
+              contained: false,
+            },
+          ];
+        }
+
+        return Array.from({ length: 4 }, () => ({
+          expanded: false,
+          contained: true,
+        }));
+      }
+    }
+  ),
   selectShowInsetMap: createSelector(
     [mapModule.selectInsetMap, exportModule.selectMode],
     (showInsetMap, mode) => {
