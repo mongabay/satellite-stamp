@@ -161,6 +161,7 @@
         bottom: map-get($spacers, 1);
 
         > div {
+          position: static !important;
           @include font-size($font-size-xxs);
         }
       }
