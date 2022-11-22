@@ -51,6 +51,32 @@
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
+
+    &.-empty-btn {
+      padding-right: ($spacer * 3.75);
+    }
+  }
+
+  .empty-btn {
+    position: absolute;
+    top: 0;
+    right: ($spacer * 1.5);
+    height: rem(44);
+    width: rem(44);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: $btn-focus-box-shadow;
+    }
   }
 
   .suggestions {

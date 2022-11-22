@@ -12,10 +12,11 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
   const [expanded, setExpanded] = useState(alwaysExpanded);
   const [keyword, setKeyword] = useState('');
   const [isCoordinates, setIsCoordinates] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const onSelectPlace = useCallback(
     keyword => {
-      setKeyword('');
+      setKeyword(keyword);
 
       const isCoordinates = COORDINATES_REGEX.test(keyword);
       if (isCoordinates) {
@@ -24,6 +25,7 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
         latitude = Number.parseFloat(latitude);
 
         onChangeCenter([longitude, latitude]);
+        setShowSuggestions(false);
 
         return;
       }
@@ -45,6 +47,8 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
           } else if (location) {
             onChangeCenter([location.lng(), location.lat()]);
           }
+
+          setShowSuggestions(false);
         })
         .catch(error => console.error(error));
     },
@@ -63,14 +67,16 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
     const onClick = e => {
       const container = containerRef.current;
       const target = e.target;
-      const outsideClick = !container.contains(target);
+      // When the user clicks on a suggestion, list disappears and so the `target` is not in the DOM
+      // anymore
+      const outsideClick = document.contains(target) && !container.contains(target);
 
       if (outsideClick) {
         if (!alwaysExpanded) {
           setExpanded(false);
         }
 
-        setKeyword('');
+        setShowSuggestions(false);
       }
     };
 
@@ -80,8 +86,10 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
   }, [alwaysExpanded, containerRef]);
 
   // Detect if the user searched coordinates and set `isCoordinates`
+  // Show the suggestions when the user types
   useEffect(() => {
     setIsCoordinates(COORDINATES_REGEX.test(keyword.trim()));
+    setShowSuggestions(keyword.length > 0);
   }, [keyword]);
 
   return (
@@ -89,7 +97,7 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
       className={classnames({
         'c-search': true,
         '-full': !contained && expanded,
-        '-active': keyword.length > 0,
+        '-active': showSuggestions,
       })}
       ref={containerRef}
     >
@@ -121,21 +129,28 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
                     type: 'search',
                     className: classnames({
                       'form-control': true,
-                      '-suggestions': keyword.length > 0,
+                      '-suggestions': showSuggestions,
+                      '-empty-btn': keyword.length > 0,
                     }),
                     'aria-label': 'Search for country, state, city, town...',
                     placeholder: 'Search for country, state, city, town...',
                     autoFocus: !alwaysExpanded,
                   })}
                 />
-                {isCoordinates && (
+                {keyword.length > 0 && (
+                  <button type="button" className="empty-btn" onClick={() => setKeyword('')}>
+                    <span className="sr-only">Empty search</span>
+                    <img src="/images/icon-close.svg" alt="" />
+                  </button>
+                )}
+                {showSuggestions && isCoordinates && (
                   <ul className="suggestions">
                     <li className="message">
                       <kbd>enter</kbd> to navigate to coordinates
                     </li>
                   </ul>
                 )}
-                {!isCoordinates && keyword.length > 0 && (
+                {showSuggestions && !isCoordinates && keyword.length > 0 && (
                   <ul className="suggestions">
                     {loading && <li className="message">Loading...</li>}
                     {!loading && suggestions.length === 0 && (
