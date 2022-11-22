@@ -752,6 +752,24 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
     .c-search input.-suggestions {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0; }
+    .c-search input.-empty-btn {
+      padding-right: 3.75rem; }
+  .c-search .empty-btn {
+    position: absolute;
+    top: 0;
+    right: 1.5rem;
+    height: 2.75rem;
+    width: 2.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent; }
+    .c-search .empty-btn:focus {
+      outline: 0; }
+    .c-search .empty-btn:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
   .c-search .suggestions {
     position: absolute;
     bottom: 0;
