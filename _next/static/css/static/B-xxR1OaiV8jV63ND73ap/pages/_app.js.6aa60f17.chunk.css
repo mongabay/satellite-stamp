@@ -140,6 +140,8 @@ select.c-select {
   z-index: 1; }
   .c-map-legend.-exporting .vizzuality__c-legend-map {
     width: 18.75rem; }
+    .c-map-legend.-exporting .vizzuality__c-legend-map button.vizzuality__toggle-legend {
+      display: none; }
   .c-map-legend .vizzuality__c-legend-map {
     width: 25rem;
     border: none;
