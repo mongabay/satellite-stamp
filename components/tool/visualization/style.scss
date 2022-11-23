@@ -46,6 +46,13 @@
         & + .map {
           margin-top: rem(10);
         }
+
+        &:last-of-type {
+          .title {
+            top: auto;
+            bottom: 0;
+          }
+        }
       }
     }
 
@@ -149,7 +156,7 @@
       .title {
         position: absolute;
         top: 0;
-        left: 0;
+        right: 0;
         padding: map-get($spacers, 1) map-get($spacers, 2);
         background: $white;
         z-index: 3;
