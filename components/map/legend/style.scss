@@ -9,6 +9,10 @@
   &.-exporting {
     .vizzuality__c-legend-map {
       width: rem(300);
+
+      button.vizzuality__toggle-legend {
+        display: none;
+      }
     }
   }
 
