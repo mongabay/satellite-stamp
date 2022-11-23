@@ -749,6 +749,8 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
       font-size: 0.875rem;
       color: #222222;
       opacity: 1; }
+    .c-search input::-webkit-search-cancel-button {
+      display: none; }
     .c-search input.-suggestions {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0; }
@@ -881,6 +883,9 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
       flex-basis: calc(50% - 0.3125rem); }
       .c-tool-visualization.mode-2-horizontal .map-container .map + .map {
         margin-top: 0.625rem; }
+      .c-tool-visualization.mode-2-horizontal .map-container .map:last-of-type .title {
+        top: auto;
+        bottom: 0; }
   .c-tool-visualization.mode-2-horizontal .c-map-legend {
     right: 0;
     top: 50%;
@@ -946,7 +951,7 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
       .c-tool-visualization .map-container .map .title {
         position: absolute;
         top: 0;
-        left: 0;
+        right: 0;
         padding: 0.25rem 0.5rem;
         background: #fff;
         z-index: 3; }

@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[14],{"31yJ":function(n,o,w){(window.__NEXT_P=window.__NEXT_P||[]).push(["/home/component",function(){return w("fJyB")}])}},[["31yJ",1,2,3,6,4,0,5,7,8]]]);
