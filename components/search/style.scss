@@ -47,6 +47,10 @@
       opacity: 1;
     }
 
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+
     &.-suggestions {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
