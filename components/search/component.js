@@ -13,6 +13,7 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
   const [keyword, setKeyword] = useState('');
   const [isCoordinates, setIsCoordinates] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [performedSearch, setPerformedSearch] = useState(false);
 
   const onSelectPlace = useCallback(
     keyword => {
@@ -26,6 +27,7 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
 
         onChangeCenter([longitude, latitude]);
         setShowSuggestions(false);
+        setPerformedSearch(true);
 
         return;
       }
@@ -49,6 +51,7 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
           }
 
           setShowSuggestions(false);
+          setPerformedSearch(true);
         })
         .catch(error => console.error(error));
     },
@@ -137,8 +140,15 @@ const Search = ({ expanded: alwaysExpanded, contained, onChangeBounds, onChangeC
                     autoFocus: !alwaysExpanded,
                   })}
                 />
-                {keyword.length > 0 && (
-                  <button type="button" className="empty-btn" onClick={() => setKeyword('')}>
+                {performedSearch && (
+                  <button
+                    type="button"
+                    className="empty-btn"
+                    onClick={() => {
+                      setKeyword('');
+                      setPerformedSearch(false);
+                    }}
+                  >
                     <span className="sr-only">Empty search</span>
                     <img src="/images/icon-close.svg" alt="" />
                   </button>
