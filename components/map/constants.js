@@ -1005,36 +1005,54 @@ export const DATA_LAYERS = {
         };
       },
     },
+    decodeParams: {},
+    decodeFunction: `
+    const int colorsCount = 6;
+    vec3 colors[colorsCount];
+    colors[0] = vec3(50, 9, 93) / 255.;     // #32095D
+    colors[1] = vec3(120, 28, 109) / 255.;  // #781C6D
+    colors[2] = vec3(186, 54, 85) / 255.;   // #BA3655
+    colors[3] = vec3(237, 104, 37) / 255.;  // #ED6825
+    colors[4] = vec3(251, 179, 24) / 255.;  // #FBB318
+    colors[5] = vec3(252, 254, 164) / 255.; // #FCFEA4
+    for (int i = 0; i < colorsCount; i++) {
+      if ((i == 0 && color.r <= colors[i].r) || (i == colorsCount - 1 && color.r >= colors[i].r) || (color.r >= colors[i].r && color.r < colors[i + 1].r)) {
+        float coeff = (color.r - colors[i + 1].r) / (colors[i].r - colors[i + 1].r);
+        color = mix(colors[colorsCount - i - 2], colors[colorsCount - i - 1], coeff);
+        break;
+      }
+    }
+    `,
     legend: {
       type: 'choropleth',
       items: [
         {
-          color: '#32095D',
+          color: '#FCFEA4',
           name: '≤25',
           id: 0,
         },
         {
-          color: '#781C6D',
+          color: '#FBB318',
           name: '≤100',
           id: 1,
         },
         {
-          color: '#BA3655',
+          color: '#ED6825',
           name: '≤1k',
           id: 2,
         },
         {
-          color: '#ED6825',
+          color: '#BA3655',
           name: '≤5k',
           id: 3,
         },
         {
-          color: '#FBB318',
+          color: '#781C6D',
           name: '≤10k',
           id: 4,
         },
         {
-          color: '#FCFEA4',
+          color: '#32095D',
           name: '>10k',
           id: 5,
         },
