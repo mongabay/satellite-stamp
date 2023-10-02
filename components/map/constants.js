@@ -5,6 +5,8 @@ export const VECTOR_LAYERS_FILL_OPACITY = 0.3;
 export const ATTRIBUTIONS = {
   rw:
     'Powered by <a href="https://resourcewatch.org/" target="_blank" rel="noopener noreferrer">Resource Watch</a>',
+  gfw:
+    'Powered by <a href="https://www.globalforestwatch.org/" target="_blank" rel="noopener noreferrer">Global Forest Watch</a>',
   planet:
     'Basemap by <a href="https://www.planet.com/" target="_blank" rel="noopener noreferrer">Planet</a>',
   'global-fishing-watch':
@@ -152,16 +154,34 @@ export const CONTEXTUAL_LAYERS = {
 export const DATA_LAYERS = {
   'tree-cover-loss': {
     label: 'Tree cover loss',
-    attributions: ['rw'],
+    attributions: ['gfw'],
     group: 'forests',
+    init: async layer => {
+      // GFW updates the layer in May-June every year with the data from the previous year
+      const endYear =
+        new Date().getMonth() >= 5 ? new Date().getFullYear() - 1 : new Date().getFullYear() - 2;
+      layer.legend.timeline.maxDate = new Date(`${endYear}-12-31`);
+      layer.decodeParams = {
+        ...layer.decodeParams,
+        endYear,
+      };
+      layer.decodeConfig[1].default = `${endYear}-12-31`;
+    },
     config: {
       type: 'raster',
-      source: {
+      source: (_, { canopyDensity = 30 }) => ({
         tiles: [
-          'https://storage.googleapis.com/wri-public/Hansen18/tiles/hansen_world/v1/tc30/{z}/{x}/{y}.png',
+          `https://tiles.globalforestwatch.org/umd_tree_cover_loss/v1.10/tcd_${canopyDensity}/{z}/{x}/{y}.png`,
         ],
         minzoom: 2,
         maxzoom: 12,
+      }),
+    },
+    params: {
+      canopyDensity: {
+        label: 'Minimum canopy density percentage',
+        values: [10, 15, 20, 25, 30, 50, 75],
+        default: 30,
       },
     },
     legend: {
@@ -263,8 +283,7 @@ export const DATA_LAYERS = {
       },
     },
     legend: {
-      type: 'basic',
-      alignment: 'columns',
+      type: 'gradient',
       items: (year = 2020) => {
         const items = [
           { name: '2001', color: '#f1eef6' },
@@ -289,14 +308,18 @@ export const DATA_LAYERS = {
           { name: '2020', color: '#760b39' },
         ];
 
-        return items.slice(0, year - 2001 + 1);
+        return items
+          .slice(0, year - 2001 + 1)
+          .map((item, index, items) =>
+            index === 0 || index + 1 === items.length ? item : { ...item, name: ' ' }
+          );
       },
       timeline: {
         step: 1,
         range: false,
         interval: 'years',
         dateFormat: 'YYYY',
-        minDate: '2000-01-01',
+        minDate: '2001-01-01',
         maxDate: '2020-01-01',
       },
     },
@@ -1270,7 +1293,7 @@ export const DATA_LAYERS = {
   },
   'indigenous-community-lands': {
     label: 'Indigenous and Community Lands',
-    attributions: ['rw'],
+    attributions: ['gfw'],
     group: 'people',
     config: {
       type: 'vector',
