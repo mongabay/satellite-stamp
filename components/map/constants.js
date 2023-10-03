@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const mapStyle = 'mapbox://styles/mongabay/ckae6rtpe08l81ip77yc44aus';
 
 export const VECTOR_LAYERS_FILL_OPACITY = 0.3;
@@ -2558,6 +2560,409 @@ export const DATA_LAYERS = {
         },
       ],
     },
+  },
+  'forest-ghg-net-influx': {
+    label: 'Forest greenhouse gas net flux (2001-2022)',
+    attributions: ['gfw'],
+    group: 'forests',
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          `https://tiles.globalforestwatch.org/gfw_forest_carbon_net_flux/v20230407/tcd_30/{z}/{x}/{y}.png`,
+        ],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'gradient',
+      items: [
+        {
+          color: '#151d44',
+          name: '< -1500',
+        },
+        {
+          color: '#172447',
+        },
+        {
+          color: '#182c4c',
+        },
+        {
+          color: '#1a3350',
+        },
+        {
+          color: '#1b3a54',
+        },
+        {
+          color: '#1c4259',
+        },
+        {
+          color: '#1c485d',
+        },
+        {
+          color: '#1c4f62',
+        },
+        {
+          color: '#1b5766',
+        },
+        {
+          color: '#1a5d6a',
+        },
+        {
+          color: '#18656e',
+        },
+        {
+          color: '#156c72',
+        },
+        {
+          color: '#137375',
+        },
+        {
+          color: '#117a78',
+        },
+        {
+          color: '#12827b',
+        },
+        {
+          color: '#17887d',
+        },
+        {
+          color: '#25917f',
+        },
+        {
+          color: '#349880',
+        },
+        {
+          color: '#419d82',
+        },
+        {
+          color: '#52a384',
+        },
+        {
+          color: '#61a987',
+        },
+        {
+          color: '#6fad8b',
+        },
+        {
+          color: '#7db390',
+        },
+        {
+          color: '#8bb896',
+        },
+        {
+          color: '#97bd9c',
+        },
+        {
+          color: '#a4c3a3',
+        },
+        {
+          color: '#b1c8ac',
+        },
+        {
+          color: '#bcceb4',
+        },
+        {
+          color: '#c8d4be',
+        },
+        {
+          color: '#d3dac8',
+        },
+        {
+          color: '#dde0d1',
+        },
+        {
+          color: '#e9e7dd',
+        },
+        {
+          color: '#ece4ec',
+        },
+        {
+          color: '#e3dce7',
+        },
+        {
+          color: '#dcd4e5',
+        },
+        {
+          color: '#d3cce3',
+        },
+        {
+          color: '#ccc3e3',
+        },
+        {
+          color: '#c5bbe4',
+        },
+        {
+          color: '#beb2e6',
+        },
+        {
+          color: '#b9a8e8',
+        },
+        {
+          color: '#b4a0e8',
+        },
+        {
+          color: '#b097e7',
+        },
+        {
+          color: '#ac8de4',
+        },
+        {
+          color: '#a885e0',
+        },
+        {
+          color: '#a57dd9',
+        },
+        {
+          color: '#a174d2',
+        },
+        {
+          color: '#9e6dca',
+        },
+        {
+          color: '#9a65c0',
+        },
+        {
+          color: '#945cb4',
+        },
+        {
+          color: '#9056ab',
+        },
+        {
+          color: '#8c4fa0',
+        },
+        {
+          color: '#864896',
+        },
+        {
+          color: '#82438c',
+        },
+        {
+          color: '#7c3d82',
+        },
+        {
+          color: '#763777',
+        },
+        {
+          color: '#70326e',
+        },
+        {
+          color: '#6a2d64',
+        },
+        {
+          color: '#63275a',
+        },
+        {
+          color: '#5c2352',
+        },
+        {
+          color: '#551e48',
+        },
+        {
+          color: '#4e1940',
+        },
+        {
+          color: '#471438',
+        },
+        {
+          color: '#3f0e31',
+        },
+        {
+          color: '#39082a',
+          name: '> 1500 tCO₂e/ha',
+        },
+      ],
+    },
+  },
+  'tree-biomass-density': {
+    label: 'Tree biomass density',
+    attributions: ['gfw'],
+    group: 'forests',
+    config: {
+      type: 'raster',
+      source: (_, { canopyDensity = 30 }) => ({
+        tiles: [
+          `https://storage.googleapis.com/wri-public/biomass/global/2017/v2/${canopyDensity}/{z}/{x}/{y}.png`,
+        ],
+        minzoom: 2,
+        maxzoom: 12,
+      }),
+    },
+    params: {
+      canopyDensity: {
+        label: 'Minimum canopy density percentage',
+        values: [10, 15, 20, 25, 30, 50, 75],
+        default: 30,
+      },
+    },
+    legend: {
+      type: 'gradient',
+      items: [
+        {
+          color: '#895122',
+          name: '0',
+        },
+        {
+          color: '#957F4F',
+          name: '',
+        },
+        {
+          color: '#9DB38A',
+          name: '',
+        },
+        {
+          color: '#39A401',
+          name: '480 t Ha⁻¹',
+        },
+      ],
+    },
+    decodeParams: {},
+    decodeFunction: `
+      float intensity = color.b * 255.;
+      color.r = (255. - intensity) / 255.;
+      color.g = 128. / 255.;
+      color.b = 0.;
+      alpha = intensity / 255.;
+    `,
+  },
+  'deforestation-alerts': {
+    label: 'Integrated deforestation alerts',
+    attributions: ['gfw'],
+    group: 'forests',
+    init: async layer => {
+      try {
+        const res = await fetch(
+          'https://data-api.globalforestwatch.org/dataset/gfw_integrated_alerts/latest'
+        );
+        const { data } = await res.json();
+        const endDate = data.metadata.content_date_range.end_date;
+
+        const minDate = moment(endDate).subtract(2, 'years');
+        const startDayIndex =
+          minDate.diff(moment(layer.legend.timeline.minDate), 'days') +
+          layer.decodeParams.startDayIndex;
+        const endDayIndex = moment(endDate).diff(minDate, 'days') + startDayIndex;
+
+        layer.legend.timeline.minDate = minDate.format('YYYY-MM-DD');
+        layer.legend.timeline.maxDate = endDate;
+        layer.decodeParams = {
+          ...layer.decodeParams,
+          startDayIndex,
+          endDayIndex,
+        };
+      } catch (e) {
+        console.error('Unable to initialize the "Integrated deforestation alerts" layer.');
+        console.error(e);
+      }
+    },
+    config: {
+      type: 'raster',
+      source: {
+        tiles: [
+          'https://tiles.globalforestwatch.org/gfw_integrated_alerts/v20231002/default/{z}/{x}/{y}.png',
+        ],
+        minzoom: 2,
+        maxzoom: 14,
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          color: '#eda4c3',
+          name: 'Detected by a single alert system',
+        },
+        {
+          color: '#dc6699',
+          name: 'High confidence: detected more than once by a single alert system',
+        },
+        {
+          color: '#c92a6d',
+          name: 'Highest confidence: detected by multiple alert systems',
+        },
+      ],
+      timeline: {
+        step: 7,
+        speed: 100,
+        interval: 'days',
+        dateFormat: 'YYYY-MM-DD',
+        minDate: '2021-10-02',
+        maxDate: '2023-10-02',
+        canPlay: true,
+      },
+    },
+    params: {
+      confirmedOnly: {
+        label: 'High and highest confidence alerts only',
+        default: false,
+      },
+    },
+    decodeParams: {
+      startDayIndex: 2466, // Start date is 2015-01-01
+      endDayIndex: 3196, // 2023-10-02
+      confirmedOnly: 0,
+    },
+    decodeFunction: `
+      // First 6 bits Alpha channel used to individual alert confidence
+      // First two bits (leftmost) are GLAD-L
+      // Next, 3rd and 4th bits are GLAD-S2
+      // Finally, 5th and 6th bits are RADD
+      // Bits are either: 00 (0, no alerts), 01 (1, low conf), or 10 (2, high conf)
+      // e.g. 00 10 01 00 --> no GLAD-L, high conf GLAD-S2, low conf RADD
+
+      float agreementValue = alpha * 255.;
+
+      float r = color.r * 255.;
+      float g = color.g * 255.;
+      float b = color.b * 255.;
+
+      float day = r * 255. + g;
+      float confidence = floor(b / 100.) - 1.;
+      float intensity = mod(b, 100.) * 150.;
+
+      if (
+        day > 0. &&
+        day >= startDayIndex &&
+        day <= endDayIndex &&
+        agreementValue > 0.
+      )
+      {
+        if (intensity > 255.) {
+          intensity = 255.;
+        }
+        // get high and highest confidence alerts
+        float confidenceValue = 0.;
+        if (confirmedOnly > 0.) {
+          confidenceValue = 255.;
+        }
+
+        if (agreementValue == 4. || agreementValue == 16. || agreementValue == 64.) {
+          // ONE ALERT LOW CONF: 4,8,16,32,64,128 i.e. 2**(2+n) for n<8
+
+          color.r = 237. / 255.;
+          color.g = 164. / 255.;
+          color.b = 194. / 255.;
+          alpha = (intensity -confidenceValue) / 255.;
+        } else if (agreementValue == 8. || agreementValue == 32. || agreementValue ==  128.){
+          // ONE HIGH CONF ALERT: 8,32,128 i.e. 2**(2+n) for n<8 and odd
+
+          color.r = 220. / 255.;
+          color.g = 102. / 255.;
+          color.b = 153. / 255.;
+          alpha = intensity / 255.;
+        } else {
+          // MULTIPLE ALERTS: >0 and not 2**(2+n)
+
+          color.r = 201. / 255.;
+          color.g = 42. / 255.;
+          color.b = 109. / 255.;
+          alpha = intensity / 255.;
+        }
+      } else {
+        alpha = 0.;
+      }
+    `,
   },
 };
 
