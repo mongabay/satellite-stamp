@@ -2489,6 +2489,76 @@ export const DATA_LAYERS = {
       ],
     },
   },
+  'cropland-extent': {
+    label: 'Global cropland extent',
+    attributions: ['rw'],
+    group: 'food-agriculture',
+    config: {
+      type: 'raster',
+      source: (year = 2019) => {
+        const yearToTiles = {
+          2003: 'https://storage.googleapis.com/lcl_tiles/GLCLU2020/crop03/{z}/{x}/{y}.png',
+          2007: 'https://storage.googleapis.com/lcl_tiles/GLCLU2020/crop07/{z}/{x}/{y}.png',
+          2011: 'https://storage.googleapis.com/lcl_tiles/GLCLU2020/crop11/{z}/{x}/{y}.png',
+          2015: 'https://storage.googleapis.com/lcl_tiles/GLCLU2020/crop15/{z}/{x}/{y}.png',
+          2019: 'https://storage.googleapis.com/lcl_tiles/GLCLU2020/crop19/{z}/{x}/{y}.png',
+        };
+
+        return {
+          tiles: [yearToTiles[year]],
+          minzoom: 2,
+          maxzoom: 12,
+        };
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Cropland (4-year period)',
+          color: '#fff183',
+        },
+      ],
+      timeline: {
+        step: 4,
+        interval: 'years',
+        range: false,
+        dateFormat: 'YYYY',
+        minDate: '2003-01-01',
+        maxDate: '2019-01-01',
+      },
+    },
+  },
+  'cropland-change': {
+    label: 'Global cropland change (2003-2019)',
+    attributions: ['rw'],
+    group: 'food-agriculture',
+    config: {
+      type: 'raster',
+      source: {
+        tiles: ['https://storage.googleapis.com/lcl_tiles/GLCLU2020/cropland/{z}/{x}/{y}.png'],
+        minzoom: 2,
+        maxzoom: 12,
+      },
+    },
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Stable cropland',
+          color: '#fff183',
+        },
+        {
+          name: 'Cropland loss',
+          color: '#fd682d',
+        },
+        {
+          name: 'Cropland gain',
+          color: '#34baae',
+        },
+      ],
+    },
+  },
 };
 
 export const DATA_LAYERS_GROUPS = {
