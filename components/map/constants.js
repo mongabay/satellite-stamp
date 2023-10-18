@@ -405,7 +405,7 @@ export const DATA_LAYERS = {
         tiles: [
           'https://api.resourcewatch.org/v1/layer/41086554-5ca5-456c-80dd-f6bee61bc45f/tile/gee/{z}/{x}/{y}',
         ],
-        minzoom: 3,
+        minzoom: 2,
         maxzoom: 12,
       },
     },
