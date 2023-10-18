@@ -14,7 +14,7 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
 
   // NOTE: `startDayIndex` is added because the layer may have extra years encoded before the
   // `minDate`. This is the case of the deforestation-alerts layer
-  const numberOfDays = maxDate.diff(minDate, 'days') + layer.decodeParams.startDayIndex;
+  const numberOfDays = maxDate.diff(minDate, 'days') + layer.decodeParams?.startDayIndex ?? 0;
   const startDayIndex = numberOfDays - maxDate.diff(startDate, 'days');
   const endDayIndex = numberOfDays - maxDate.diff(endDate, 'days');
 
