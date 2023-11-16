@@ -29,7 +29,7 @@ const HeaderMenu = () => {
           '--open': isOpen,
           '--close': !isOpen,
         })}
-        inert={isOpen ? false : ''}
+        {...(!isOpen && { inert: '' })}
       >
         <div className="header__menu__content__wrap">
           <button

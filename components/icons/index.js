@@ -75,8 +75,8 @@ const Icons = () => (
           x2="36.8134"
           y2="36.8137"
           stroke="#444242"
-          stroke-width="3"
-          stroke-linecap="round"
+          strokeWidth="3"
+          strokeLinecap="round"
         />
         <line
           x1="36.8135"
@@ -84,8 +84,8 @@ const Icons = () => (
           x2="14.1861"
           y2="36.8137"
           stroke="#444242"
-          stroke-width="3"
-          stroke-linecap="round"
+          strokeWidth="3"
+          strokeLinecap="round"
         />
       </symbol>
       <symbol id="icon-satellite" width="22" height="22" viewBox="0 0 22 22" fill="none">
