@@ -4,11 +4,15 @@ import Head from 'next/head';
 
 const HeadComponent = ({ title, description }) => (
   <Head>
-    <title key="title">{title ? `${title} | Satellite stamp` : 'Satellite stamp'}</title>
+    <title key="title">{title ? `${title} | Satellite Data Tool` : 'Satellite Data Tool'}</title>
     <meta
       key="description"
       name="description"
-      content={description ? description : 'Tool to generate map images for Mongabay.'}
+      content={
+        description
+          ? description
+          : 'Create images of maps using various basemaps, contextual and data layers, or explore the map presets about topics like conservation.'
+      }
     />
   </Head>
 );

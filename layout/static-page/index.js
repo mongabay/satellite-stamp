@@ -7,17 +7,14 @@ import Head from 'components/head';
 import Icons from 'components/icons';
 
 import './style.scss';
+import Header from 'components/header';
 
 const StaticPage = ({ className, children }) => (
-  <div className={classNames('l-simple-page', className)}>
+  <div>
     <Head />
     <main className="l-static-page">
-      <img
-        src={`${process.env.BASE_PATH ?? ''}/images/mongabay-horizontal.jpg`}
-        alt="Mongabay"
-        className="logo"
-      />
-      {children}
+      <Header />
+      <div className={classNames('l-simple-page', className)}>{children}</div>
     </main>
     <Icons />
     <VizzIcons />

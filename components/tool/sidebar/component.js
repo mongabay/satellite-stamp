@@ -29,6 +29,11 @@ const Sidebar = ({ exporting, onClickPresets }) => {
   return (
     <aside className="c-tool-sidebar">
       <DownloadSuccessModal open={downloadModalOpen} onClose={() => setDownloadModalOpen(false)} />
+      <h1>Satellite Data Tool</h1>
+      <p className="c-tool-sidebar__description">
+        Create images of maps using various basemaps, contextual and data layers, or explore the map
+        presets about topics like conservation.
+      </p>
       <Accordion
         multi={false}
         expanded={[expandedAccordion]}

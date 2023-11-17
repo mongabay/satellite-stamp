@@ -4,11 +4,20 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  flex-basis: rem(300);
+  flex-basis: rem(350);
   max-height: 100%;
-  margin-right: map-get($spacers, 5);
+  // margin-right: map-get($spacers, 5);
+  padding: 3rem 0 3rem 3rem;
+  h1 {
+    font-weight: $font-weight-bold;
+  }
+  &__description {
+    font-size: 18px;
+    margin: 0;
+  }
 
   .c-accordion {
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
