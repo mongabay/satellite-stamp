@@ -62,7 +62,7 @@
   background-color: transparent; }
 
 .c-radio .custom-control-input:checked ~ .custom-control-label {
-  color: #03755e;
+  color: #184b95;
   font-weight: 700; }
   .c-radio .custom-control-input:checked ~ .custom-control-label:before {
     border-width: 2px; }
@@ -72,7 +72,7 @@
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 50%;
-    background-color: #03755e; }
+    background-color: #184b95; }
 
 .c-radio + .c-radio {
   margin-top: 1rem; }
@@ -81,7 +81,7 @@
   background-color: transparent; }
 
 .c-checkbox .custom-control-input:checked ~ .custom-control-label {
-  color: #03755e;
+  color: #184b95;
   font-weight: 700; }
   .c-checkbox .custom-control-input:checked ~ .custom-control-label:before {
     border-width: 2px; }
@@ -91,7 +91,7 @@
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 0.125rem;
-    background-color: #03755e; }
+    background-color: #184b95; }
 
 .c-checkbox + .c-checkbox {
   margin-top: 1rem; }
@@ -193,7 +193,7 @@ li.vizzuality__c-legend-item {
       border-radius: 100%;
       vertical-align: middle; }
       li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-item-toolbar > button:focus {
-        box-shadow: 0 0 0 0.2rem rgba(3, 117, 94, 0.25); }
+        box-shadow: 0 0 0 0.2rem rgba(24, 75, 149, 0.25); }
       li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-item-toolbar > button svg {
         display: block;
         width: 100%;
@@ -234,10 +234,10 @@ li.vizzuality__c-legend-item {
         justify-content: center;
         align-items: center;
         color: #fff;
-        background-color: #03755e;
+        background-color: #184b95;
         border-radius: 100%; }
         li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-timestep .vizzuality__player-btn:focus {
-          box-shadow: 0 0 0 0.2rem rgba(3, 117, 94, 0.25); }
+          box-shadow: 0 0 0 0.2rem rgba(24, 75, 149, 0.25); }
         li.vizzuality__c-legend-item .vizzuality__legend-item-container .vizzuality__c-legend-timestep .vizzuality__player-btn > svg {
           fill: currentColor; }
     li.vizzuality__c-legend-item .vizzuality__legend-item-container .timestep-controls {
@@ -279,22 +279,22 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
 
 .rc-slider .rc-slider-handle {
   background-color: #fff !important;
-  border: 0.1875rem solid #03755e !important;
+  border: 0.1875rem solid #184b95 !important;
   box-shadow: none !important; }
   .rc-slider .rc-slider-handle:focus {
-    box-shadow: 0 0 0 0.2rem rgba(3, 117, 94, 0.25) !important; }
+    box-shadow: 0 0 0 0.2rem rgba(24, 75, 149, 0.25) !important; }
 
 .rc-slider .rc-slider-track:not(.rc-slider-track-1):not(.rc-slider-track-2),
 .rc-slider .rc-slider-track-1 {
-  background-color: #03755e !important; }
+  background-color: #184b95 !important; }
 
 .rc-slider .rc-slider-rail,
 .rc-slider .rc-slider-track-2 {
-  background-color: rgba(3, 117, 94, 0.2); }
+  background-color: rgba(24, 75, 149, 0.2); }
 
 .rc-slider .rc-slider-dot {
   background-color: #fff !important;
-  border: 0.1875rem solid #03755e !important;
+  border: 0.1875rem solid #184b95 !important;
   box-shadow: none !important;
   visibility: visible !important; }
 
