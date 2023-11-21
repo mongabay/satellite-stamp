@@ -59,15 +59,18 @@ const HeaderMenu = () => {
           </ul>
           <div className="header__menu__content__wrap__buttons">
             {/* TODO: add lights */}
-            <button type="button" className="btn btn-dark text-white bg-dark-gray shadow-none">
+            <a
+              href="mailto:info@mongabay.org"
+              className="btn btn-dark text-white bg-dark-gray shadow-none"
+            >
               Get in touch
-            </button>
-            <button
-              type="button"
+            </a>
+            <a
+              href="https://mongabay.org/"
               className="btn btn-light text-dark-gray border border-gray-dark shadow-none"
             >
               Find out more
-            </button>
+            </a>
           </div>
         </div>
       </div>
