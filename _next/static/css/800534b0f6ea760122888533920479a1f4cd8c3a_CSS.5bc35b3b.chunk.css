@@ -600,7 +600,7 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
 .c-data-layer-list-param .custom-control-input:checked ~ .custom-control-label {
   color: #717171; }
 
-.c-tool-data-layer-list h2 {
+.c-tool-data-layer-list h3 {
   margin: 0 0 1rem;
   font-family: "Open Sans", serif;
   text-transform: uppercase;
@@ -793,6 +793,8 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
   padding: 3rem 0 3rem 3rem; }
   .c-tool-sidebar h1 {
     font-weight: 700; }
+  .c-tool-sidebar h2, .c-tool-sidebar .h2 {
+    font-weight: 400; }
   .c-tool-sidebar__description {
     font-size: 18px;
     margin: 0; }
