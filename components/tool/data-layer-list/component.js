@@ -33,7 +33,7 @@ const DataLayerList = ({ activeLayers, layers, removeLayer, addLayer, updateLaye
         .sort((a, b) => GROUPS[a].label.localeCompare(GROUPS[b].label))
         .map(key => (
           <div key={key} className="group">
-            <h2>{GROUPS[key].label}</h2>
+            <h3>{GROUPS[key].label}</h3>
             {GROUPS[key].layers.map(layer => (
               <Fragment key={layer.id}>
                 <Checkbox

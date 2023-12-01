@@ -8,9 +8,15 @@
   max-height: 100%;
   // margin-right: map-get($spacers, 5);
   padding: 3rem 0 3rem 3rem;
+
   h1 {
     font-weight: $font-weight-bold;
   }
+
+  h2, .h2 {
+    font-weight: $font-weight-normal;
+  }
+
   &__description {
     font-size: 18px;
     margin: 0;

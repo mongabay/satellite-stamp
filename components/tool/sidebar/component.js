@@ -43,8 +43,8 @@ const Sidebar = ({ exporting, onClickPresets }) => {
           id="data-layers"
           className={expandedAccordion === 'data-layers' ? '-expanded' : null}
         >
-          <AccordionTitle aria-level={1}>
-            <span className="h1">Data layers</span>
+          <AccordionTitle aria-level={2}>
+            <span className="h2">Data layers</span>
           </AccordionTitle>
           <AccordionPanel>
             <DataLayerList />
@@ -54,8 +54,8 @@ const Sidebar = ({ exporting, onClickPresets }) => {
           id="contextual-layers"
           className={expandedAccordion === 'contextual-layers' ? '-expanded' : null}
         >
-          <AccordionTitle aria-level={1}>
-            <span className="h1">Contextual layers</span>
+          <AccordionTitle aria-level={2}>
+            <span className="h2">Contextual layers</span>
           </AccordionTitle>
           <AccordionPanel>
             <ContextualLayerList />
