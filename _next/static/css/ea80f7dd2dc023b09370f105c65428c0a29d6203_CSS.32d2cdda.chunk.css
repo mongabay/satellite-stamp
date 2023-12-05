@@ -34,6 +34,8 @@
       font-weight: 600;
       letter-spacing: 0.96px;
       text-transform: uppercase; }
+    .header__content__name {
+      text-transform: uppercase; }
   .header__menu {
     flex-shrink: 0; }
     .header__menu__icon {
