@@ -1,9 +1,9 @@
-# satellite-stamp
+# Earth Atlas
 
-Satellite stamp is tool that generates map images for Mongabay's articles.
+Create images of maps using various basemaps, contextual and data layers, or explore the map presets about topics like conservation.
 
 <p align="center">
-  <img src="docs/assets/hero.png" alt="Satellite stamp" />
+  <img src="docs/assets/hero.png" alt="Earth Atlas" />
 </p>
 
 ## Getting Started

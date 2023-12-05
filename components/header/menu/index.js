@@ -40,7 +40,7 @@ const HeaderMenu = () => {
             <span className="sr-only">close navigation menu</span>
             <Icon name="menu-close" className="header__menu__content__wrap__close-btn__icon" />
           </button>
-          <p className="header__menu__content__wrap__title">Mongabay Chart Tools</p>
+          <p className="header__menu__content__wrap__title">Data Journalism Tools</p>
           <ul className="space-y-6">
             {TOOLS.map(({ name, url, id, color }) => (
               <li key={name}>
@@ -50,7 +50,7 @@ const HeaderMenu = () => {
                       backgroundColor: color,
                     }}
                   >
-                    <Icon className={cx(id === 'supply' ? '--lg' : '--md')} name={id} />
+                    <Icon className={cx(id === 'trade-flow-map' ? '--lg' : '--md')} name={id} />
                   </div>
                   {name}
                 </a>

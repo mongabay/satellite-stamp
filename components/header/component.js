@@ -14,7 +14,7 @@ const Header = () => {
           />
         </div>
         <div className="header__content">
-          <p>SATELLITE TOOL</p>
+          <p className="header__content__name">Earth Atlas</p>
           <HeaderMenu />
         </div>
       </div>
