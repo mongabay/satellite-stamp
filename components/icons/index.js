@@ -56,17 +56,11 @@ const Icons = () => (
         <rect x=".5" y=".5" width="44" height="34" rx="4" />
         <path d="M17.5 9.852v15.064l13.475-7.532L17.5 9.852z" fill="white" />
       </symbol>
-      <symbol id="icon-menu" width="20" height="21" viewBox="0 0 20 21" fill="none">
+      <symbol width="26" height="19" viewBox="0 0 26 19" fill="none" id="icon-menu">
         <title>Menu</title>
-        <circle cx="2.41379" cy="2.91355" r="2.41379" fill="#FFFDF8" />
-        <circle cx="9.99973" cy="2.91355" r="2.41379" fill="#FFFDF8" />
-        <circle cx="17.5866" cy="2.91355" r="2.41379" fill="#FFFDF8" />
-        <circle cx="2.41379" cy="10.5" r="2.41379" fill="#FFFDF8" />
-        <circle cx="9.99973" cy="10.5" r="2.41379" fill="#FFFDF8" />
-        <circle cx="17.5866" cy="10.5" r="2.41379" fill="#FFFDF8" />
-        <circle cx="2.41379" cy="18.0864" r="2.41379" fill="#FFFDF8" />
-        <circle cx="9.99973" cy="18.0864" r="2.41379" fill="#FFFDF8" />
-        <circle cx="17.5866" cy="18.0864" r="2.41379" fill="#FFFDF8" />
+        <path d="M1.36816 1.06006H25.0003" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <path d="M1.36816 9.5H15.7163" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <path d="M1.36816 17.9404H21.6243" stroke="white" strokeWidth="2" strokeLinecap="round" />
       </symbol>
       <symbol id="icon-menu-close" width="51" height="51" viewBox="0 0 51 51" fill="none">
         <line

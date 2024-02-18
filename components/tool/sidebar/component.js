@@ -29,10 +29,11 @@ const Sidebar = ({ exporting, onClickPresets }) => {
   return (
     <aside className="c-tool-sidebar">
       <DownloadSuccessModal open={downloadModalOpen} onClose={() => setDownloadModalOpen(false)} />
-      <h1>Satellite Data Tool</h1>
+      <h1>Earth Atlas</h1>
       <p className="c-tool-sidebar__description">
-        Create images of maps using various basemaps, contextual and data layers, or explore the map
-        presets about topics like conservation.
+        Seeing patterns of planetary change is profound. Combine environmental, social, and
+        satellite data aggregated from various reputable sources to create maps that add evidence
+        and context to articles quickly.
       </p>
       <Accordion
         multi={false}
@@ -73,9 +74,9 @@ const Sidebar = ({ exporting, onClickPresets }) => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <div className="mt-4">
+      <div className="mt-4 buttons">
         <Tooltip sticky="popper" plugins={[sticky]} content={<ExportTooltip />}>
-          <button type="button" className="btn btn-primary mr-2">
+          <button type="button" className="btn btn-primary">
             Export
           </button>
         </Tooltip>

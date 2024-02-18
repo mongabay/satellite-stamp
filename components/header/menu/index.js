@@ -40,7 +40,7 @@ const HeaderMenu = () => {
             <span className="sr-only">close navigation menu</span>
             <Icon name="menu-close" className="header__menu__content__wrap__close-btn__icon" />
           </button>
-          <p className="header__menu__content__wrap__title">Mongabay Chart Tools</p>
+          <p className="header__menu__content__wrap__title">Mongabay Data Studio</p>
           <ul className="space-y-6">
             {TOOLS.map(({ name, url, id, color }) => (
               <li key={name}>
@@ -57,17 +57,13 @@ const HeaderMenu = () => {
               </li>
             ))}
           </ul>
-          <div className="header__menu__content__wrap__buttons">
-            {/* TODO: add lights */}
-            <button type="button" className="btn btn-dark text-white bg-dark-gray shadow-none">
-              Get in touch
-            </button>
-            <button
-              type="button"
-              className="btn btn-light text-dark-gray border border-gray-dark shadow-none"
+          <div className="header__menu__content__wrap__button">
+            <a
+              href="https://www.mongabay.com/contact/"
+              className="btn btn-dark text-white bg-black shadow-none"
             >
-              Find out more
-            </button>
+              Get in touch
+            </a>
           </div>
         </div>
       </div>
