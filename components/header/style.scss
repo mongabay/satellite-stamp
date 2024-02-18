@@ -168,6 +168,7 @@
     }
   }
   .btn {
+    border-radius: 80px;
     &:focus-visible {
       outline: $primary auto 1px;
       outline-offset: 2px;

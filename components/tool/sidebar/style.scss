@@ -15,7 +15,8 @@
     font-size: 44px;
   }
 
-  h2, .h2 {
+  h2,
+  .h2 {
     font-weight: $font-weight-normal;
   }
 
@@ -68,6 +69,7 @@
       flex: 1;
       padding-block: 11px;
       font-weight: 600;
+      border-radius: 80px;
     }
   }
 }
