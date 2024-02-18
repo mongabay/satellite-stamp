@@ -17,7 +17,7 @@ export default class MyDocument extends Document {
           <meta name="author" content="Vizzuality" />
           <link rel="icon" href="/icon.png" type="image/png" sizes="64x64" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"
             rel="stylesheet"
           />
           <script

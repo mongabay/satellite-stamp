@@ -23,20 +23,14 @@
       color: white;
       font-family: $font-family-1;
       font-size: $font-size-xs;
-      font-weight: $font-weight-strong;
       letter-spacing: 0.96px;
-      text-transform: uppercase;
-    }
-
-    &__name {
-      text-transform: uppercase;
+      font-weight: 700;
     }
   }
   &__menu {
     flex-shrink: 0;
-    &__icon {
-      width: 29px;
-      height: 29px;
+    &__icon.c-icon {
+      transform: scale(0.9);
     }
     &__content {
       position: fixed;
@@ -71,14 +65,20 @@
           right: 2rem;
           top: 10px;
           &__icon.c-icon {
-            stroke: $text-color-1;
+            stroke: black;
             width: 51px;
             height: 51px;
             stroke-width: 0px;
+            transform: scale(0.8);
           }
         }
         &__title {
-          font: $font-weight-bold $font-size-l $font-family-2;
+          color: var(--Black-500, #000);
+          font-family: 'Open Sans';
+          font-size: 44px;
+          font-style: normal;
+          font-weight: 300;
+          line-height: 56px; /* 127.273% */
         }
         ul {
           display: flex;
@@ -91,12 +91,16 @@
               display: flex;
               align-items: center;
               gap: 16px;
-              font: $font-weight-strong $font-size-medium $font-family-1;
-              text-transform: uppercase;
+              font-family: $font-family-1;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 300;
+              line-height: 32px;
               color: $text-color-1;
               border-radius: 22px;
               &:hover {
                 text-decoration: underline;
+                text-decoration-thickness: 1px;
               }
               &:focus-visible {
                 outline: $primary auto 1px;
@@ -121,12 +125,16 @@
             }
           }
         }
-        &__buttons {
+        &__button a {
           padding-top: 42px;
           display: flex;
           align-items: flex-end;
           gap: 12px;
-          font: $font-weight-strong $font-size-s $font-family-1;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 600;
+          padding: 12px 32px;
+          background-color: black;
         }
       }
     }
@@ -160,6 +168,7 @@
     }
   }
   .btn {
+    border-radius: 80px;
     &:focus-visible {
       outline: $primary auto 1px;
       outline-offset: 2px;
