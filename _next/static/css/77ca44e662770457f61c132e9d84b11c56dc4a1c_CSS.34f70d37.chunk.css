@@ -31,16 +31,12 @@
       color: white;
       font-family: "Open Sans", serif;
       font-size: 0.75rem;
-      font-weight: 600;
       letter-spacing: 0.96px;
-      text-transform: uppercase; }
-    .header__content__name {
-      text-transform: uppercase; }
+      font-weight: 700; }
   .header__menu {
     flex-shrink: 0; }
-    .header__menu__icon {
-      width: 29px;
-      height: 29px; }
+    .header__menu__icon.c-icon {
+      transform: scale(0.9); }
     .header__menu__content {
       position: fixed;
       padding-block: 10px;
@@ -70,12 +66,19 @@
           right: 2rem;
           top: 10px; }
           .header__menu__content__wrap__close-btn__icon.c-icon {
-            stroke: #222222;
+            stroke: black;
             width: 51px;
             height: 51px;
-            stroke-width: 0px; }
+            stroke-width: 0px;
+            transform: scale(0.8); }
         .header__menu__content__wrap__title {
-          font: 700 1.875rem "Cardo", sans-serif; }
+          color: var(--Black-500, #000);
+          font-family: 'Open Sans';
+          font-size: 44px;
+          font-style: normal;
+          font-weight: 300;
+          line-height: 56px;
+          /* 127.273% */ }
         .header__menu__content__wrap ul {
           display: flex;
           gap: 28px;
@@ -87,12 +90,16 @@
               display: flex;
               align-items: center;
               gap: 16px;
-              font: 600 0.875rem "Open Sans", serif;
-              text-transform: uppercase;
+              font-family: "Open Sans", serif;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 300;
+              line-height: 32px;
               color: #222222;
               border-radius: 22px; }
               .header__menu__content__wrap ul li a:hover {
-                text-decoration: underline; }
+                text-decoration: underline;
+                text-decoration-thickness: 1px; }
               .header__menu__content__wrap ul li a:focus-visible {
                 outline: #184b95 auto 1px;
                 outline-offset: 8px; }
@@ -109,12 +116,16 @@
                   .header__menu__content__wrap ul li a div .c-icon.\--lg {
                     width: 24px;
                     height: 24px; }
-        .header__menu__content__wrap__buttons {
+        .header__menu__content__wrap__button a {
           padding-top: 42px;
           display: flex;
           align-items: flex-end;
           gap: 12px;
-          font: 600 0.8125rem "Open Sans", serif; }
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 600;
+          padding: 12px 32px;
+          background-color: black; }
     .header__menu__mask {
       position: fixed;
       top: 0;
@@ -138,9 +149,11 @@
     .header .\--transparent.btn.btn-light:active {
       background-color: transparent;
       box-shadow: none; }
-  .header .btn:focus-visible {
-    outline: #184b95 auto 1px;
-    outline-offset: 2px; }
+  .header .btn {
+    border-radius: 80px; }
+    .header .btn:focus-visible {
+      outline: #184b95 auto 1px;
+      outline-offset: 2px; }
 
 .c-icon {
   width: 1.375rem;
@@ -606,7 +619,7 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
   margin: 0 0 1rem;
   font-family: "Open Sans", serif;
   text-transform: uppercase;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 700; }
 
 .c-tool-data-layer-list .params {
@@ -794,11 +807,14 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
   max-height: 100%;
   padding: 3rem 0 3rem 3rem; }
   .c-tool-sidebar h1 {
-    font-weight: 700; }
-  .c-tool-sidebar h2, .c-tool-sidebar .h2 {
+    font-weight: 300;
+    font-family: "Open Sans", serif;
+    font-size: 44px; }
+  .c-tool-sidebar h2,
+  .c-tool-sidebar .h2 {
     font-weight: 400; }
   .c-tool-sidebar__description {
-    font-size: 18px;
+    font-size: 16px;
     margin: 0; }
   .c-tool-sidebar .c-accordion {
     margin-top: 40px;
@@ -806,6 +822,8 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
     flex-direction: column;
     flex-grow: 1;
     overflow: hidden; }
+    .c-tool-sidebar .c-accordion .title .button .h1 {
+      font-weight: 400; }
     .c-tool-sidebar .c-accordion .item {
       margin: 0.5rem 0;
       overflow: hidden;
@@ -822,6 +840,14 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
         .c-tool-sidebar .c-accordion .item.-expanded > .panel {
           padding: 0.5rem 0;
           overflow: auto; }
+  .c-tool-sidebar .buttons {
+    display: flex;
+    gap: 12px; }
+    .c-tool-sidebar .buttons .btn {
+      flex: 1;
+      padding-block: 11px;
+      font-weight: 600;
+      border-radius: 80px; }
 
 .c-inset-map > div {
   width: 9.375rem;
