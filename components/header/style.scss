@@ -26,6 +26,10 @@
       letter-spacing: 0.96px;
       font-weight: 700;
     }
+
+    &__name {
+      text-transform: uppercase;
+    }
   }
   &__menu {
     flex-shrink: 0;
