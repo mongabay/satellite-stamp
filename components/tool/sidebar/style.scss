@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  flex-basis: rem(350);
+  flex-basis: rem(356);
   max-height: 100%;
   // margin-right: map-get($spacers, 5);
   padding: 3rem 0 3rem 3rem;
@@ -64,12 +64,16 @@
   }
   .buttons {
     display: flex;
+    justify-content: space-between;
     gap: 12px;
     .btn {
-      flex: 1;
-      padding-block: 11px;
+      padding: 12px 32px;
       font-weight: 600;
       border-radius: 80px;
+      line-height: 22px;
+      &.--first {
+        flex: 1;
+      }
     }
   }
 }
