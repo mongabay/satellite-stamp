@@ -76,7 +76,7 @@ const Sidebar = ({ exporting, onClickPresets }) => {
       </Accordion>
       <div className="mt-4 buttons">
         <Tooltip sticky="popper" plugins={[sticky]} content={<ExportTooltip />}>
-          <button type="button" className="btn btn-primary">
+          <button type="button" className="btn btn-primary --first">
             Export
           </button>
         </Tooltip>
