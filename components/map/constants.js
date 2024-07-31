@@ -2864,7 +2864,7 @@ export const DATA_LAYERS = {
       type: 'raster',
       source: {
         tiles: [
-          'https://tiles.globalforestwatch.org/gfw_integrated_alerts/v20231002/default/{z}/{x}/{y}.png',
+          'https://tiles.globalforestwatch.org/gfw_integrated_alerts/latest/default/{z}/{x}/{y}.png',
         ],
         minzoom: 2,
         maxzoom: 14,
