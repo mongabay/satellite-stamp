@@ -50,7 +50,7 @@ const HeaderMenu = () => {
                       backgroundColor: color,
                     }}
                   >
-                    <Icon className={cx(id === 'trade-flow-map' ? '--lg' : '--md')} name={id} />
+                    <Icon name={id} />
                   </div>
                   {name}
                 </a>

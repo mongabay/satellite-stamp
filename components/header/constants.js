@@ -1,4 +1,4 @@
-export const COLORS = ['#03755E', '#184B95', '#A01200', '#7E56D8'];
+export const COLORS = ['#03755E', '#184B95', '#A01200'];
 
 export const TOOLS = [
   {
@@ -18,11 +18,5 @@ export const TOOLS = [
     color: COLORS[0],
     name: 'Reforestation App',
     url: 'https://reforestation.app',
-  },
-  {
-    id: 'trade-flow-map',
-    color: COLORS[3],
-    name: 'Trade Flow Map',
-    url: 'https://chains.mongabay.com',
   },
 ];
