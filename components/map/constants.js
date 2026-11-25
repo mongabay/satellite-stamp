@@ -2218,7 +2218,7 @@ export const DATA_LAYERS = {
       type: 'basic',
       items: [
         {
-          name: 'Fishing effort',
+          name: 'Trawling and dredging effort',
           color: '#ff3f34',
         },
       ],
