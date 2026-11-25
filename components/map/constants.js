@@ -15,9 +15,6 @@ export const ATTRIBUTIONS = {
     'Data from <a href="https://globalfishingwatch.org/" target="_blank" rel="noopener noreferrer">Global Fishing Watch</a>',
 };
 
-export const GLOBAL_FISHING_WATCH_TOKEN =
-  'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtpZEtleSJ9.eyJkYXRhIjp7Im5hbWUiOiJNb25nYWJheSBFYXJ0aCBBdGxhcyIsInVzZXJJZCI6NzU5NjIsImFwcGxpY2F0aW9uTmFtZSI6Ik1vbmdhYmF5IEVhcnRoIEF0bGFzIiwiaWQiOjE2OTIzLCJ0eXBlIjoidXNlci1hcHBsaWNhdGlvbiJ9LCJpYXQiOjE3OTM4MjkwMzAsImV4cCI6MjEwOTE4OTAzMCwiYXVkIjoiZ2Z3IiwiaXNzIjoiZ2Z3In0.Nw9kTve4752YIblaL9jXVq5xlAKKlhGicdbwatLWhhYDHgdVheAQmsfqsYJ7dGk2BVeANSB2aFCi8CCEUtri7a77N_RJG7a2y0sIljCmsPfrTTe9GxsV38tN7pjzvzL0MG0LMdH8MTROsC84yEB5UmDgkL_BMl-J3f_dyUGYDjhp2WAMwpO47ccV1TZIX9IWccpI4R8pTyVxzPPh1aAHfd3pl2OCDNKMXq4IELvlMmJf8V6vX0YG321sdLEMl_60AYsBg1-wKBM6LrCgLHiCQ7zkqrY7vZo3vjk5FlO6Z6TJ8vCvSpY7IKC8SVl1Kq2U0EDOhwBaNr1-QNqiiHyGCSKtw9N-dRCavJ09Cfa8YRRDPXPaD1ZTBbreGgjAXTkzw3qOlmOyQcWCjij66oC2dV_kmddb2Q2tCSQU5iNk1tMnzwCUAJB0om8Bq1qK6qDxvL04U0OifK-3eAvk29XsgdJs3ohqdx25g9E9dJipGFVPwhIQNKuOQgs0IK9K7vqb';
-
 export const BASEMAPS = {
   'mongabay-paper': {
     label: 'Mongabay Paper',
@@ -152,6 +149,13 @@ export const CONTEXTUAL_LAYERS = {
     styleGroup: 'contextual-water',
   },
 };
+
+const transformGlobalFishingWatchRequest = (url, resourceType, { token }) => ({
+  url,
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
 export const DATA_LAYERS = {
   'tree-cover-loss': {
@@ -2106,9 +2110,23 @@ export const DATA_LAYERS = {
     label: 'Fishing activity',
     attributions: ['rw', 'global-fishing-watch'],
     group: 'oceans',
+    // Like the Planet basemap, the tiles require an API token the user must provide
+    params: {
+      token: {
+        label: 'API token',
+        default: '',
+      },
+    },
+    transformRequest: transformGlobalFishingWatchRequest,
+    // The token is not part of the tiles' URL so the layer must be re-created when it changes
+    reloadKey: ({ token }) => token,
     config: {
       type: 'raster',
-      source: (year = 2023) => {
+      source: (year = 2023, { token } = {}) => {
+        if (!token) {
+          return null;
+        }
+
         const yearToTiles = {
           2012: "https://gateway.api.globalfishingwatch.org/v3/4wings/tile/heatmap/{z}/{x}/{y}?format=PNG&interval=YEAR&datasets[0]=public-global-fishing-effort:latest&filters[0]=geartype in ('tuna_purse_seines','driftnets','trollers','set_longlines','purse_seines','pots_and_traps','other_fishing','set_gillnets','fixed_gear','fishing','seiners','other_purse_seines','other_seines','squid_jigger','pole_and_line','drifting_longlines')&date-range=2012-01-01,2013-01-01&style=eyJjb2xvciI6WzI0MiwwLDEzN10sInJhbXAiOlswLDY2Ny4xNjAwMDAwMDAwMDAxLDIyNTQuNzExNjY2NjY2NjY3LDQ3MTYuNDMzMDU1NTU1NTU1LDgwODUuMzUxOTQ0NDQ0NDQ1LDEzMzUyLjc3OTcyMjIyMjIyMywyMjMzNi4zNjE5NDQ0NDQ0NTYsMzQzMzkuMjA1ODMzMzMzMzMsNjM4MzAuNjk0NzIyMjIyMjRdfQ==",
           2013: "https://gateway.api.globalfishingwatch.org/v3/4wings/tile/heatmap/{z}/{x}/{y}?format=PNG&interval=YEAR&datasets[0]=public-global-fishing-effort:latest&filters[0]=geartype in ('tuna_purse_seines','driftnets','trollers','set_longlines','purse_seines','pots_and_traps','other_fishing','set_gillnets','fixed_gear','fishing','seiners','other_purse_seines','other_seines','squid_jigger','pole_and_line','drifting_longlines')&date-range=2013-01-01,2014-01-01&style=eyJjb2xvciI6WzI0MiwwLDEzN10sInJhbXAiOlswLDI1MjkuMjA1NTU1NTU1NTU1Myw4NzkxLjQwNTI3Nzc3Nzc3OCwyMTY2OS4xNTYxMTExMTExMTUsNDgwOTIuMjEzMzMzMzMzMzI2LDg5MjcwLjIyMTk0NDQ0NDQ2LDE0NDE5NS43ODM2MTExMTEyLDMxOTE4NC45MDYxMTExMTA5MywzOTg2NjAuOTMwODMzMzMzMl19",
@@ -2153,9 +2171,23 @@ export const DATA_LAYERS = {
     label: 'Trawling activity',
     attributions: ['rw', 'global-fishing-watch'],
     group: 'oceans',
+    // Like the Planet basemap, the tiles require an API token the user must provide
+    params: {
+      token: {
+        label: 'API token',
+        default: '',
+      },
+    },
+    transformRequest: transformGlobalFishingWatchRequest,
+    // The token is not part of the tiles' URL so the layer must be re-created when it changes
+    reloadKey: ({ token }) => token,
     config: {
       type: 'raster',
-      source: (year = 2023) => {
+      source: (year = 2023, { token } = {}) => {
+        if (!token) {
+          return null;
+        }
+
         const yearToTiles = {
           2012: "https://gateway.api.globalfishingwatch.org/v3/4wings/tile/heatmap/{z}/{x}/{y}?format=PNG&interval=YEAR&datasets[0]=public-global-fishing-effort:latest&filters[0]=geartype in ('dredge_fishing','trawlers')&date-range=2012-01-01,2013-01-01&style=eyJjb2xvciI6WzI1NSw2Myw1Ml0sInJhbXAiOlswLDE2NzAuMTkxOTQ0NDQ0NDQ0Myw1NTQwLjYxMzg4ODg4ODg4OSwxMDU3MS43MjQ0NDQ0NDQ0NDYsMTc3OTAuMzAzMzMzMzMzMzMzLDI3MzE0LjU3MjQ5OTk5OTk5NSw0MjM5Mi4wMDg2MTExMTExMSw4MTI2OS4yNTk0NDQ0NDQ1LDEwMzk1OC45MTg4ODg4ODg5XX0=",
           2013: "https://gateway.api.globalfishingwatch.org/v3/4wings/tile/heatmap/{z}/{x}/{y}?format=PNG&interval=YEAR&datasets[0]=public-global-fishing-effort:latest&filters[0]=geartype in ('dredge_fishing','trawlers')&date-range=2013-01-01,2014-01-01&style=eyJjb2xvciI6WzI1NSw2Myw1Ml0sInJhbXAiOlswLDY3MzUuMjY0OTk5OTk5OTk5LDIzNDE1LjAzODg4ODg4ODksNTMxNTIuOTU2MTExMTExMTMsMTA2Mjc1LjY5MzYxMTExMTEzLDE1NTM4Ny4xODcyMjIyMjIyLDIxNjcxMS44ODI0OTk5OTk4MywzMDAwMDguOTgwNTU1NTU1Miw0ODE5MzUuOTUzMzMzMzM0OF19",
@@ -2969,6 +3001,11 @@ export const DATA_LAYERS = {
     `,
   },
 };
+
+// Layers whose tiles are served by the Global Fishing Watch API and thus require the user's token
+export const GLOBAL_FISHING_WATCH_LAYERS = Object.keys(DATA_LAYERS).filter(
+  layerId => DATA_LAYERS[layerId].transformRequest === transformGlobalFishingWatchRequest
+);
 
 export const DATA_LAYERS_GROUPS = {
   forests: 'Forests',

@@ -3,7 +3,7 @@ import moment from 'moment';
 import omit from 'lodash/omit';
 
 import { deserialize, serialize } from 'utils/functions';
-import { getBasemapDef, getLayerDef } from 'utils/map';
+import { getBasemapDef, getLayerDef, getTileUrlPattern } from 'utils/map';
 import { BASEMAPS, ATTRIBUTIONS, DATA_LAYERS } from 'components/map';
 import { selectQuery } from '../routing';
 import createMapSlice, * as mapModule from './map';
@@ -385,6 +385,42 @@ const selectors = {
     }
   ),
 };
+
+/**
+ * Return the function the maps use to transform their requests. A data layer can transform the
+ * requests of its own tiles (e.g. to add an authentication header) with its `transformRequest`
+ * function, which receives the layer's settings.
+ */
+selectors.selectTransformRequest = createSelector(
+  [selectors.selectMapsActiveLayersDef, mapModule.selectDataLayers, mapModule.selectLayers],
+  (mapsActiveLayersDef, dataLayers, layers) => {
+    // The definitions of all the maps are used because in temporal mode, each map displays the
+    // tiles of a different date
+    const layersTilesPatterns = []
+      .concat(...mapsActiveLayersDef)
+      .filter(layerDef => !!dataLayers[layerDef.id]?.transformRequest && !!layerDef.source?.tiles)
+      .map(layerDef => ({
+        layerId: layerDef.id,
+        patterns: layerDef.source.tiles.map(getTileUrlPattern),
+      }));
+
+    return (url, resourceType) => {
+      if (resourceType !== 'Tile') {
+        return null;
+      }
+
+      const layer = layersTilesPatterns.find(({ patterns }) =>
+        patterns.some(pattern => pattern.test(url))
+      );
+
+      if (!layer) {
+        return null;
+      }
+
+      return dataLayers[layer.layerId].transformRequest(url, resourceType, layers[layer.layerId]);
+    };
+  }
+);
 
 export const toolActions = actions;
 export const toolSelectors = selectors;

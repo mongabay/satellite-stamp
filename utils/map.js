@@ -1,5 +1,13 @@
 import moment from 'moment';
 import omit from 'lodash/omit';
+import escapeRegExp from 'lodash/escapeRegExp';
+
+/**
+ * Return a regular expression matching the URLs of the tiles of a tile URL template
+ * @param {string} template URL template of the tiles (e.g. `https://example.com/{z}/{x}/{y}.png`)
+ */
+export const getTileUrlPattern = template =>
+  new RegExp(`^${escapeRegExp(template).replace(/\\\{[xyz]\\\}/g, '\\d+')}$`);
 
 export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
   const minDate = moment(layer.legend.timeline.minDate);
@@ -63,10 +71,8 @@ export const getDatesFromInterval = (dates, interval, format, marks) => {
   });
 };
 
-export const getLayerDef = (layerId, layer, layerSettings) => ({
-  id: layerId,
-  ...layer.config,
-  source:
+export const getLayerDef = (layerId, layer, layerSettings) => {
+  const source =
     typeof layer.config.source === 'function'
       ? layer.config.source(
           layerSettings.dateRange
@@ -77,40 +83,55 @@ export const getLayerDef = (layerId, layer, layerSettings) => ({
             : undefined,
           omit(layerSettings, 'dateRange')
         )
-      : layer.config.source,
-  opacity: layerSettings.opacity,
-  visibility: layerSettings.visible,
-  // We need to add 3: +1 because it can't be 0, +1 to be on top of external basemaps and +1 to be
-  // on top of the recent imagery
-  zIndex: layerSettings.order + 3,
-  ...(layer.decodeParams
-    ? {
-        decodeParams: {
-          ...layer.decodeParams,
-          ...Object.keys(layer.params ?? {})
-            .filter(key => layer.decodeParams[key] !== undefined)
-            .reduce((res, key) => {
-              let value = layerSettings[key] ?? layer.params[key].default;
-              if (typeof value === 'boolean') {
-                value = value ? 1 : 0;
-              }
+      : layer.config.source;
 
-              return {
-                ...res,
-                [key]: value,
-              };
-            }, {}),
-          ...(layerSettings.dateRange
-            ? computeDecodeParams(layer, {
-                dateRange: layerSettings.dateRange,
-                currentDate: layerSettings.currentDate,
-              })
-            : {}),
-        },
-      }
-    : {}),
-  ...(layer.decodeFunction ? { decodeFunction: layer.decodeFunction } : {}),
-});
+  // Like the basemaps, a layer can't be displayed if its source can't be built yet (e.g. a param
+  // like an API token is missing)
+  if (source === null) {
+    return null;
+  }
+
+  return {
+    id: layerId,
+    ...layer.config,
+    source,
+    opacity: layerSettings.opacity,
+    visibility: layerSettings.visible,
+    // We need to add 3: +1 because it can't be 0, +1 to be on top of external basemaps and +1 to be
+    // on top of the recent imagery
+    zIndex: layerSettings.order + 3,
+    ...(layer.decodeParams
+      ? {
+          decodeParams: {
+            ...layer.decodeParams,
+            ...Object.keys(layer.params ?? {})
+              .filter(key => layer.decodeParams[key] !== undefined)
+              .reduce((res, key) => {
+                let value = layerSettings[key] ?? layer.params[key].default;
+                if (typeof value === 'boolean') {
+                  value = value ? 1 : 0;
+                }
+
+                return {
+                  ...res,
+                  [key]: value,
+                };
+              }, {}),
+            ...(layerSettings.dateRange
+              ? computeDecodeParams(layer, {
+                  dateRange: layerSettings.dateRange,
+                  currentDate: layerSettings.currentDate,
+                })
+              : {}),
+          },
+        }
+      : {}),
+    ...(layer.decodeFunction ? { decodeFunction: layer.decodeFunction } : {}),
+    // Changing the key forces the layer to be re-created (e.g. when a param that is not part of the
+    // source changes)
+    ...(layer.reloadKey ? { reloadKey: `${layerId}-${layer.reloadKey(layerSettings)}` } : {}),
+  };
+};
 
 export const getBasemapDef = (basemapId, basemap, basemapSettings) => {
   if (!basemap.url) {

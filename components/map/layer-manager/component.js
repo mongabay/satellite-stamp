@@ -8,8 +8,9 @@ export { fetch } from 'layer-manager';
 
 const LayerManager = ({ map, layers, providers }) => (
   <VizzLayerManager map={map} plugin={PluginMapboxGl} providers={providers}>
-    {layers.map(l => {
-      return <Layer key={l.id} {...l} />;
+    {layers.map(({ reloadKey, ...l }) => {
+      // Changing `reloadKey` removes the layer and adds it again (e.g. to fetch its tiles again)
+      return <Layer key={reloadKey ?? l.id} {...l} />;
     })}
   </VizzLayerManager>
 );

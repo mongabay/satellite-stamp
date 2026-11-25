@@ -6,6 +6,7 @@ import { DATA_LAYERS } from 'components/map';
 import Sidebar from './sidebar';
 import Visualization from './visualization';
 import PlanetModal from './planet-modal';
+import GlobalFishingWatchModal from './global-fishing-watch-modal';
 import PresetsModal from './presets-modal';
 
 import './style.scss';
@@ -44,6 +45,7 @@ const Tool = ({ serializedState, restoring, restoreState }) => {
       {!loading && !restoring && (
         <>
           <PlanetModal />
+          <GlobalFishingWatchModal />
           <PresetsModal open={presetsOpen} onClose={() => setPresetsOpen(false)} />
           <Sidebar onClickPresets={() => setPresetsOpen(true)} />
           <Visualization />

@@ -1,5 +1,6 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
+import mapValues from 'lodash/mapValues';
 
 import { getLayerDef, getDatesFromInterval, getBasemapDef, computeDecodeParams } from 'utils/map';
 import { BASEMAPS, DATA_LAYERS } from 'components/map';
@@ -111,7 +112,10 @@ export const selectLegendDataLayers = createSelector(
 export const selectActiveLayersDef = createSelector(
   [selectBasemapLayerDef, selectDataLayers, selectActiveDataLayers, selectLayers],
   (basemapLayerDef, dataLayers, activeDataLayers, layers) => [
-    ...activeDataLayers.map(layerId => getLayerDef(layerId, dataLayers[layerId], layers[layerId])),
+    ...activeDataLayers
+      .map(layerId => getLayerDef(layerId, dataLayers[layerId], layers[layerId]))
+      // Layers which can't be displayed yet don't have a definition
+      .filter(layerDef => !!layerDef),
     ...(basemapLayerDef ? [basemapLayerDef] : []),
   ]
 );
@@ -133,7 +137,8 @@ export const selectSerializedState = createSelector(
       basemapParams: omit(basemapParams, 'key'),
       contextualLayers,
       recentImagery,
-      layers,
+      // Like the Planet basemap's API key, the layers' API token must stay private
+      layers: mapValues(layers, layer => omit(layer, 'token')),
       insetMap,
     };
   }

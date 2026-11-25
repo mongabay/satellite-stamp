@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import ReactMapGL from 'react-map-gl';
 import composeRefs from '@seznam/compose-react-refs';
 
-import { GLOBAL_FISHING_WATCH_TOKEN } from 'components/map/constants';
-
 import './style.scss';
 
 export { ScaleControl, Popup } from 'react-map-gl';
@@ -15,13 +13,29 @@ export const DEFAULT_VIEWPORT = {
 };
 
 const Comp = (
-  { className, viewport, mapStyle, onLoad, onViewportChange, onBusy, onIdle, children, ...rest },
+  {
+    className,
+    viewport,
+    mapStyle,
+    transformRequest,
+    onLoad,
+    onViewportChange,
+    onBusy,
+    onIdle,
+    children,
+    ...rest
+  },
   ref
 ) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [loaded, setLoaded] = useState(false);
   const [internalViewport, setInternalViewport] = useState(viewport);
+
+  // `transformRequest` is only read by react-map-gl when the map is created, so the prop is
+  // accessed through a ref to always call its latest value
+  const transformRequestRef = useRef(transformRequest);
+  transformRequestRef.current = transformRequest;
 
   const inner = useMemo(() => {
     if (typeof children === 'function') {
@@ -119,23 +133,9 @@ const Comp = (
           if (isDragging) return 'grabbing';
           return 'grab';
         }}
-        transformRequest={(url, resourceType) => {
-          // Global Fishing Watch tilers require authorization so we need to add
-          // the header before Mapbox handles the request
-          if (
-            resourceType === 'Tile' &&
-            url.startsWith('https://gateway.api.globalfishingwatch.org/')
-          ) {
-            return {
-              url,
-              headers: {
-                Authorization: `Bearer ${GLOBAL_FISHING_WATCH_TOKEN}`,
-              },
-            };
-          }
-
-          return null;
-        }}
+        transformRequest={(url, resourceType) =>
+          transformRequestRef.current?.(url, resourceType) ?? null
+        }
         {...rest}
       >
         {inner}
@@ -156,6 +156,7 @@ Map.propTypes = {
     zoom: PropTypes.number.isRequired,
   }),
   mapStyle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  transformRequest: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   onLoad: PropTypes.func,
   onViewportChange: PropTypes.func,
@@ -167,6 +168,7 @@ Map.defaultProps = {
   className: undefined,
   viewport: DEFAULT_VIEWPORT,
   mapboxStyle: undefined,
+  transformRequest: undefined,
   children: undefined,
   onLoad: () => null,
   onViewportChange: undefined,
