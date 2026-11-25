@@ -1151,6 +1151,9 @@ div.c-rc-tooltip.-default .vizzuality__c-legend-item-button-opacity-tooltip .viz
 .c-tool-planet-modal {
   max-width: 32.5rem; }
 
+.c-tool-global-fishing-watch-modal {
+  max-width: 32.5rem; }
+
 .c-tool-presets-modal {
   width: 100vw;
   max-width: none;
