@@ -657,7 +657,7 @@ export const DATA_LAYERS = {
         },
         {
           color: '#3e7bb6',
-          name: 'Ib - Wildnerness area',
+          name: 'Ib - Wilderness area',
           id: 1,
         },
         {
