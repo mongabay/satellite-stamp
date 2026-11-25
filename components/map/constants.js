@@ -2602,14 +2602,14 @@ export const DATA_LAYERS = {
     },
   },
   'forest-ghg-net-influx': {
-    label: 'Forest greenhouse gas net flux (2001-2022)',
+    label: 'Forest greenhouse gas net flux (2001-2025)',
     attributions: ['gfw'],
     group: 'forests',
     config: {
       type: 'raster',
       source: {
         tiles: [
-          `https://tiles.globalforestwatch.org/gfw_forest_carbon_net_flux/v20230407/tcd_30/{z}/{x}/{y}.png`,
+          `https://tiles.globalforestwatch.org/gfw_forest_carbon_net_flux/v20260327/tcd_30/{z}/{x}/{y}.png`,
         ],
         minzoom: 2,
         maxzoom: 12,
