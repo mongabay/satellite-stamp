@@ -2853,7 +2853,7 @@ export const DATA_LAYERS = {
         },
         {
           color: '#39A401',
-          name: '480 t Ha⁻¹',
+          name: '480 t ha⁻¹',
         },
       ],
     },
